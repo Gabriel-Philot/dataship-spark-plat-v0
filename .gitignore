@@ -4,10 +4,13 @@ build/config/spark/jars/.bootstrap-manifest
 build/images/eventlog-loader/vendor/
 build/images/eventlog-loader/go.sum
 build/var/
+build/var-listener-test/
 build/cache/
 __pycache__/
 *.pyc
 build/images/spark/context/
+build/images/spark-listener-test/context/
+build/images/spark-listener-test/requirements.txt
 .playwright-mcp/
 .venv/
 .pytest_cache/

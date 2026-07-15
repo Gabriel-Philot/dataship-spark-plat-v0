@@ -4,3 +4,7 @@
 pandas==2.3.3
 pyarrow==21.0.0
 PyYAML==6.0.2
+grpcio==1.76.0
+grpcio-status==1.76.0
+googleapis-common-protos==1.72.0
+zstandard==0.25.0

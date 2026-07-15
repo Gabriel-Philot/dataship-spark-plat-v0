@@ -1,0 +1,40 @@
+name: spark-plat-v0-listener-test
+
+services:
+  minio:
+    container_name: spv0-listener-test-minio
+    volumes:
+      - ./var-listener-test/minio-data:/data
+
+  minio-init:
+    container_name: spv0-listener-test-minio-init
+
+  clickhouse:
+    container_name: spv0-listener-test-clickhouse
+    volumes:
+      - ./var-listener-test/clickhouse-data:/var/lib/clickhouse
+      - ./var-listener-test/clickhouse-logs:/var/log/clickhouse-server
+      - ./clickhouse/init:/docker-entrypoint-initdb.d:ro
+
+  spark-master:
+    image: spark-plat-v0-spark-listener-test:4.1.2
+    container_name: spv0-listener-test-spark-master
+    volumes:
+      - ../src:/opt/spark/src:ro
+      - ./var-listener-test/metrics:/opt/spark/metrics
+
+  spark-worker:
+    image: spark-plat-v0-spark-listener-test:4.1.2
+    container_name: spv0-listener-test-spark-worker-1
+    volumes:
+      - ../src:/opt/spark/src:ro
+      - ./var-listener-test/metrics:/opt/spark/metrics
+
+  spark-history:
+    image: spark-plat-v0-spark-history-listener-test:4.1.2
+    container_name: spv0-listener-test-spark-history
+    volumes:
+      - ./var-listener-test/metrics:/opt/spark/metrics
+
+  eventlog-loader:
+    container_name: spv0-listener-test-eventlog-loader
