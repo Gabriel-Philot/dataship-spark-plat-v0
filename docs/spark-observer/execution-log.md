@@ -524,10 +524,11 @@ controlador e mostram um worker `ALIVE` e quatro aplicações concluídas.
 ## Task 4 — workload e harness determinísticos para prova live
 
 **Data de execução:** 2026-07-16
-**Estado:** `READY — awaiting user acceptance`
-**HEAD inicial/final:** `f2fa08dc2151fc3058a33d6d23ae05ce39929dfd`
+**Estado:** `PASS — ACEITO` — aceite explícito do usuário em 2026-07-16
+**HEAD das evidências principais:** `f2fa08dc2151fc3058a33d6d23ae05ce39929dfd`
+**Checkpoint publicado da Task 4:** `db7b9a2885d8d6ab28c8ce4e58ee4a749a4aff9b`
 
-Nenhum stage, commit, push ou código da Task 5 foi executado.
+Nenhum código da Task 5 foi executado.
 
 ### Implementação
 
@@ -734,5 +735,13 @@ A re-review independente final retornou:
 - divergência `/dataship/` → `/jobs/`: aceita como prova honesta de ausência
   por equivalência com uma rota aleatória desconhecida.
 
-O estado final continua `READY — awaiting user acceptance`. Nenhum stage,
-commit, push ou início da Task 5 foi autorizado ou executado.
+### Aceite do usuário
+
+- Em 2026-07-16, após a validação externa do checkpoint remoto `db7b9a2`, o
+  usuário declarou a Task 4 aceita.
+- Resultado final: `PASS — ACEITO`.
+- As duas ressalvas não bloqueantes do review — dependência documentada de
+  `.env` em checkout novo e transcripts capturados antes do commit final —
+  foram preservadas como aprendizados para as próximas tasks no `AGENTS.md`.
+- O aceite da Task 4 não autoriza iniciar a Task 5; ela continua aguardando um
+  novo pedido explícito do usuário.

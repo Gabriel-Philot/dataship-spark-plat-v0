@@ -70,6 +70,14 @@ script -qefc 'make observer-verify' \
 - Screenshots are supporting evidence; the raw transcript and reproducible command are authoritative.
 - Never expose credentials, tokens, `.env` contents, or secret-prone configuration in evidence.
 
+## Spark Observer review learnings
+
+- Keep fake or pure harness tests independent from generated local files such as `.env` whenever practical. If a generated file is an intentional prerequisite, document the exact preparation command and make failures name that prerequisite clearly.
+- Distinguish commit identity from working-tree identity. Evidence captured before a task commit must record the current `HEAD` plus a deterministic start/end fingerprint of the task's explicit source, test, configuration, and verifier inputs. Exclude generated evidence and secret-prone local files from that fingerprint.
+- Do not claim that a pre-commit transcript was executed on the later commit merely because the transcript is included in that commit. Prefer rerunning the acceptance verifier on the exact final SHA or using CI that reports that SHA.
+- Correlate visual evidence with authoritative runtime evidence using the same unique run ID, process identity, timestamps, and image hashes. Screenshots support the raw transcript; they do not replace it.
+- Treat nonblocking review caveats as durable follow-up guidance without silently reopening an accepted task. Reopen a task only when a caveat invalidates an acceptance criterion or the user explicitly requests the hardening.
+
 ## Spark Observer fresh-checkout prerequisites
 
 The repository is intentionally containerized. The host should not need Java, Scala, sbt, or Node for Spark Observer work.
