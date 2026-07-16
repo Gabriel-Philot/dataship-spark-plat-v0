@@ -28,9 +28,11 @@
 - A UI do driver será publicada somente em `127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040`.
 - O teste aceitará um único driver por vez e configurará `spark.ui.port=4040` e `spark.port.maxRetries=0`.
 - A publicação `24040:4040` pertence ao container persistente `spark-master`; depois do driver, o gate exige endpoint indisponível e ausência do processo, não remoção do mapeamento Docker.
-- Toda task que alterar o JAR deverá executar `make observer-runtime-refresh` antes de qualquer prova live; esse target recompila, faz staging, reconstrói a imagem Spark e recria `spark-master` e `spark-worker`.
+- Toda task que alterar o JAR deverá executar `make observer-runtime-refresh` antes de qualquer prova live; esse target recompila, faz staging, reconstrói a imagem Spark, recria `spark-master` e `spark-worker` e aguarda prontidão com timeout.
 - Nenhuma resposta poderá expor `SparkConf` completo, ambiente, credenciais, fonte do usuário ou descrição SQL bruta.
 - Nenhuma task poderá alterar código de tasks posteriores para “adiantar” trabalho.
+- Toda task produzirá uma evidência visual proporcional ao comportamento entregue. Superfícies HTTP/UI serão abertas e capturadas com Playwright quando existirem; tasks sem superfície visual produzirão uma tabela ou relatório visual inspecionável por uma pessoa, com o estado, artefato ou transição comprovada.
+- Evidências visuais temporárias ficarão em `build/var/observer-evidence/task-XX/`, caminho ignorado pelo Git, sem segredos. O `execution-log.md` registrará o comando e o nome do artefato, mas screenshots e relatórios gerados não entrarão nos commits.
 
 ---
 
@@ -39,7 +41,7 @@
 | # | Decisão executável |
 | --- | --- |
 | 1 | `execution-log.md` participa de todos os checkpoints de commit. |
-| 2 | Toda prova live usa `observer-runtime-refresh` e valida o checksum do JAR no container. |
+| 2 | Toda prova live usa `observer-runtime-refresh`, aguarda master + worker prontos e só então valida o checksum do JAR no container. |
 | 3 | O gate distingue mapping persistente, endpoint temporário e processo interno do driver. |
 | 4 | Snapshot SQL não promete o literal de `spark.sql(...)`; expõe metadados e descrição identificada. |
 | 5 | Descrição fica desabilitada por default e, quando opt-in, é redigida antes do truncamento e testada contra valores sentinela. |
@@ -86,6 +88,7 @@ Cada task é uma unidade de revisão e um commit. O executor deve seguir esta se
    | Teste vermelho | comando, exit code e motivo |
    | Teste verde | comando, exit code e contagem |
    | Prova live | requisição e campos vistos com o processo vivo |
+   | Evidência visual | screenshot ou relatório proporcional, com caminho e o que ele prova |
    | Regressão | comandos e resultados |
    | Risco restante | o que ainda não foi provado |
    | Próxima fatia | apenas o título, sem iniciá-la |
@@ -223,7 +226,9 @@ trait Spark412Bridge {
 - O execution log registra o commit `89202730dfd19d35d52c35d61b739dad4fcca345`.
 - Nenhum arquivo de ClickHouse, loader Go, MinIO ou event log é alterado.
 
-**User gate:** apresentar a baseline completa e parar.
+**Evidência visual para aceite:** capturar com Playwright a Spark Master UI após o smoke, mostrando o worker `ALIVE`, e a History Server UI com a aplicação reconstruída; registrar separadamente que `24040/dataship` não possui superfície para capturar na baseline.
+
+**User gate:** apresentar a baseline completa, as capturas da Master/History e parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -297,7 +302,9 @@ make tests
 - O teste de contrato do lado direito passa e será regressão obrigatória das tasks seguintes.
 - `make validate` e `make tests` continuam verdes.
 
-**User gate:** mostrar comandos, imagem usada, conteúdo relevante do JAR e parar.
+**Evidência visual para aceite:** apresentar um relatório tabular renderizado com imagem sbt/Node, versões, testes, tamanho do JAR e verificação de ausência de classes Spark/Scala; não criar UI de produto nesta task.
+
+**User gate:** mostrar comandos, imagem usada, relatório visual do artefato, conteúdo relevante do JAR e parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -321,6 +328,8 @@ git commit -m "build: add containerized Spark Observer toolchain"
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala`
 - Modify: `Makefile`
 - Modify: `build/scripts/prepare-image-contexts.sh`
+- Create: `build/scripts/wait_spark_runtime_ready.py`
+- Create: `tests/test_spark_runtime_readiness.py`
 
 **Interfaces:**
 
@@ -329,19 +338,26 @@ git commit -m "build: add containerized Spark Observer toolchain"
 - `executorPlugin(): ExecutorPlugin` returns `null`.
 - `ObserverConfig.from(sc.getConf)` lê `spark.dataship.observer.enabled`, com default `false`.
 - O JAR gerado é copiado para `/opt/spark/jars/` durante `make build`.
-- O target `observer-runtime-refresh` executa, nesta ordem: `observer-jar`, staging pelo `prepare-image-contexts.sh`, rebuild da imagem `SPARK_RUNTIME_IMAGE`, remoção dos containers Spark antigos, preflight da porta host quando o Compose publicar 4040 e recriação de `spark-master` e `spark-worker`.
+- O target `observer-runtime-refresh` executa, nesta ordem: `observer-jar`, staging pelo `prepare-image-contexts.sh`, rebuild da imagem `SPARK_RUNTIME_IMAGE`, remoção dos containers Spark antigos, preflight da porta host quando o Compose publicar 4040, recriação de `spark-master` e `spark-worker`, e `uv run python build/scripts/wait_spark_runtime_ready.py`.
+- O readiness usa polling a cada dois segundos e timeout explícito de `120` segundos; exige HTTP `200` da Spark Master UI e pelo menos um worker registrado com estado `ALIVE`.
+- Checksum do JAR e testes live só podem começar depois que o readiness retornar exit code `0`.
 
 **Red phase:**
 
 - [ ] Criar testes que instanciam `SparkDataShipPlugin`, verificam o tipo do driver, `executorPlugin() == null` e os estados enabled/disabled.
+- [ ] Criar `tests/test_spark_runtime_readiness.py` com respostas fake para master indisponível, master sem worker, worker `ALIVE` e timeout determinístico.
 - [ ] Executar `make observer-tests`.
 - [ ] Confirmar falha de compilação porque as classes ainda não existem.
+- [ ] Executar `uv run pytest tests/test_spark_runtime_readiness.py -q`; confirmar falha porque o helper de readiness ainda não existe.
 
 **Green phase:**
 
 - [ ] Implementar apenas as classes de bootstrap e o parsing da flag enabled; `init` retorna mapa vazio e não faz I/O.
 - [ ] Integrar o JAR produzido ao contexto da imagem Spark sem colocá-lo no bootstrap manifest de dependências externas.
+- [ ] Implementar `wait_spark_runtime_ready.py` com funções testáveis, timeout, diagnóstico final sem segredos e exit code diferente de zero quando master ou worker não ficarem prontos.
+- [ ] Executar `uv run pytest tests/test_spark_runtime_readiness.py -q`; esperar todos os casos verdes sem esperar 120 segundos reais.
 - [ ] Executar `make observer-tests` e `make observer-runtime-refresh`.
+- [ ] Confirmar no output que a Master UI respondeu e ao menos um worker ficou `ALIVE` antes da etapa de checksum.
 - [ ] Verificar dentro de `spark-master` que o checksum do JAR corresponde ao artefato recém-produzido no host.
 - [ ] Executar `make compose` e `make smoke` sem flags do plugin.
 - [ ] Executar `check_sanity.py` com `spark.plugins` e `spark.dataship.observer.enabled=true`.
@@ -350,18 +366,22 @@ git commit -m "build: add containerized Spark Observer toolchain"
 **Acceptance criteria:**
 
 - O JAR está em `/opt/spark/jars/`.
+- O refresh falha claramente após 120 segundos se master ou worker não ficarem prontos.
+- Em sucesso, master responde HTTP `200` e existe pelo menos um worker `ALIVE` antes do checksum.
 - O checksum prova que a imagem/container usa o JAR recém-produzido, não um artefato anterior.
 - Estar no classpath não ativa o plugin.
 - O plugin habilitado é carregado no driver e não nos executors.
 - Nenhuma thread, listener, endpoint ou aba customizada existe ainda.
 - O resultado do workload é idêntico com plugin ligado e desligado.
 
-**User gate:** mostrar testes unitários, duas execuções Spark e parar.
+**Evidência visual para aceite:** capturar a Spark Master UI após as execuções e apresentar um relatório lado a lado com readiness, checksums e resultados plugin off/on.
+
+**User gate:** mostrar testes unitários, readiness do master/worker, checksum, duas execuções Spark, evidência visual e parar.
 
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add Makefile build/scripts/prepare-image-contexts.sh spark-observer docs/spark-observer/execution-log.md
+git add Makefile build/scripts/prepare-image-contexts.sh build/scripts/wait_spark_runtime_ready.py tests/test_spark_runtime_readiness.py spark-observer docs/spark-observer/execution-log.md
 git commit -m "feat: add minimal driver-only Spark plugin"
 ```
 
@@ -382,7 +402,7 @@ git commit -m "feat: add minimal driver-only Spark plugin"
 
 **Interfaces:**
 
-- `observer_live_probe.py --rows 40 --partitions 4 --delay-ms 75 --hold-seconds 2`.
+- `observer_live_probe.py --rows 40 --partitions 4 --delay-ms 75 --hold-seconds 10`.
 - Make target `observer-live`.
 - Porta `127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040`.
 - O harness aceita `OBSERVER_ENABLED=true|false`, cria um `OBSERVER_RUN_ID` único, inclui esse ID no nome/configuração do submit e grava apenas artefatos temporários em `/tmp`.
@@ -412,13 +432,16 @@ git commit -m "feat: add minimal driver-only Spark plugin"
 **Acceptance criteria:**
 
 - O processo está vivo durante pelo menos duas leituras.
+- O default de dez segundos fornece a janela live sem depender de velocidade específica do CI.
 - O workload termina sozinho com exit code `0` nos dois modos.
 - Há dois jobs, shuffle, múltiplos stages e uma execução SQL.
 - Falha induzida no harness não deixa processo do probe nem endpoint respondendo; o mapping do container permanece, como esperado.
 - Master UI em `28081` e driver UI em `24040` são demonstradas como interfaces distintas.
 - Uma segunda execução reutiliza `24040:4040` com sucesso.
 
-**User gate:** apresentar timeline do PID, respostas HTTP e cleanup; parar.
+**Evidência visual para aceite:** capturar com Playwright a Spark UI nativa do driver em `24040` enquanto o probe está vivo e a Master UI em `28081`, comprovando visualmente que são interfaces distintas.
+
+**User gate:** apresentar timeline do PID, respostas HTTP, capturas das duas UIs e cleanup; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -450,8 +473,9 @@ git commit -m "test: add deterministic live observer workload"
 
 **Interfaces:**
 
-- `init(sc, context)` valida configuração, guarda referências e não instala HTTP.
-- `registerMetrics(appId, context)` instala o handler no máximo uma vez quando a Spark UI suportada existe.
+- `init(sc, pluginContext)` valida configuração, guarda o `SparkContext` e não instala HTTP.
+- `registerMetrics(appId, pluginContext)` usa o `SparkContext` guardado para acessar `sc.ui` e instala o handler no máximo uma vez quando a Spark UI suportada existe.
+- `PluginContext` será usado apenas para suas APIs públicas, como configuração e métricas; nenhuma task pressupõe `pluginContext.ui`.
 - `shutdown()` muda para `STOPPING` e fecha recursos idempotentemente.
 - JSON health contém o envelope e `status`, `uiAttached`, `listenerInstalled`, `supportedRuntime`, `queueCapacity`, `lastErrorCode`.
 - Sem Spark UI, o plugin registra o código estável `NO_SPARK_UI`, não instala handlers e deixa o job terminar; não há endpoint HTTP a consultar.
@@ -459,7 +483,7 @@ git commit -m "test: add deterministic live observer workload"
 **Red phase:**
 
 - [ ] Criar testes de config, envelope, estados e serialização sem campos extras.
-- [ ] Criar testes do installer chamado duas vezes e do caminho `context.ui.isEmpty`.
+- [ ] Criar testes do installer chamado duas vezes e do caminho `sc.ui.isEmpty`, usando o `SparkContext` guardado no `init`.
 - [ ] Criar testes Python que rejeitam status, content type, JSON ou campos incorretos.
 - [ ] Executar `make observer-tests` e os dois testes Python; confirmar falhas esperadas.
 - [ ] Executar o harness esperando `/health`; confirmar `404`.
@@ -489,7 +513,9 @@ git commit -m "test: add deterministic live observer workload"
 - Com `spark.plugins` presente e `enabled=false`, apenas `/health` responde `DISABLED`; listener, snapshot e aba não são instalados.
 - Duas execuções consecutivas não encontram thread ou processo preso e reutilizam o mapping persistente.
 
-**User gate:** apresentar o JSON real allowlisted, processo interno vivo e segunda execução; parar.
+**Evidência visual para aceite:** abrir `/dataship/api/v1/health` com Playwright durante o submit e capturar o JSON renderizado com `READY`, `appId` e versões visíveis, sem segredos.
+
+**User gate:** apresentar o JSON real allowlisted, captura do health, processo interno vivo e segunda execução; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -546,7 +572,9 @@ git commit -m "feat: expose observer lifecycle health"
 - Shutdown repetido não lança exceção nem deixa thread viva.
 - Nenhum código desta task importa Spark internals.
 
-**User gate:** apresentar tempos, contadores e repetição sem flakiness; parar.
+**Evidência visual para aceite:** apresentar um relatório visual compacto com a sequência `received -> queued/inFlight -> processed/dropped`, capacidades e tempos observados nos testes de fila.
+
+**User gate:** apresentar tempos, contadores, relatório visual e repetição sem flakiness; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -604,7 +632,9 @@ git commit -m "feat: add bounded observer event handoff"
 - Drop induzido não falha nem muda o resultado do workload.
 - Callback não faz HTTP, snapshot, I/O ou retenção ilimitada.
 
-**User gate:** apresentar `t1`, `t2`, cenário de drop e resultados; parar.
+**Evidência visual para aceite:** capturar com Playwright `/debug/counters` em `t1`, `t2` e no cenário de drop, ou montar comparação lado a lado das três respostas reais.
+
+**User gate:** apresentar `t1`, `t2`, cenário de drop, comparação visual e resultados; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -665,7 +695,9 @@ git commit -m "feat: expose live listener counters"
 - Nenhum objeto Spark é serializado diretamente.
 - Falta temporária da store retorna `409`, não falha o driver.
 
-**User gate:** apresentar snapshots `t1`/`t2`, limite e transição; parar.
+**Evidência visual para aceite:** capturar `/snapshot` em `t1` e `t2` e apresentar lado a lado o job/stage `RUNNING -> SUCCEEDED`, incluindo o caso `limit=1`.
+
+**User gate:** apresentar snapshots `t1`/`t2`, comparação visual, limite e transição; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -730,7 +762,9 @@ git commit -m "feat: expose live job and stage snapshots"
 - Nenhum plano é envolvido, reescrito ou modificado.
 - Respostas não contêm segredo conhecido do fixture.
 
-**User gate:** apresentar metadados/transição, descrição sintética redigida e caso DataFrame; parar.
+**Evidência visual para aceite:** capturar o recorte SQL do snapshot mostrando transição e descrição redigida; a captura deve permitir verificar que o valor sentinela não aparece.
+
+**User gate:** apresentar metadados/transição, captura redigida, descrição sintética e caso DataFrame; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -794,7 +828,9 @@ git commit -m "feat: add safe live SQL execution snapshots"
 - Não há nome, logo, asset ou código visual do DataFlint.
 - Instalação repetida não duplica aba ou handlers; sem Spark UI, o job continua sem aba.
 
-**User gate:** apresentar HTML/requests, teste de polling e job concluído; parar.
+**Evidência visual para aceite:** usar Playwright para capturar a aba DataShip dentro da Spark UI durante o job, além do estado terminal/degradado relevante; verificar no browser que os dados vêm das rotas v1.
+
+**User gate:** apresentar screenshots da aba, HTML/requests, teste de polling e job concluído; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -854,7 +890,9 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 - Respostas não expõem credenciais, ambiente, stack trace ou SparkConf completo.
 - Fila cheia continua não bloqueante.
 
-**User gate:** apresentar matriz falha → HTTP/status → resultado do job; parar.
+**Evidência visual para aceite:** renderizar a matriz falha → HTTP/status → resultado do job e capturar `/health` ainda disponível depois do `500` induzido no snapshot.
+
+**User gate:** apresentar matriz visual, health pós-falha e resultado do job; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
@@ -912,7 +950,9 @@ git commit -m "feat: make Spark Observer fail open"
 - Todos os comandos retornam exit code `0`.
 - Antes do commit, o status contém somente os arquivos da Task 12 e `execution-log.md`; depois do commit, a árvore fica limpa.
 
-**User gate:** apresentar relatório final completo e parar.
+**Evidência visual para aceite:** capturar a aba DataShip live, a aplicação final no History Server e o relatório E2E `PASS`, formando a evidência visual final do caminho live e da regressão durável.
+
+**User gate:** apresentar relatório final completo, conjunto de capturas e parar.
 
 **Commit checkpoint after `ACEITO`:**
 

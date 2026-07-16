@@ -141,7 +141,7 @@ A referência foi fixada no commit DataFlint `111862460cf88eb0a85d7bee18597d9808
 | `executorPlugin()` retorna `null` | O DataShip também retornará `null` | Evita distribuição, memória e falhas extras nos executors |
 | `init` guarda o `SparkContext` e faz bootstrap mínimo | O `init` só validará configuração e instalará coleta leve | O `init` bloqueia a inicialização do driver |
 | `registerMetrics` instala a UI depois | A aba e os handlers serão instalados nessa fase tardia | Nesse momento `appId` e subsistemas já estão disponíveis |
-| Loader comum acessa `context.ui`, listener bus e status store | Um adaptador Spark 4.1.2 fará o mesmo, com superfície mínima | É o caminho usado para integrar com a UI nativa |
+| Loader comum acessa `SparkContext.ui`, listener bus e status store | Um adaptador Spark 4.1.2 fará o mesmo, com superfície mínima | `PluginContext` não expõe UI; o adapter usa o `SparkContext` guardado no `init` |
 | Listener é adicionado a uma fila chamada `dataflint` | O DataShip usará fila dedicada `dataship-observer` | Isola o processamento do listener das outras filas |
 | Processamento live ocorre a partir do listener dedicado | O DataShip acrescentará um handoff interno limitado antes de qualquer normalização não trivial | Divergência deliberada para medir backpressure e nunca bloquear a fila do Spark |
 | Uma aba e recursos estáticos são anexados à Spark UI | O DataShip anexará `/dataship/` e endpoints versionados | Mantém live UI e API no processo do driver |
@@ -213,7 +213,8 @@ classDiagram
 #### `SparkDataShipDriverPlugin`
 
 - validar flags e versão do runtime;
-- guardar as referências mínimas necessárias;
+- guardar o `SparkContext` recebido no `init` e as demais referências mínimas necessárias;
+- usar `PluginContext` apenas por suas APIs públicas; o acesso à UI ocorre por `SparkContext.ui` dentro do adapter `private[spark]`;
 - iniciar o coletor leve;
 - instalar handlers e aba quando o Spark estiver pronto;
 - encerrar worker e recursos no `shutdown()`;
@@ -349,7 +350,7 @@ spark-observer/
   src/it/
 ```
 
-Os caminhos definitivos serão fechados no plano executável após a revisão deste design.
+Os caminhos definitivos foram fixados no plano executável referenciado na seção 17.
 
 ### 6.4 Ativação opt-in
 
@@ -362,7 +363,7 @@ O plugin não será colocado inicialmente em `spark-defaults.conf` para todos os
 
 O fato de o JAR estar presente em `/opt/spark/jars/` não deve ativá-lo sozinho.
 
-Como o Dockerfile copia o artefato para a imagem Spark, não existe atualização dinâmica do JAR em runtime. Toda prova live posterior a uma alteração do módulo deverá recompilar o JAR, fazer seu staging no contexto, reconstruir a imagem Spark e recriar `spark-master` e `spark-worker`. O teste também comparará checksums do artefato produzido e do JAR dentro do container para impedir validação acidental de uma versão antiga.
+Como o Dockerfile copia o artefato para a imagem Spark, não existe atualização dinâmica do JAR em runtime. Toda prova live posterior a uma alteração do módulo deverá recompilar o JAR, fazer seu staging no contexto, reconstruir a imagem Spark e recriar `spark-master` e `spark-worker`. Antes do checksum ou do teste live, um gate com timeout deverá provar HTTP `200` da Spark Master UI e pelo menos um worker `ALIVE`. Só então o teste comparará checksums do artefato produzido e do JAR dentro do container para impedir validação acidental de uma versão antiga.
 
 ---
 
@@ -531,7 +532,9 @@ Implementar a observabilidade inteira.
 6. Executar o gate de regressão aplicável.
 7. Consultar o retorno real, não apenas logs de compilação.
 8. Registrar `PASS`, `FAIL` ou `BLOCKED` com o comando e a evidência.
-9. Só iniciar a próxima fatia quando a atual estiver `PASS`.
+9. Produzir uma evidência visual proporcional à fatia. Quando houver UI ou resposta HTTP renderizável, usar Playwright para capturar a superfície real; quando a fatia for interna, apresentar um relatório visual inspecionável por uma pessoa, com os estados, artefatos ou transições comprovados. Artefatos temporários ficam sob `build/var/observer-evidence/` e não entram no commit.
+10. Apresentar o gate ao usuário e aguardar aceite explícito antes do commit da fatia.
+11. Só iniciar a próxima fatia após o commit aceito e um novo pedido explícito.
 
 Se falhar, o Codex deve diagnosticar a causa antes de adicionar mais funcionalidade. Não empilhar mudanças para “ver se no final funciona”.
 
@@ -578,11 +581,12 @@ Ao concluir cada iteração, a resposta deve incluir:
 | Teste vermelho | Comando e motivo da falha anterior |
 | Teste verde | Comando e resultado real |
 | Prova live | Requisição e campos observados enquanto o job estava vivo |
+| Evidência visual | Captura ou relatório proporcional e o que ele prova |
 | Regressão | Comandos executados e resultados |
 | Risco restante | Algo ainda não comprovado |
 | Próxima fatia | Apenas uma, sem implementá-la antecipadamente |
 
-Palavras como “deve funcionar”, “provavelmente passou” ou “não foi possível rodar, mas está correto” não equivalem a `PASS`.
+Palavras como “deve funcionar”, “provavelmente passou” ou “não foi possível rodar, mas está correto” não equivalem a `PASS`. Uma captura também não substitui as asserções automatizadas; ela complementa o gate técnico para revisão humana.
 
 ---
 
@@ -597,7 +601,7 @@ O `make smoke` atual executa jobs funcionais, mas não foi desenhado para dar ao
 - pelo menos um shuffle;
 - múltiplos stages;
 - uma execução SQL identificável;
-- uma janela em que algum stage permaneça ativo;
+- uma janela configurável em que algum stage permaneça ativo, com default inicial de dez segundos;
 - resultado determinístico e pequeno;
 - encerramento automático;
 - nenhuma dependência de ClickHouse;
@@ -624,7 +628,7 @@ O script de teste deve possuir `trap`/cleanup para não deixar um driver ou proc
 
 ## 11. Fases de validação do lado esquerdo
 
-Esta seção define a ordem conceitual. O plano executável posterior quebrará cada fase em tarefas, testes, arquivos e commits pequenos.
+Esta seção define a ordem conceitual que já foi decomposta no plano executável em tasks, testes, arquivos e commits pequenos.
 
 ### Fase 0 — baseline sem plugin
 
@@ -885,20 +889,12 @@ Esses relatos não substituem o contrato oficial do Spark e não justificam adic
 
 ---
 
-## 17. Instrução para o próximo artefato
+## 17. Plano executável resultante
 
-Depois que este design for revisado e aprovado, deve ser produzido um plano de implementação separado, próprio para execução pelo Codex em outra branch.
+Este design já foi transformado no plano executável:
 
-Esse plano deverá:
+- [`2026-07-15-dataship-spark-observer-implementation-plan.md`](./2026-07-15-dataship-spark-observer-implementation-plan.md)
 
-- apontar arquivos exatos do repositório;
-- decompor as fases acima em passos pequenos;
-- escrever o teste antes da implementação de cada comportamento;
-- fornecer comandos exatos e resultados esperados;
-- criar checkpoints de commit;
-- impor o protocolo `PASS/FAIL/BLOCKED`;
-- impedir avanço sem prova live;
-- manter loader e ClickHouse fora das tarefas de feature;
-- reservar o gate end-to-end do lado direito apenas para regressão final.
+O plano contém arquivos exatos, testes vermelhos e verdes, critérios de aceite, provas live, checkpoints de commit e parada obrigatória para aceite do usuário entre as tasks.
 
-Nenhuma implementação deve começar a partir deste documento sem antes transformar as decisões em tarefas verificáveis no plano executável.
+Design e plano devem permanecer versionados em conjunto. Se a execução revelar uma mudança arquitetural, ambos serão atualizados e revisados antes de qualquer implementação fora da task ativa. A existência do plano não autoriza iniciar código: a Task 1 continua exigindo pedido explícito do usuário.
