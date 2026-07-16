@@ -532,7 +532,7 @@ Implementar a observabilidade inteira.
 6. Executar o gate de regressão aplicável.
 7. Consultar o retorno real, não apenas logs de compilação.
 8. Registrar `PASS`, `FAIL` ou `BLOCKED` com o comando e a evidência.
-9. Produzir uma evidência visual proporcional à fatia. Quando houver UI ou resposta HTTP renderizável, usar Playwright para capturar a superfície real; quando a fatia for interna, apresentar um relatório visual inspecionável por uma pessoa, com os estados, artefatos ou transições comprovados. Artefatos temporários ficam sob `build/var/observer-evidence/` e não entram no commit.
+9. Produzir uma evidência visual proporcional à fatia. Quando houver UI ou resposta HTTP renderizável, usar Playwright para capturar a superfície real; quando a fatia for interna, apresentar um relatório visual inspecionável por uma pessoa, com os estados, artefatos ou transições comprovados. Os artefatos ficam sob `docs/spark-observer/evidence/task-XX/` e entram no mesmo commit da task para permitir revisão posterior por pessoas e outros agentes.
 10. Apresentar o gate ao usuário e aguardar aceite explícito antes do commit da fatia.
 11. Só iniciar a próxima fatia após o commit aceito e um novo pedido explícito.
 

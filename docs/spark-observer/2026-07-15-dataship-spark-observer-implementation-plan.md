@@ -32,7 +32,7 @@
 - Nenhuma resposta poderá expor `SparkConf` completo, ambiente, credenciais, fonte do usuário ou descrição SQL bruta.
 - Nenhuma task poderá alterar código de tasks posteriores para “adiantar” trabalho.
 - Toda task produzirá uma evidência visual proporcional ao comportamento entregue. Superfícies HTTP/UI serão abertas e capturadas com Playwright quando existirem; tasks sem superfície visual produzirão uma tabela ou relatório visual inspecionável por uma pessoa, com o estado, artefato ou transição comprovada.
-- Evidências visuais temporárias ficarão em `build/var/observer-evidence/task-XX/`, caminho ignorado pelo Git, sem segredos. O `execution-log.md` registrará o comando e o nome do artefato, mas screenshots e relatórios gerados não entrarão nos commits.
+- Evidências visuais de aceite ficarão em `docs/spark-observer/evidence/task-XX/`, sem segredos, e serão versionadas no mesmo checkpoint da task. O `execution-log.md` registrará o comando, o caminho e o que cada artefato comprova.
 
 ---
 
@@ -94,14 +94,14 @@ Cada task é uma unidade de revisão e um commit. O executor deve seguir esta se
    | Próxima fatia | apenas o título, sem iniciá-la |
 
 9. Parar sem commit e aguardar o usuário responder `ACEITO`.
-10. Depois do aceite, executar somente o checkpoint de commit da task, sempre incluindo `docs/spark-observer/execution-log.md`, e mostrar hash/status.
+10. Depois do aceite, executar somente o checkpoint de commit da task, sempre incluindo `docs/spark-observer/execution-log.md` e `docs/spark-observer/evidence/task-XX/`, e mostrar hash/status.
 11. Parar novamente. A próxima task exige um novo pedido explícito.
 
 Se qualquer gate falhar, não commitar e não iniciar outra task. Aplicar `superpowers:systematic-debugging`, registrar `FAIL` ou `BLOCKED` e pedir direção quando necessário.
 
 A partir da Task 2, toda task executará `make tests` antes do user gate para manter ativo `tests/test_observer_platform_contract.py`. Se a task alterar o JAR e possuir prova live, `make observer-runtime-refresh` é pré-condição obrigatória dessa prova.
 
-Antes de cada commit, a lista de arquivos alterados deve ser subconjunto de `Files` da task mais `docs/spark-observer/execution-log.md`. Também deve continuar sem saída:
+Antes de cada commit, a lista de arquivos alterados deve ser subconjunto de `Files` da task mais `docs/spark-observer/execution-log.md` e `docs/spark-observer/evidence/task-XX/`. Também deve continuar sem saída:
 
 ```bash
 git diff --name-only 89202730dfd19d35d52c35d61b739dad4fcca345 -- \
@@ -194,6 +194,7 @@ trait Spark412Bridge {
 - `build/scripts/validate-observer-e2e.sh`: gate completo do Observer.
 - `Makefile`, `.env.example`, `.gitignore`, Compose e scripts de build: targets, imagem sbt, porta e empacotamento.
 - `docs/spark-observer/execution-log.md`: evidência incremental de cada task.
+- `docs/spark-observer/evidence/task-XX/`: screenshots e relatórios visuais persistidos para revisão humana e por outros agentes.
 
 ---
 
@@ -204,6 +205,8 @@ trait Spark412Bridge {
 **Files:**
 
 - Create: `docs/spark-observer/execution-log.md`
+- Create: `docs/spark-observer/evidence/task-01/spark-master-baseline.png`
+- Create: `docs/spark-observer/evidence/task-01/spark-history-baseline.png`
 - No production code changes.
 
 **Test first:**
@@ -233,7 +236,7 @@ trait Spark412Bridge {
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add docs/spark-observer/execution-log.md
+git add docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-01
 git commit -m "test: record Spark Observer baseline"
 ```
 
@@ -309,7 +312,7 @@ make tests
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/execution-log.md
+git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-02
 git commit -m "build: add containerized Spark Observer toolchain"
 ```
 
@@ -381,7 +384,7 @@ git commit -m "build: add containerized Spark Observer toolchain"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add Makefile build/scripts/prepare-image-contexts.sh build/scripts/wait_spark_runtime_ready.py tests/test_spark_runtime_readiness.py spark-observer docs/spark-observer/execution-log.md
+git add Makefile build/scripts/prepare-image-contexts.sh build/scripts/wait_spark_runtime_ready.py tests/test_spark_runtime_readiness.py spark-observer docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-03
 git commit -m "feat: add minimal driver-only Spark plugin"
 ```
 
@@ -446,7 +449,7 @@ git commit -m "feat: add minimal driver-only Spark plugin"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add .env.example Makefile build/docker-compose.yml build/scripts/run-observer-live-probe.sh src/apps/observer_live_probe.py tests/test_observer_live_probe.py docs/spark-observer/execution-log.md
+git add .env.example Makefile build/docker-compose.yml build/scripts/run-observer-live-probe.sh src/apps/observer_live_probe.py tests/test_observer_live_probe.py docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-04
 git commit -m "test: add deterministic live observer workload"
 ```
 
@@ -520,7 +523,7 @@ git commit -m "test: add deterministic live observer workload"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh tests/test_observer_response_assertions.py docs/spark-observer/execution-log.md
+git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh tests/test_observer_response_assertions.py docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-05
 git commit -m "feat: expose observer lifecycle health"
 ```
 
@@ -579,7 +582,7 @@ git commit -m "feat: expose observer lifecycle health"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer/src/main/scala/io/dataship/spark/observer/events spark-observer/src/test/scala/io/dataship/spark/observer/events spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala docs/spark-observer/execution-log.md
+git add spark-observer/src/main/scala/io/dataship/spark/observer/events spark-observer/src/test/scala/io/dataship/spark/observer/events spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-06
 git commit -m "feat: add bounded observer event handoff"
 ```
 
@@ -639,7 +642,7 @@ git commit -m "feat: add bounded observer event handoff"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
+git add spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-07
 git commit -m "feat: expose live listener counters"
 ```
 
@@ -702,7 +705,7 @@ git commit -m "feat: expose live listener counters"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
+git add spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-08
 git commit -m "feat: expose live job and stage snapshots"
 ```
 
@@ -769,7 +772,7 @@ git commit -m "feat: expose live job and stage snapshots"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer src/apps/observer_live_probe.py build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
+git add spark-observer src/apps/observer_live_probe.py build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-09
 git commit -m "feat: add safe live SQL execution snapshots"
 ```
 
@@ -835,7 +838,7 @@ git commit -m "feat: add safe live SQL execution snapshots"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add Makefile spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
+git add Makefile spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-10
 git commit -m "feat: add minimal DataShip Spark UI tab"
 ```
 
@@ -897,7 +900,7 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
+git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-11
 git commit -m "feat: make Spark Observer fail open"
 ```
 
@@ -948,7 +951,7 @@ git commit -m "feat: make Spark Observer fail open"
 - Event log, History, loader e ClickHouse continuam nos caminhos atuais.
 - Nenhum schema ClickHouse, loader Go, bucket ou prefixo muda.
 - Todos os comandos retornam exit code `0`.
-- Antes do commit, o status contém somente os arquivos da Task 12 e `execution-log.md`; depois do commit, a árvore fica limpa.
+- Antes do commit, o status contém somente os arquivos da Task 12, `execution-log.md` e `evidence/task-12/`; depois do commit, a árvore fica limpa.
 
 **Evidência visual para aceite:** capturar a aba DataShip live, a aplicação final no History Server e o relatório E2E `PASS`, formando a evidência visual final do caminho live e da regressão durável.
 
@@ -957,7 +960,7 @@ git commit -m "feat: make Spark Observer fail open"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add Makefile build/scripts/validate-observer-e2e.sh docs/dev-design/operations.md docs/dev-design/compatibility.md docs/spark-observer/execution-log.md
+git add Makefile build/scripts/validate-observer-e2e.sh docs/dev-design/operations.md docs/dev-design/compatibility.md docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-12
 git commit -m "test: validate Spark Observer end to end"
 ```
 

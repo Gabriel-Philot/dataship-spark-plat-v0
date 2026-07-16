@@ -17,7 +17,7 @@
 
 **Regressão:** nenhum diff nos caminhos protegidos de ClickHouse, loader Go, MinIO init ou `spark-defaults.conf`.
 
-**Evidência visual planejada:** screenshots da Spark Master UI com worker `ALIVE` e da History Server UI com a aplicação reconstruída, salvos temporariamente em `build/var/observer-evidence/task-01/`.
+**Evidência visual planejada:** screenshots da Spark Master UI com worker `ALIVE` e da History Server UI com a aplicação reconstruída, persistidos em `docs/spark-observer/evidence/task-01/`.
 
 **Status:** `PASS TÉCNICO` — commit e push autorizados exclusivamente para revisão externa; aceite funcional do usuário permanece pendente.
 
@@ -27,7 +27,7 @@
 - Árvore limpa antes da task: sim.
 - Commit documental anterior: `6b65090f0bb6afc4ff7a5898635f066d0c8d5bac`.
 - Baseline fixa resolvida: `89202730dfd19d35d52c35d61b739dad4fcca345`.
-- Allowlist da task: somente `docs/spark-observer/execution-log.md`.
+- Allowlist final da task: `docs/spark-observer/execution-log.md` e `docs/spark-observer/evidence/task-01/`.
 
 ### Execução
 
@@ -57,19 +57,19 @@ As três aplicações aparecem uma vez na Spark Master UI e uma vez na API/UI do
 
 ### Evidência visual
 
-- `build/var/observer-evidence/task-01/spark-master-baseline.png`
+- `docs/spark-observer/evidence/task-01/spark-master-baseline.png`
   - Spark `4.1.2`;
   - um worker no estado `ALIVE`;
   - três aplicações no estado `FINISHED`.
-- `build/var/observer-evidence/task-01/spark-history-baseline.png`
+- `docs/spark-observer/evidence/task-01/spark-history-baseline.png`
   - diretório `s3a://spark-logs/events`;
   - as mesmas três aplicações reconstruídas e concluídas.
 
-Os dois arquivos estão sob `build/var/`, confirmado como caminho ignorado pelo Git.
+Os dois arquivos estão versionados dentro de `docs/` para que a evidência seja visível na branch e possa ser revisada por outros agentes.
 
 ### Regressão e escopo
 
-- `git diff --name-only` contém somente `docs/spark-observer/execution-log.md`.
+- O escopo final da Task 1 contém somente `docs/spark-observer/execution-log.md` e as duas capturas em `docs/spark-observer/evidence/task-01/`.
 - O diff contra `89202730dfd19d35d52c35d61b739dad4fcca345` permanece vazio em:
   - `build/clickhouse`;
   - `build/images/eventlog-loader`;
