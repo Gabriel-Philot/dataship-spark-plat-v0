@@ -8,6 +8,7 @@ final class ObserverConfigSpec extends AnyFunSuite {
     val config = ObserverConfig.from(new SparkConf(false))
 
     assert(!config.enabled)
+    assert(config.queueCapacity == 1024)
   }
 
   test("is enabled by the explicit opt-in flag") {
@@ -26,5 +27,32 @@ final class ObserverConfigSpec extends AnyFunSuite {
     val config = ObserverConfig.from(sparkConf)
 
     assert(!config.enabled)
+  }
+
+  test("accepts queue capacities at the supported boundaries") {
+    val minimum = ObserverConfig.from(
+      new SparkConf(false)
+        .set("spark.dataship.observer.queue.capacity", "1")
+    )
+    val maximum = ObserverConfig.from(
+      new SparkConf(false)
+        .set("spark.dataship.observer.queue.capacity", "65536")
+    )
+
+    assert(minimum.queueCapacity == 1)
+    assert(maximum.queueCapacity == 65536)
+  }
+
+  test("rejects queue capacities outside the supported range") {
+    Seq("0", "65537", "not-an-integer").foreach { value =>
+      val error = intercept[IllegalArgumentException] {
+        ObserverConfig.from(
+          new SparkConf(false)
+            .set("spark.dataship.observer.queue.capacity", value)
+        )
+      }
+
+      assert(error.getMessage.contains("spark.dataship.observer.queue.capacity"))
+    }
   }
 }

@@ -1,0 +1,87 @@
+Script started on 2026-07-16 23:45:04+01:00 [COMMAND="make observer-tests" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 2 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:11:19: value queueCapacity is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(config.queueCapacity == 1024)
+[error]                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:42:20: value queueCapacity is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(minimum.queueCapacity == 1)
+[error]                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:43:20: value queueCapacity is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(maximum.queueCapacity == 65536)
+[error]                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:10:3: object HealthEndpointInstaller is not a member of package io.dataship.spark.observer
+[error]   HealthEndpointInstaller,
+[error]   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:12:3: object ObserverRuntime is not a member of package io.dataship.spark.observer
+[error]   ObserverRuntime,
+[error]   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:23:23: not found: type ObserverRuntime
+[error]     val runtime = new ObserverRuntime(
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:24:52: unknown parameter name: queueCapacity
+[error]       ObserverConfig(enabled = true, queueCapacity = 64),
+[error]                                                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:24:21: too many arguments (found 2, expected 1) for method apply: (enabled: Boolean): io.dataship.spark.observer.ObserverConfig in object ObserverConfig
+[error]       ObserverConfig(enabled = true, queueCapacity = 64),
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:31:16: not found: value JsonRenderer
+[error]     val json = JsonRenderer.render(runtime.healthResponse)
+[error]                ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:63:23: not found: type ObserverRuntime
+[error]     val runtime = new ObserverRuntime(
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:64:52: unknown parameter name: queueCapacity
+[error]       ObserverConfig(enabled = true, queueCapacity = 1024),
+[error]                                                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:64:21: too many arguments (found 2, expected 1) for method apply: (enabled: Boolean): io.dataship.spark.observer.ObserverConfig in object ObserverConfig
+[error]       ObserverConfig(enabled = true, queueCapacity = 1024),
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:81:23: not found: type ObserverRuntime
+[error]     val runtime = new ObserverRuntime(
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:82:53: unknown parameter name: queueCapacity
+[error]       ObserverConfig(enabled = false, queueCapacity = 1024),
+[error]                                                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:82:21: too many arguments (found 2, expected 1) for method apply: (enabled: Boolean): io.dataship.spark.observer.ObserverConfig in object ObserverConfig
+[error]       ObserverConfig(enabled = false, queueCapacity = 1024),
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:96:23: not found: type ObserverRuntime
+[error]     val runtime = new ObserverRuntime(
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:97:52: unknown parameter name: queueCapacity
+[error]       ObserverConfig(enabled = true, queueCapacity = 1024),
+[error]                                                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:97:21: too many arguments (found 2, expected 1) for method apply: (enabled: Boolean): io.dataship.spark.observer.ObserverConfig in object ObserverConfig
+[error]       ObserverConfig(enabled = true, queueCapacity = 1024),
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:111:23: not found: type ObserverRuntime
+[error]     val runtime = new ObserverRuntime(
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:112:52: unknown parameter name: queueCapacity
+[error]       ObserverConfig(enabled = true, queueCapacity = 1024),
+[error]                                                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:112:21: too many arguments (found 2, expected 1) for method apply: (enabled: Boolean): io.dataship.spark.observer.ObserverConfig in object ObserverConfig
+[error]       ObserverConfig(enabled = true, queueCapacity = 1024),
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:128:27: not found: type HealthEndpointInstaller
+[error]       val installer = new HealthEndpointInstaller {
+[error]                           ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:129:39: not found: type ObserverRuntime
+[error]         override def install(runtime: ObserverRuntime): Option[AutoCloseable] = {
+[error]                                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:136:53: no arguments allowed for nullary constructor SparkDataShipDriverPlugin: (): io.dataship.spark.observer.SparkDataShipDriverPlugin
+[error]       val plugin = new SparkDataShipDriverPlugin(sc => {
+[error]                                                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:167:27: value currentHealthResponse is not a member of io.dataship.spark.observer.SparkDataShipDriverPlugin
+[error]       val health = plugin.currentHealthResponse.getOrElse(
+[error]                           ^
+[error] 25 errors found
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 3 s, completed Jul 16, 2026, 10:45:12 PM
+make: *** [Makefile:101: observer-tests] Error 1
+
+Script done on 2026-07-16 23:45:13+01:00 [COMMAND_EXIT_CODE="2"]

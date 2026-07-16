@@ -17,6 +17,7 @@ COMPOSE=(
 PLUGIN_CLASS="io.dataship.spark.observer.SparkDataShipPlugin"
 SPARK_DRIVER_UI_PORT="${SPARK_DRIVER_UI_PORT:-24040}"
 OBSERVER_ENABLED="${OBSERVER_ENABLED:-false}"
+OBSERVER_SPARK_UI_ENABLED="${OBSERVER_SPARK_UI_ENABLED:-true}"
 OBSERVER_PROBE_TIMEOUT_SECONDS="${OBSERVER_PROBE_TIMEOUT_SECONDS:-90}"
 OBSERVER_UI_TIMEOUT_SECONDS="${OBSERVER_UI_TIMEOUT_SECONDS:-30}"
 OBSERVER_HTTP_READ_INTERVAL_SECONDS="${OBSERVER_HTTP_READ_INTERVAL_SECONDS:-2}"
@@ -27,6 +28,65 @@ OBSERVER_TMP_DIR="/tmp/dataship-${OBSERVER_RUN_ID}"
 SUBMIT_LOG="${OBSERVER_TMP_DIR}/spark-submit.log"
 HOST_EXEC_PID=""
 DRIVER_PID=""
+TASK5_FINGERPRINT_INPUTS=(
+  ".env.example"
+  "Makefile"
+  "build/docker-compose.yml"
+  "build/images/spark/Dockerfile"
+  "build/images/spark/requirements.txt"
+  "build/scripts/assert-observer-response.py"
+  "build/scripts/prepare-image-contexts.sh"
+  "build/scripts/run-observer-live-probe.sh"
+  "pyproject.toml"
+  "spark-observer/build.sbt"
+  "spark-observer/project/build.properties"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala"
+  "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala"
+  "spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala"
+  "spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala"
+  "spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala"
+  "spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala"
+  "src/apps/observer_live_probe.py"
+  "tests/test_observer_live_probe.py"
+  "tests/test_observer_response_assertions.py"
+  "uv.lock"
+)
+
+task5_input_fingerprint() {
+  local input_path
+
+  for input_path in "${TASK5_FINGERPRINT_INPUTS[@]}"; do
+    if [[ ! -f "$input_path" ]]; then
+      echo "Task 5 fingerprint input is missing: $input_path" >&2
+      return 1
+    fi
+  done
+
+  {
+    for input_path in "${TASK5_FINGERPRINT_INPUTS[@]}"; do
+      sha256sum -- "$input_path"
+    done
+  } | sha256sum | awk '{ print $1 }'
+}
+
+active_container_image_id() {
+  local service="$1"
+  local container_id
+
+  container_id="$("${COMPOSE[@]}" ps -q "$service")"
+  if [[ -z "$container_id" ]]; then
+    echo "No active container found for $service." >&2
+    return 1
+  fi
+  docker inspect --format '{{.Image}}' "$container_id"
+}
 
 is_positive_number() {
   local value="$1"
@@ -51,6 +111,14 @@ case "$OBSERVER_ENABLED" in
     ;;
 esac
 
+case "$OBSERVER_SPARK_UI_ENABLED" in
+  true|false) ;;
+  *)
+    echo "OBSERVER_SPARK_UI_ENABLED must be exactly true or false." >&2
+    exit 2
+    ;;
+esac
+
 for timeout_value in \
   "$OBSERVER_PROBE_TIMEOUT_SECONDS" \
   "$OBSERVER_UI_TIMEOUT_SECONDS" \
@@ -62,6 +130,16 @@ for timeout_value in \
 done
 
 mkdir -p "$OBSERVER_TMP_DIR"
+
+TASK5_GIT_HEAD="$(git rev-parse HEAD)"
+TASK5_INPUT_FINGERPRINT_START="$(task5_input_fingerprint)"
+printf 'task5_git_head=%s\n' "$TASK5_GIT_HEAD"
+printf 'task5_fingerprint_inputs=%s\n' "$({
+  IFS=,
+  printf '%s' "${TASK5_FINGERPRINT_INPUTS[*]}"
+})"
+printf 'task5_input_fingerprint_start=%s\n' \
+  "$TASK5_INPUT_FINGERPRINT_START"
 
 find_observer_processes() {
   "${COMPOSE[@]}" exec -T spark-master \
@@ -92,10 +170,17 @@ driver_is_alive() {
       bash -c 'kill -0 "$1" 2>/dev/null' -- "$pid"
 }
 
-read_driver_ui() {
+read_observer_health() {
   local read_number="$1"
+  local read_label="$2"
   local deadline
-  local read_status=""
+  local validation_output=""
+  local validation_error="${OBSERVER_TMP_DIR}/${read_label}.error"
+  local expected_status="READY"
+
+  if [[ "$OBSERVER_ENABLED" == "false" ]]; then
+    expected_status="DISABLED"
+  fi
 
   deadline="$(
     awk -v now="$(date +%s.%N)" -v timeout="$OBSERVER_UI_TIMEOUT_SECONDS" \
@@ -104,20 +189,17 @@ read_driver_ui() {
   while awk -v now="$(date +%s.%N)" -v read_deadline="$deadline" \
     'BEGIN { exit !(now < read_deadline) }'; do
     driver_is_alive "$DRIVER_PID" || return 1
-    read_status="$(
-      curl \
-        --location \
-        --silent \
-        --output /dev/null \
-        --write-out '%{http_code}' \
-        --connect-timeout 1 \
-        --max-time 2 \
-        "http://127.0.0.1:${SPARK_DRIVER_UI_PORT}/" \
-        || true
-    )"
-    if [[ "$read_status" == "200" ]]; then
-      printf 'driver_ui_read_%s_http_status=%s pid=%s alive=true\n' \
-        "$read_number" "$read_status" "$DRIVER_PID"
+    if validation_output="$(
+      uv run python build/scripts/assert-observer-response.py \
+        --url "http://127.0.0.1:${SPARK_DRIVER_UI_PORT}/dataship/api/v1/health" \
+        --expected-status "$expected_status" \
+        --label "$read_label" \
+        --timeout-seconds 2 \
+        2>"$validation_error"
+    )"; then
+      printf '%s\n' "$validation_output"
+      printf 'health_read_%s_pid=%s alive=true\n' \
+        "$read_number" "$DRIVER_PID"
       return 0
     fi
     sleep 0.25
@@ -202,24 +284,19 @@ verify_native_route_absence() {
     "$ROUTE_FINAL_STATUS" \
     "$ROUTE_FINAL_URL"
 
-  for label in native_dataship_health_route native_unknown_route; do
-    if [[ "$label" == "native_dataship_health_route" ]]; then
-      path="/dataship/api/v1/health"
-    else
-      path="/observer-unknown-${OBSERVER_RUN_ID}/"
-    fi
-    inspect_native_route "$label" "$path"
-    [[ "$ROUTE_HTTP_STATUS" == "302" ]]
-    [[ "$ROUTE_LOCATION" == "$expected_jobs_url" ]]
-    [[ "$ROUTE_FINAL_STATUS" == "200" ]]
-    [[ "$ROUTE_FINAL_URL" == "$expected_jobs_url" ]]
-    printf '%s_http_status=%s location=%s final_status=%s final_url=%s\n' \
-      "$label" \
-      "$ROUTE_HTTP_STATUS" \
-      "$ROUTE_LOCATION" \
-      "$ROUTE_FINAL_STATUS" \
-      "$ROUTE_FINAL_URL"
-  done
+  label="native_unknown_route"
+  path="/observer-unknown-${OBSERVER_RUN_ID}/"
+  inspect_native_route "$label" "$path"
+  [[ "$ROUTE_HTTP_STATUS" == "302" ]]
+  [[ "$ROUTE_LOCATION" == "$expected_jobs_url" ]]
+  [[ "$ROUTE_FINAL_STATUS" == "200" ]]
+  [[ "$ROUTE_FINAL_URL" == "$expected_jobs_url" ]]
+  printf '%s_http_status=%s location=%s final_status=%s final_url=%s\n' \
+    "$label" \
+    "$ROUTE_HTTP_STATUS" \
+    "$ROUTE_LOCATION" \
+    "$ROUTE_FINAL_STATUS" \
+    "$ROUTE_FINAL_URL"
 
   printf 'native_dataship_route_absent=true semantics=native-unknown-redirect\n'
 }
@@ -361,13 +438,12 @@ submit_args=(
   --conf spark.executorEnv.PYTHONPATH=/opt/spark/src
   --conf spark.ui.port=4040
   --conf spark.port.maxRetries=0
+  --conf "spark.ui.enabled=${OBSERVER_SPARK_UI_ENABLED}"
   --conf "spark.dataship.observer.runId=${OBSERVER_RUN_ID}"
+  --conf "spark.plugins=${PLUGIN_CLASS}"
 )
 if [[ "$OBSERVER_ENABLED" == "true" ]]; then
-  submit_args+=(
-    --conf "spark.plugins=${PLUGIN_CLASS}"
-    --conf spark.dataship.observer.enabled=true
-  )
+  submit_args+=(--conf spark.dataship.observer.enabled=true)
 else
   submit_args+=(--conf spark.dataship.observer.enabled=false)
 fi
@@ -379,6 +455,7 @@ submit_args+=(
 
 printf 'observer_run_id=%s\n' "$OBSERVER_RUN_ID"
 printf 'observer_enabled=%s\n' "$OBSERVER_ENABLED"
+printf 'observer_spark_ui_enabled=%s\n' "$OBSERVER_SPARK_UI_ENABLED"
 printf 'spark_master_4040_mapping=%s\n' "$mapping"
 printf 'initial_driver_ui_http_exit=%s status=%s\n' \
   "$initial_http_exit" "$initial_http_status"
@@ -413,10 +490,14 @@ if [[ -z "$DRIVER_PID" ]]; then
   exit "$(missing_driver_exit_code "$submit_exit")"
 fi
 printf 'spark_driver_pid=%s\n' "$DRIVER_PID"
+SPARK_MASTER_IMAGE_ID="$(active_container_image_id spark-master)"
+SPARK_WORKER_IMAGE_ID="$(active_container_image_id spark-worker)"
+printf 'spark_master_image_id=%s\n' "$SPARK_MASTER_IMAGE_ID"
+printf 'spark_worker_image_id=%s\n' "$SPARK_WORKER_IMAGE_ID"
 
-for read_number in 1 2; do
-  if ! read_driver_ui "$read_number"; then
-    echo "Spark driver UI read $read_number did not return HTTP 200 while the driver was alive." >&2
+if [[ "$OBSERVER_SPARK_UI_ENABLED" == "true" ]]; then
+  if ! read_observer_health 1 "health_read_1"; then
+    echo "Health read 1 did not return a valid response while the driver was alive." >&2
     set +e
     wait "$HOST_EXEC_PID"
     submit_exit=$?
@@ -424,12 +505,22 @@ for read_number in 1 2; do
     [[ "$submit_exit" -ne 0 ]] && exit "$submit_exit"
     exit 1
   fi
-  if [[ "$read_number" -eq 1 ]]; then
-    sleep "$OBSERVER_HTTP_READ_INTERVAL_SECONDS"
+  sleep "$OBSERVER_HTTP_READ_INTERVAL_SECONDS"
+  if ! read_observer_health 2 "health_read_2"; then
+    echo "Health read 2 did not return a valid response while the driver was alive." >&2
+    set +e
+    wait "$HOST_EXEC_PID"
+    submit_exit=$?
+    set -e
+    [[ "$submit_exit" -ne 0 ]] && exit "$submit_exit"
+    exit 1
   fi
-done
 
-verify_native_route_absence
+  verify_native_route_absence
+else
+  printf 'health_endpoint_not_promised_without_spark_ui=true pid=%s alive=true\n' \
+    "$DRIVER_PID"
+fi
 
 set +e
 wait "$HOST_EXEC_PID"
@@ -437,6 +528,14 @@ submit_exit=$?
 set -e
 HOST_EXEC_PID=""
 printf 'spark_submit_exit_code=%s\n' "$submit_exit"
+
+if [[ "$OBSERVER_SPARK_UI_ENABLED" == "false" ]]; then
+  if ! grep -Fq 'code=NO_SPARK_UI' "$SUBMIT_LOG"; then
+    echo "The no-UI run did not log the stable NO_SPARK_UI code." >&2
+    exit 1
+  fi
+  printf 'no_spark_ui_error_code=NO_SPARK_UI\n'
+fi
 
 cleanup_observer_processes
 
@@ -470,5 +569,13 @@ printf 'driver_ui_unavailable_after_run=true curl_exit=%s status=%s\n' \
 mapping_after="$("${COMPOSE[@]}" port spark-master 4040)"
 [[ "$mapping_after" == "$mapping" ]]
 printf 'spark_master_4040_mapping_persists=%s\n' "$mapping_after"
+
+TASK5_INPUT_FINGERPRINT_END="$(task5_input_fingerprint)"
+printf 'task5_input_fingerprint_end=%s\n' "$TASK5_INPUT_FINGERPRINT_END"
+if [[ "$TASK5_INPUT_FINGERPRINT_END" != "$TASK5_INPUT_FINGERPRINT_START" ]]; then
+  echo "Task 5 fingerprint changed during the live run." >&2
+  exit 1
+fi
+printf 'task5_input_fingerprints_match=true\n'
 
 exit "$submit_exit"

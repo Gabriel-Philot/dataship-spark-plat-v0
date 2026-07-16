@@ -1,0 +1,13 @@
+Script started on 2026-07-17 00:47:23+01:00 [COMMAND="printf "observer_run_id=observer-live-20260717T004705Z-470643-22770\n"; printf "spark_driver_pid=1547\n"; docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master bash -c "kill -0 1547"; printf "spark_driver_alive_before_capture=true\n"; uv run python build/scripts/assert-observer-response.py --url http://127.0.0.1:24040/dataship/api/v1/health --expected-status READY --label visual_health --timeout-seconds 2; /home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,900" --wait-for-timeout 1000 http://127.0.0.1:24040/dataship/api/v1/health docs/spark-observer/evidence/task-05/spark-observer-health-ready-final-rereview.png; docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master bash -c "kill -0 1547"; printf "spark_driver_alive_after_capture=true\n"; sha256sum docs/spark-observer/evidence/task-05/spark-observer-health-ready-final-rereview.png" <not executed on terminal>]
+observer_run_id=observer-live-20260717T004705Z-470643-22770
+spark_driver_pid=1547
+spark_driver_alive_before_capture=true
+visual_health_http_status=200 content_type=application/json
+visual_health_json={"appId":"app-20260716234710-0004","capturedAt":"2026-07-16T23:47:23.981024799Z","lastErrorCode":"","listenerInstalled":false,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","queueCapacity":1024,"schemaVersion":"v1","sparkVersion":"4.1.2","status":"READY","supportedRuntime":true,"uiAttached":true}
+Navigating to http://127.0.0.1:24040/dataship/api/v1/health
+Waiting for timeout 1000...
+Capturing screenshot into docs/spark-observer/evidence/task-05/spark-observer-health-ready-final-rereview.png
+spark_driver_alive_after_capture=true
+792503de400010cdcd1f4f56b08f28e847d8cea02a7340aa81f3e3f29ad1e268  docs/spark-observer/evidence/task-05/spark-observer-health-ready-final-rereview.png
+
+Script done on 2026-07-17 00:47:26+01:00 [COMMAND_EXIT_CODE="0"]

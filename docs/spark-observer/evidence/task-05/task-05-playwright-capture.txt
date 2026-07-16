@@ -1,0 +1,9 @@
+Script started on 2026-07-16 23:59:34+01:00 [COMMAND="/home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,900" --wait-for-timeout 1000 http://127.0.0.1:24040/dataship/api/v1/health docs/spark-observer/evidence/task-05/spark-observer-health-ready.png && docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master bash -c "kill -0 1596" && printf "spark_driver_pid=1596 alive_after_screenshot=true\n" && curl --silent --show-error http://127.0.0.1:24040/dataship/api/v1/health && printf "\n" && sha256sum docs/spark-observer/evidence/task-05/spark-observer-health-ready.png" <not executed on terminal>]
+Navigating to http://127.0.0.1:24040/dataship/api/v1/health
+Waiting for timeout 1000...
+Capturing screenshot into docs/spark-observer/evidence/task-05/spark-observer-health-ready.png
+spark_driver_pid=1596 alive_after_screenshot=true
+
+bb777ab4b69f89009cb1211a54c8a7f2a476cde157b95675f8438d94f836903c  docs/spark-observer/evidence/task-05/spark-observer-health-ready.png
+
+Script done on 2026-07-16 23:59:38+01:00 [COMMAND_EXIT_CODE="0"]

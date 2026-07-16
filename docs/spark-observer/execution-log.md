@@ -745,3 +745,216 @@ A re-review independente final retornou:
   foram preservadas como aprendizados para as próximas tasks no `AGENTS.md`.
 - O aceite da Task 4 não autoriza iniciar a Task 5; ela continua aguardando um
   novo pedido explícito do usuário.
+
+## Task 5 — lifecycle and health endpoint
+
+**Task:** Task 5 — implement lifecycle and the health endpoint
+
+**Hypothesis:** after `registerMetrics` receives a non-empty `appId`, the
+driver plugin attaches `/dataship/api/v1/health` to the supported Spark UI and
+returns `READY` while the identified Spark submit process remains alive.
+
+**Minimum change:** add immutable lifecycle state, an allowlisted health DTO
+and JSON renderer, one idempotently installed Spark 4.1.2 UI handler, strict
+response assertions, and bounded live-harness polling.
+
+**Red test:** focused Scala and Python tests must fail because lifecycle,
+serialization, response validation, and handler installation are absent; the
+live harness must prove the health resource is still absent under Spark's
+native unknown-route behavior before implementation.
+
+**Expected observable result:** two HTTP `200` JSON responses from the same
+live driver show the stable envelope and `READY`; a Playwright capture shows
+the allowlisted payload; shutdown removes the endpoint and process; a second
+run reuses the persistent mapping; the no-UI and disabled modes fail open.
+
+**Regression:** `make observer-tests`, the focused Python modules, `make
+tests`, `make observer-runtime-refresh`, the Task 5 live scenarios, protected
+path guards, and `git diff --check`.
+
+**Status:** `READY WITH REQUIRED WAIVER — review fixes verified; acceptance
+requires an explicit waiver for the missing historical Task-5-specific live
+RED capture`
+
+### Start state
+
+- User authorization: explicit `go task 5` on 2026-07-16.
+- Branch: `exp-dataflint-based-test-jar`.
+- Starting `HEAD`: `43b4541b284ba054a8a507fe73dc970a21d28c15`.
+- Upstream matched the starting `HEAD` and the working tree was clean.
+- Protected durable-path diff was empty.
+- Baseline `make observer-tests`: exit `0`, Scala `9/9`.
+- Baseline `make tests`: exit `0`, Python `41/41`.
+- All Task 5 source, tests, messages, documentation, evidence labels, and
+  visual artifacts will be written in English.
+- No Task 6 implementation is authorized.
+
+### Implementation and RED/GREEN evidence
+
+- `task-05-scala-red.txt`: `make observer-tests` exited `2` with 25 expected
+  errors for the absent queue configuration, runtime, health DTO, and
+  installer lifecycle.
+- `task-05-python-red.txt`: the 17 existing harness tests passed and all 21
+  new response-contract tests failed as expected before the validator and
+  health reads existed.
+- The starting implementation's endpoint absence is retained in
+  `evidence/task-04/task-04-plugin-enabled.txt`: the future health path and a
+  random unknown route both used Spark's native `302` redirect to `/jobs/`.
+- `task-05-final-scala.txt`: 18/18 Scala tests passed.
+- `task-05-final-focused-python.txt`: 38/38 focused Python tests passed.
+- `task-05-final-python-regression.txt`: `make tests` passed 62/62.
+
+The implementation validates queue capacity from 1 through 65536 with a
+default of 1024. `init` retains configuration and `SparkContext` without
+installing HTTP. `registerMetrics` installs the health resource at most once,
+after the application ID exists. The response is serialized from exactly 12
+allowlisted fields with Spark-provided Jackson. Shutdown moves the runtime to
+`STOPPING` and closes the resource once. `listenerInstalled` stays `false` and
+no listener, snapshot, or tab was added.
+
+### Live and visual evidence
+
+- `task-05-runtime-refresh.txt` records a successful runtime refresh.
+- `task-05-jar-checksum.txt` proves the host, staged, and live JARs all used
+  SHA-256
+  `019ae046ca12277e0f8682b839521f11be4ce5f39cda34250391d6ec9a433b4a`.
+- `task-05-live-ready-first-run.txt` records two HTTP `200`
+  `application/json` READY documents from live Java PID `136` and application
+  ID `app-20260716225513-0000`, followed by submit exit `0`, endpoint removal,
+  absent driver/wrapper, and persistent mapping retention.
+- `task-05-live-ready-mapping-reuse.txt` repeats the proof with PID `517` and
+  application ID `app-20260716225556-0001` on the same mapping.
+- `task-05-live-disabled.txt` records two `DISABLED` health documents with no
+  listener and successful cleanup.
+- `task-05-live-no-spark-ui.txt` records no endpoint promise, stable error
+  code `NO_SPARK_UI`, workload and submit exit `0`, cleanup, and retained
+  mapping when `spark.ui.enabled=false`.
+- `spark-observer-health-ready.png` is the Playwright capture of the exact
+  live health JSON. `task-05-playwright-capture.txt` records SHA-256
+  `bb777ab4b69f89009cb1211a54c8a7f2a476cde157b95675f8438d94f836903c`
+  and confirms Java PID `1596` was alive. The correlated
+  `task-05-playwright-live-run.txt` contains the same visible application ID,
+  two READY reads, exit `0`, endpoint removal, and process cleanup.
+
+### Final guards and remaining risk
+
+Python compilation, shell syntax, `git diff --check`, and the protected
+durable-path diff all passed. The detailed English evidence report is
+`docs/spark-observer/evidence/task-05/task-05-report.md`.
+
+The version-pinned `v412` adapter invokes Spark's exact runtime handler
+methods reflectively because the published Spark Scala metadata exposes an
+unshaded Jetty type that is absent from the Spark POM. The runtime signatures
+were checked with `javap` and exercised by the live proofs. This remains an
+explicit compatibility boundary for a future Spark upgrade.
+
+No commit was created. Task 6 was not started.
+
+### Final rereview lifecycle fix (2026-07-17)
+
+The final rereview found that invalid application-ID callbacks could overwrite
+an unrelated error and could degrade an already READY runtime. Two tests were
+added before production code changed:
+
+- `INVALID_CONFIG -> blank -> null -> valid -> UI attached` must retain
+  `INVALID_CONFIG` with DEGRADED status; and
+- `READY -> blank -> null` must retain the established application ID, READY
+  status, and empty error.
+
+The focused RED transcript records `make observer-tests` exiting `2`: 23 tests
+ran, 21 passed, and both new tests failed for the expected behavior. The first
+observed READY instead of DEGRADED, and the second observed DEGRADED instead of
+READY.
+
+The minimal invalid-ID branch now creates `EMPTY_APP_ID` only when no
+application ID and no prior error exist. Other invalid callbacks return
+`false` without mutating runtime state. A later valid callback still clears
+only a genuinely transient `EMPTY_APP_ID`.
+
+Focused GREEN records Scala 23/23. The regression transcript records Scala
+23/23, focused Python 39/39, full Python 63/63, Python compilation, and shell
+syntax, all with exit `0`.
+
+The final runtime refresh exited `0` with one ALIVE worker. Host, staged, and
+live JARs all use SHA-256
+`5334786124080256cf83e959f90776c575e612a56d20f6462533dc7042bf3544`.
+Every final-rereview live run records starting `HEAD`
+`43b4541b284ba054a8a507fe73dc970a21d28c15`, master and worker image ID
+`sha256:2a79ca1478cf0e54e0156e8d06ddce2d835b3f6b4c00b6b8f3a765039b58e728`,
+and matching start/end fingerprint
+`b43cf8f7399029ae4a32a69a558fa29e0fe108c94e605ab0d0eadc0f72a722be`.
+
+The two READY runs, DISABLED run, no-Spark-UI run, and held visual run all
+exited `0`, completed their workloads, cleaned up driver and wrapper processes,
+and retained the persistent mapping. The visual capture shows READY application
+`app-20260716234710-0004` while PID `1547` was alive before and after capture.
+`spark-observer-health-ready-final-rereview.png` was visually inspected and
+has SHA-256
+`792503de400010cdcd1f4f56b08f28e847d8cea02a7340aa81f3e3f29ad1e268`.
+
+The final guard transcript records unchanged starting `HEAD`, an empty index,
+`git diff --check`, Python compilation, shell syntax, protected-path and
+changed-path allowlists, secret-pattern filename checks, English-only changed
+content, and source trailing-whitespace checks all passing.
+
+The explicit historical Task-5-specific live RED waiver remains unchanged and
+is the only acceptance concern. No commit was created, nothing was staged, and
+Task 6 was not started.
+
+### Post-review fixes (2026-07-17)
+
+The review findings were first reproduced in
+`evidence/task-05/task-05-review-fixes-red.txt`. Scala failed because the
+runtime registration method did not report whether the application ID was
+valid and because the package-private runtime seam was absent. Python failed
+because the live harness had no explicit non-secret input-fingerprint
+contract. The separate sandbox-attempt transcript contains only Docker socket
+and `uv` cache access failures and is not counted as behavioral RED.
+
+The fix validates the application ID before consuming the endpoint-install
+attempt. Blank and null values perform zero installer factory calls and zero
+install calls; a later valid ID installs exactly once and reports READY with a
+non-empty application ID. Only transient `EMPTY_APP_ID` is cleared. Unrelated
+failures remain degraded, installer-factory exceptions fail open and preserve
+safe shutdown, and unsupported runtimes do not invoke the installer factory or
+claim support. The runtime-construction seam is package-private.
+
+Focused GREEN evidence records Scala 22/22 and response assertions 22/22. The
+post-review regression transcript records Scala 22/22, focused Python 39/39,
+and full Python 63/63, plus successful Python compilation and shell syntax.
+
+After those source and harness changes, `make observer-runtime-refresh`
+rebuilt the runtime. Host, staged, and live JAR SHA-256 values all matched
+`a3f83d6b9df46caf34a337ca71a87f18468d08f690363a1933d0ebd0cf483c76`.
+Every successful post-review live run recorded starting `HEAD`
+`43b4541b284ba054a8a507fe73dc970a21d28c15`, master and worker image ID
+`sha256:e0631eb6ff27614641e88a741dd8b5baa7f8b4eb84c8602d8a763d4962fe2bc9`,
+and identical start/end ordered-input fingerprint
+`2e7d50ed3e6931e61286af4bfdbe57305d46bd98e47ff1c2cd3c944e6c018857`.
+The allowlist excludes `.env`, evidence, generated outputs, caches, and
+secret-prone inputs.
+
+Post-review live evidence covers two READY runs on the persistent mapping,
+DISABLED, and no-Spark-UI, each with successful workload, exit, cleanup, and
+fingerprint validation. The post-review visual run captured application
+`app-20260716232730-0004` while PID `1584` was alive. The screenshot
+`spark-observer-health-ready-post-review.png` visibly contains the allowlisted
+READY document and has SHA-256
+`dfc0833b162b1956771a71ae561d0003765fb1236e363c59d2344031c8bb1775`.
+
+The Spark 4.1.2 `javap` transcript independently confirms public
+`SparkContext.ui`, `WebUI.attachHandler`, and `WebUI.detachHandler` signatures.
+It supports but does not replace the successful live probes.
+
+The final guard transcript records passing Python compilation, shell syntax,
+`git diff --check`, protected durable paths, the Task 5 changed-path allowlist,
+secret-pattern filenames, English-only changed content, and source trailing
+whitespace checks.
+
+Historical RED waiver: a Task-5-specific live harness RED was not captured
+before the original implementation. Task 4 evidence truthfully captures the
+exact starting implementation's endpoint-absence behavior, but it is
+substituted evidence. Task 5 cannot be reported as fully compliant or accepted
+unless the user explicitly waives this historical evidence gap.
+
+No commit was created. Task 6 was not started.

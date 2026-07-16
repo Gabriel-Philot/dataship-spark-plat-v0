@@ -1,0 +1,6 @@
+Script started on 2026-07-17 00:24:18+01:00 [COMMAND="set -a; source .env.example; source .env; set +a; sha256sum spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar build/images/spark/context/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar; docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master sha256sum /opt/spark/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar" <not executed on terminal>]
+a3f83d6b9df46caf34a337ca71a87f18468d08f690363a1933d0ebd0cf483c76  spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+a3f83d6b9df46caf34a337ca71a87f18468d08f690363a1933d0ebd0cf483c76  build/images/spark/context/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+a3f83d6b9df46caf34a337ca71a87f18468d08f690363a1933d0ebd0cf483c76  /opt/spark/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+Script done on 2026-07-17 00:24:18+01:00 [COMMAND_EXIT_CODE="0"]

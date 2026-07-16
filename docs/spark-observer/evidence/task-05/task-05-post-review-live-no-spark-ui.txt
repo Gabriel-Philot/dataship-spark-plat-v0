@@ -1,0 +1,212 @@
+Script started on 2026-07-17 00:26:37+01:00 [COMMAND="OBSERVER_ENABLED=true OBSERVER_SPARK_UI_ENABLED=false make observer-live" <not executed on terminal>]
+task5_git_head=43b4541b284ba054a8a507fe73dc970a21d28c15
+task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+task5_input_fingerprint_start=2e7d50ed3e6931e61286af4bfdbe57305d46bd98e47ff1c2cd3c944e6c018857
+observer_run_id=observer-live-20260717T002637Z-446010-18198
+observer_enabled=true
+observer_spark_ui_enabled=false
+spark_master_4040_mapping=127.0.0.1:24040
+initial_driver_ui_http_exit=56 status=000
+host_compose_exec_pid=446100
+WARNING: Using incubator modules: jdk.incubator.vector
+spark_driver_pid=1279
+spark_master_image_id=sha256:e0631eb6ff27614641e88a741dd8b5baa7f8b4eb84c8602d8a763d4962fe2bc9
+spark_worker_image_id=sha256:e0631eb6ff27614641e88a741dd8b5baa7f8b4eb84c8602d8a763d4962fe2bc9
+health_endpoint_not_promised_without_spark_ui=true pid=1279 alive=true
+26/07/16 23:26:40 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 23:26:40 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 23:26:40 INFO SparkContext: Java version 17.0.19+10
+26/07/16 23:26:40 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 23:26:40 INFO ResourceUtils: ==============================================================
+26/07/16 23:26:40 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 23:26:40 INFO ResourceUtils: ==============================================================
+26/07/16 23:26:40 INFO SparkContext: Submitted application: dataship-observer-live-probe-observer-live-20260717T002637Z-446010-18198
+26/07/16 23:26:41 INFO SecurityManager: Changing view acls to: spark
+26/07/16 23:26:41 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 23:26:41 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 23:26:41 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 23:26:41 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 23:26:41 INFO Utils: Successfully started service 'sparkDriver' on port 37819.
+26/07/16 23:26:41 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 23:26:41 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 23:26:41 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 23:26:41 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 23:26:41 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 23:26:41 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-81181b36-ef9d-4b24-9ef7-9b6401879cbd
+26/07/16 23:26:41 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 23:26:41 INFO DriverPluginContainer: Initialized driver component for plugin io.dataship.spark.observer.SparkDataShipPlugin.
+26/07/16 23:26:41 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 23:26:41 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 23:26:41 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 23:26:41 INFO SecurityManager: Changing view acls to: spark
+26/07/16 23:26:41 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 23:26:41 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 23:26:41 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 23:26:41 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 23:26:41 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 23:26:41 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 25 ms (0 ms spent in bootstraps)
+26/07/16 23:26:41 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716232641-0003
+26/07/16 23:26:41 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716232641-0003/0 on worker-20260716232353-172.19.0.5-37883 (172.19.0.5:37883) with 1 core(s)
+26/07/16 23:26:41 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716232641-0003/0 on hostPort 172.19.0.5:37883 with 1 core(s), 1024.0 MiB RAM
+26/07/16 23:26:41 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 35745.
+26/07/16 23:26:41 INFO NettyBlockTransferService: Server created on 65fa3fb42c24:35745
+26/07/16 23:26:41 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 23:26:41 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 65fa3fb42c24, 35745, None)
+26/07/16 23:26:41 INFO BlockManagerMasterEndpoint: Registering block manager 65fa3fb42c24:35745 with 434.4 MiB RAM, BlockManagerId(driver, 65fa3fb42c24, 35745, None)
+26/07/16 23:26:41 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 65fa3fb42c24, 35745, None)
+26/07/16 23:26:41 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716232641-0003/0 is now RUNNING
+26/07/16 23:26:41 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 65fa3fb42c24, 35745, None)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 23:26:43 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716232641-0003/events_1_app-20260716232641-0003.zstd
+26/07/16 23:26:43 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 23:26:43 WARN SparkDataShipDriverPlugin: DataShip Spark Observer did not install HTTP: code=NO_SPARK_UI
+26/07/16 23:26:44 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:48910) with ID 0, ResourceProfileId 0
+26/07/16 23:26:44 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:46415 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 46415, None)
+26/07/16 23:26:44 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+26/07/16 23:26:44 INFO SharedState: Warehouse path is 'file:/opt/spark/work-dir/spark-warehouse'.
+26/07/16 23:26:44 INFO SparkContext: Starting job: sum at /opt/spark/src/apps/observer_live_probe.py:107
+26/07/16 23:26:44 INFO DAGScheduler: Got job 0 (sum at /opt/spark/src/apps/observer_live_probe.py:107) with 4 output partitions
+26/07/16 23:26:44 INFO DAGScheduler: Final stage: ResultStage 0 (sum at /opt/spark/src/apps/observer_live_probe.py:107)
+26/07/16 23:26:44 INFO DAGScheduler: Parents of final stage: List()
+26/07/16 23:26:44 INFO DAGScheduler: Missing parents: List()
+26/07/16 23:26:44 INFO DAGScheduler: Missing parents found for ResultStage 0: List()
+26/07/16 23:26:44 INFO DAGScheduler: Submitting ResultStage 0 (PythonRDD[1] at sum at /opt/spark/src/apps/observer_live_probe.py:107), which has no missing parents
+26/07/16 23:26:44 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/07/16 23:26:44 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 8.9 KiB, free 434.4 MiB)
+26/07/16 23:26:44 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 5.3 KiB, free 434.4 MiB)
+26/07/16 23:26:44 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:1686
+26/07/16 23:26:44 INFO DAGScheduler: Submitting 4 missing tasks from ResultStage 0 (PythonRDD[1] at sum at /opt/spark/src/apps/observer_live_probe.py:107) (first 15 tasks are for partitions Vector(0, 1, 2, 3))
+26/07/16 23:26:44 INFO TaskSchedulerImpl: Adding task set 0.0 with 4 tasks resource profile 0
+26/07/16 23:26:44 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0) (172.19.0.5,executor 0, partition 0, PROCESS_LOCAL, 9679 bytes) 
+26/07/16 23:26:46 INFO TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1) (172.19.0.5,executor 0, partition 1, PROCESS_LOCAL, 9679 bytes) 
+26/07/16 23:26:46 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 1823 ms on 172.19.0.5 (executor 0) (1/4)
+26/07/16 23:26:46 INFO PythonAccumulatorV2: Connected to AccumulatorServer at host: 127.0.0.1 port: 37307
+26/07/16 23:26:47 INFO TaskSetManager: Starting task 2.0 in stage 0.0 (TID 2) (172.19.0.5,executor 0, partition 2, PROCESS_LOCAL, 9679 bytes) 
+26/07/16 23:26:47 INFO TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 881 ms on 172.19.0.5 (executor 0) (2/4)
+26/07/16 23:26:48 INFO TaskSetManager: Starting task 3.0 in stage 0.0 (TID 3) (172.19.0.5,executor 0, partition 3, PROCESS_LOCAL, 9679 bytes) 
+26/07/16 23:26:48 INFO TaskSetManager: Finished task 2.0 in stage 0.0 (TID 2) in 883 ms on 172.19.0.5 (executor 0) (3/4)
+26/07/16 23:26:49 INFO TaskSetManager: Finished task 3.0 in stage 0.0 (TID 3) in 879 ms on 172.19.0.5 (executor 0) (4/4)
+26/07/16 23:26:49 INFO TaskSchedulerImpl: Removed TaskSet 0.0 whose tasks have all completed, from pool 
+26/07/16 23:26:49 INFO DAGScheduler: ResultStage 0 (sum at /opt/spark/src/apps/observer_live_probe.py:107) finished in 4561 ms
+26/07/16 23:26:49 INFO DAGScheduler: Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/16 23:26:49 INFO TaskSchedulerImpl: Canceling stage 0
+26/07/16 23:26:49 INFO TaskSchedulerImpl: Killing all running tasks in stage 0: Stage finished
+26/07/16 23:26:49 INFO DAGScheduler: Job 0 finished: sum at /opt/spark/src/apps/observer_live_probe.py:107, took 4594.480813 ms
+26/07/16 23:26:51 INFO CodeGenerator: Code generated in 282.143847 ms
+26/07/16 23:26:51 INFO DAGScheduler: Registering RDD 5 (collect at /opt/spark/src/apps/observer_live_probe.py:126) as input to shuffle 0
+26/07/16 23:26:51 INFO DAGScheduler: Got map stage job 1 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 4 output partitions
+26/07/16 23:26:51 INFO DAGScheduler: Final stage: ShuffleMapStage 1 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/16 23:26:51 INFO DAGScheduler: Parents of final stage: List()
+26/07/16 23:26:51 INFO DAGScheduler: Missing parents: List()
+26/07/16 23:26:51 INFO DAGScheduler: Missing parents found for ShuffleMapStage 1: List()
+26/07/16 23:26:51 INFO DAGScheduler: Submitting ShuffleMapStage 1 (MapPartitionsRDD[5] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/16 23:26:51 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 35.2 KiB, free 434.4 MiB)
+26/07/16 23:26:51 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 15.7 KiB, free 434.4 MiB)
+26/07/16 23:26:51 INFO SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1686
+26/07/16 23:26:51 INFO DAGScheduler: Submitting 4 missing tasks from ShuffleMapStage 1 (MapPartitionsRDD[5] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0, 1, 2, 3))
+26/07/16 23:26:51 INFO TaskSchedulerImpl: Adding task set 1.0 with 4 tasks resource profile 0
+26/07/16 23:26:51 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 4) (172.19.0.5,executor 0, partition 0, PROCESS_LOCAL, 9759 bytes) 
+26/07/16 23:26:52 INFO TaskSetManager: Starting task 1.0 in stage 1.0 (TID 5) (172.19.0.5,executor 0, partition 1, PROCESS_LOCAL, 9759 bytes) 
+26/07/16 23:26:52 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 4) in 864 ms on 172.19.0.5 (executor 0) (1/4)
+26/07/16 23:26:52 INFO TaskSetManager: Starting task 2.0 in stage 1.0 (TID 6) (172.19.0.5,executor 0, partition 2, PROCESS_LOCAL, 9759 bytes) 
+26/07/16 23:26:52 INFO TaskSetManager: Finished task 1.0 in stage 1.0 (TID 5) in 43 ms on 172.19.0.5 (executor 0) (2/4)
+26/07/16 23:26:52 INFO TaskSetManager: Starting task 3.0 in stage 1.0 (TID 7) (172.19.0.5,executor 0, partition 3, PROCESS_LOCAL, 9759 bytes) 
+26/07/16 23:26:52 INFO TaskSetManager: Finished task 2.0 in stage 1.0 (TID 6) in 38 ms on 172.19.0.5 (executor 0) (3/4)
+26/07/16 23:26:52 INFO TaskSetManager: Finished task 3.0 in stage 1.0 (TID 7) in 34 ms on 172.19.0.5 (executor 0) (4/4)
+26/07/16 23:26:52 INFO TaskSchedulerImpl: Removed TaskSet 1.0 whose tasks have all completed, from pool 
+26/07/16 23:26:52 INFO DAGScheduler: ShuffleMapStage 1 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 1004 ms
+26/07/16 23:26:52 INFO DAGScheduler: looking for newly runnable stages
+26/07/16 23:26:52 INFO DAGScheduler: running: HashSet()
+26/07/16 23:26:52 INFO DAGScheduler: waiting: HashSet()
+26/07/16 23:26:52 INFO DAGScheduler: failed: HashSet()
+26/07/16 23:26:52 INFO ShufflePartitionsUtil: For shuffle(0, advisory target size: 67108864, actual target size 1048576, minimum partition size: 1048576
+26/07/16 23:26:52 INFO HashAggregateExec: spark.sql.codegen.aggregate.map.twolevel.enabled is set to true, but current version of codegened fast hashmap does not support this aggregate.
+26/07/16 23:26:52 INFO CodeGenerator: Code generated in 24.137544 ms
+26/07/16 23:26:52 INFO CodeGenerator: Code generated in 20.747299 ms
+26/07/16 23:26:52 INFO SparkContext: Starting job: collect at /opt/spark/src/apps/observer_live_probe.py:126
+26/07/16 23:26:52 INFO DAGScheduler: Got job 2 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 1 output partitions
+26/07/16 23:26:52 INFO DAGScheduler: Final stage: ResultStage 3 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/16 23:26:52 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 2)
+26/07/16 23:26:52 INFO DAGScheduler: Missing parents: List()
+26/07/16 23:26:52 INFO DAGScheduler: Missing parents found for ResultStage 3: List()
+26/07/16 23:26:52 INFO DAGScheduler: Submitting ResultStage 3 (MapPartitionsRDD[10] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/16 23:26:52 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 38.7 KiB, free 434.3 MiB)
+26/07/16 23:26:52 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 16.8 KiB, free 434.3 MiB)
+26/07/16 23:26:52 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1686
+26/07/16 23:26:52 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 3 (MapPartitionsRDD[10] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0))
+26/07/16 23:26:52 INFO TaskSchedulerImpl: Adding task set 3.0 with 1 tasks resource profile 0
+26/07/16 23:26:52 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 8) (172.19.0.5,executor 0, partition 0, NODE_LOCAL, 9635 bytes) 
+26/07/16 23:26:52 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 172.19.0.5:48910
+26/07/16 23:26:52 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 8) in 223 ms on 172.19.0.5 (executor 0) (1/1)
+26/07/16 23:26:52 INFO TaskSchedulerImpl: Removed TaskSet 3.0 whose tasks have all completed, from pool 
+26/07/16 23:26:52 INFO DAGScheduler: ResultStage 3 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 246 ms
+26/07/16 23:26:52 INFO DAGScheduler: Job 2 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/16 23:26:52 INFO TaskSchedulerImpl: Canceling stage 3
+26/07/16 23:26:52 INFO TaskSchedulerImpl: Killing all running tasks in stage 3: Stage finished
+26/07/16 23:26:52 INFO DAGScheduler: Job 2 finished: collect at /opt/spark/src/apps/observer_live_probe.py:126, took 256.079171 ms
+26/07/16 23:26:52 INFO DAGScheduler: Registering RDD 11 (collect at /opt/spark/src/apps/observer_live_probe.py:126) as input to shuffle 1
+26/07/16 23:26:52 INFO DAGScheduler: Got map stage job 3 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 1 output partitions
+26/07/16 23:26:52 INFO DAGScheduler: Final stage: ShuffleMapStage 5 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/16 23:26:52 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 4)
+26/07/16 23:26:52 INFO DAGScheduler: Missing parents: List()
+26/07/16 23:26:52 INFO DAGScheduler: Missing parents found for ShuffleMapStage 5: List()
+26/07/16 23:26:52 INFO DAGScheduler: Submitting ShuffleMapStage 5 (MapPartitionsRDD[11] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/16 23:26:52 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 38.9 KiB, free 434.3 MiB)
+26/07/16 23:26:52 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 17.1 KiB, free 434.3 MiB)
+26/07/16 23:26:52 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1686
+26/07/16 23:26:52 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 5 (MapPartitionsRDD[11] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0))
+26/07/16 23:26:52 INFO TaskSchedulerImpl: Adding task set 5.0 with 1 tasks resource profile 0
+26/07/16 23:26:52 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 9) (172.19.0.5,executor 0, partition 0, NODE_LOCAL, 9624 bytes) 
+26/07/16 23:26:53 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 9) in 107 ms on 172.19.0.5 (executor 0) (1/1)
+26/07/16 23:26:53 INFO TaskSchedulerImpl: Removed TaskSet 5.0 whose tasks have all completed, from pool 
+26/07/16 23:26:53 INFO DAGScheduler: ShuffleMapStage 5 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 127 ms
+26/07/16 23:26:53 INFO DAGScheduler: looking for newly runnable stages
+26/07/16 23:26:53 INFO DAGScheduler: running: HashSet()
+26/07/16 23:26:53 INFO DAGScheduler: waiting: HashSet()
+26/07/16 23:26:53 INFO DAGScheduler: failed: HashSet()
+26/07/16 23:26:53 INFO ShufflePartitionsUtil: For shuffle(1, advisory target size: 67108864, actual target size 1048576, minimum partition size: 1048576
+26/07/16 23:26:53 INFO CodeGenerator: Code generated in 9.200034 ms
+26/07/16 23:26:53 INFO SparkContext: Starting job: collect at /opt/spark/src/apps/observer_live_probe.py:126
+26/07/16 23:26:53 INFO DAGScheduler: Got job 4 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 1 output partitions
+26/07/16 23:26:53 INFO DAGScheduler: Final stage: ResultStage 8 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/16 23:26:53 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 7)
+26/07/16 23:26:53 INFO DAGScheduler: Missing parents: List()
+26/07/16 23:26:53 INFO DAGScheduler: Missing parents found for ResultStage 8: List()
+26/07/16 23:26:53 INFO DAGScheduler: Submitting ResultStage 8 (MapPartitionsRDD[14] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/16 23:26:53 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 36.7 KiB, free 434.3 MiB)
+26/07/16 23:26:53 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 15.9 KiB, free 434.3 MiB)
+26/07/16 23:26:53 INFO SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1686
+26/07/16 23:26:53 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 8 (MapPartitionsRDD[14] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0))
+26/07/16 23:26:53 INFO TaskSchedulerImpl: Adding task set 8.0 with 1 tasks resource profile 0
+26/07/16 23:26:53 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 10) (172.19.0.5,executor 0, partition 0, NODE_LOCAL, 9635 bytes) 
+26/07/16 23:26:53 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 172.19.0.5:48910
+26/07/16 23:26:53 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 10) in 101 ms on 172.19.0.5 (executor 0) (1/1)
+26/07/16 23:26:53 INFO TaskSchedulerImpl: Removed TaskSet 8.0 whose tasks have all completed, from pool 
+26/07/16 23:26:53 INFO DAGScheduler: ResultStage 8 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 117 ms
+26/07/16 23:26:53 INFO DAGScheduler: Job 4 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/16 23:26:53 INFO TaskSchedulerImpl: Canceling stage 8
+26/07/16 23:26:53 INFO TaskSchedulerImpl: Killing all running tasks in stage 8: Stage finished
+26/07/16 23:26:53 INFO DAGScheduler: Job 4 finished: collect at /opt/spark/src/apps/observer_live_probe.py:126, took 123.067987 ms
+OBSERVER_LIVE_RESULT {"bucketTotals":[[0,180],[1,190],[2,200],[3,210]],"rowCount":40,"runId":"observer-live-20260717T002637Z-446010-18198","valueSum":780}
+26/07/16 23:27:03 INFO SparkContext: SparkContext is stopping with exitCode 0 from stop at NativeMethodAccessorImpl.java:0.
+26/07/16 23:27:03 INFO StandaloneSchedulerBackend: Shutting down all executors
+26/07/16 23:27:03 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Asking each executor to shut down
+26/07/16 23:27:03 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/16 23:27:03 INFO MemoryStore: MemoryStore cleared
+26/07/16 23:27:03 INFO BlockManager: BlockManager stopped
+26/07/16 23:27:03 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/16 23:27:03 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/16 23:27:03 INFO SparkContext: Successfully stopped SparkContext (Uptime: 22657 ms)
+spark_submit_exit_code=0
+no_spark_ui_error_code=NO_SPARK_UI
+driver_process_absent_after_run=true
+wrapper_process_absent_after_run=true
+driver_ui_unavailable_after_run=true curl_exit=56 status=000
+spark_master_4040_mapping_persists=127.0.0.1:24040
+task5_input_fingerprint_end=2e7d50ed3e6931e61286af4bfdbe57305d46bd98e47ff1c2cd3c944e6c018857
+task5_input_fingerprints_match=true
+observer_live_exit_code=0
+
+Script done on 2026-07-17 00:27:05+01:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,134 @@
+Script started on 2026-07-17 00:01:10+01:00 [COMMAND="make observer-tests" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/07/16 23:01:18 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 23:01:18 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 23:01:18 INFO SparkContext: Java version 17.0.15+6
+26/07/16 23:01:18 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 23:01:18 INFO ResourceUtils: ==============================================================
+26/07/16 23:01:18 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 23:01:18 INFO ResourceUtils: ==============================================================
+26/07/16 23:01:18 INFO SparkContext: Submitted application: dataship-health-spec-44339858810320
+26/07/16 23:01:18 INFO SecurityManager: Changing view acls to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: Changing modify acls to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: Changing view acls groups to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: Changing modify acls groups to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ubuntu groups with view permissions: EMPTY; users with modify permissions: ubuntu; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 23:01:18 INFO Utils: Successfully started service 'sparkDriver' on port 38043.
+26/07/16 23:01:18 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 23:01:18 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 23:01:18 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 23:01:18 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 23:01:18 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 23:01:18 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-7b84dcbb-7f8e-44f8-a9e3-2d954cd22e4d
+26/07/16 23:01:18 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 23:01:18 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 23:01:18 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 23:01:18 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 23:01:18 INFO SecurityManager: Changing view acls to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: Changing modify acls to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: Changing view acls groups to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: Changing modify acls groups to: ubuntu
+26/07/16 23:01:18 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ubuntu groups with view permissions: EMPTY; users with modify permissions: ubuntu; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 23:01:18 INFO Executor: Starting executor ID driver on host 8f9578beed7c
+26/07/16 23:01:18 INFO Executor: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 23:01:18 INFO Executor: Java version 17.0.15+6
+26/07/16 23:01:18 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/07/16 23:01:18 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@6666fe7d for default.
+26/07/16 23:01:18 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 34607.
+26/07/16 23:01:18 INFO NettyBlockTransferService: Server created on 127.0.0.1:34607
+26/07/16 23:01:18 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 23:01:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 34607, None)
+26/07/16 23:01:19 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:34607 with 434.4 MiB RAM, BlockManagerId(driver, 127.0.0.1, 34607, None)
+26/07/16 23:01:19 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 34607, None)
+26/07/16 23:01:19 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 34607, None)
+26/07/16 23:01:19 INFO SparkContext: SparkContext is stopping with exitCode 0 from stop at HealthResponseSpec.scala:190.
+26/07/16 23:01:19 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/16 23:01:19 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/07/16 23:01:19 INFO MemoryStore: MemoryStore cleared
+26/07/16 23:01:19 INFO BlockManager: BlockManager stopped
+26/07/16 23:01:19 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/16 23:01:19 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/16 23:01:19 INFO SparkContext: Successfully stopped SparkContext (Uptime: 1289 ms)
+26/07/16 23:01:19 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 23:01:19 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 23:01:19 INFO SparkContext: Java version 17.0.15+6
+26/07/16 23:01:19 INFO ResourceUtils: ==============================================================
+26/07/16 23:01:19 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 23:01:19 INFO ResourceUtils: ==============================================================
+26/07/16 23:01:19 INFO SparkContext: Submitted application: dataship-health-spec-44341182011483
+26/07/16 23:01:19 INFO SecurityManager: Changing view acls to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: Changing modify acls to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: Changing view acls groups to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: Changing modify acls groups to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ubuntu groups with view permissions: EMPTY; users with modify permissions: ubuntu; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 23:01:19 INFO Utils: Successfully started service 'sparkDriver' on port 40127.
+26/07/16 23:01:19 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 23:01:19 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 23:01:19 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 23:01:19 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 23:01:19 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 23:01:19 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-1508eeab-8882-4836-b888-58d356758dc2
+26/07/16 23:01:19 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 23:01:19 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 23:01:19 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 23:01:19 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 23:01:19 INFO SecurityManager: Changing view acls to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: Changing modify acls to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: Changing view acls groups to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: Changing modify acls groups to: ubuntu
+26/07/16 23:01:19 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ubuntu groups with view permissions: EMPTY; users with modify permissions: ubuntu; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 23:01:19 INFO Executor: Starting executor ID driver on host 8f9578beed7c
+26/07/16 23:01:19 INFO Executor: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 23:01:19 INFO Executor: Java version 17.0.15+6
+26/07/16 23:01:19 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/07/16 23:01:19 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@3fc9e7b4 for default.
+26/07/16 23:01:19 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 43945.
+26/07/16 23:01:19 INFO NettyBlockTransferService: Server created on 127.0.0.1:43945
+26/07/16 23:01:19 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 23:01:19 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 43945, None)
+26/07/16 23:01:19 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:43945 with 434.4 MiB RAM, BlockManagerId(driver, 127.0.0.1, 43945, None)
+26/07/16 23:01:19 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 43945, None)
+26/07/16 23:01:19 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 43945, None)
+26/07/16 23:01:19 WARN SparkDataShipDriverPlugin: DataShip Spark Observer did not install HTTP: code=NO_SPARK_UI
+26/07/16 23:01:19 INFO SparkContext: SparkContext is stopping with exitCode 0 from stop at HealthResponseSpec.scala:190.
+26/07/16 23:01:19 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/16 23:01:19 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/07/16 23:01:19 INFO MemoryStore: MemoryStore cleared
+26/07/16 23:01:19 INFO BlockManager: BlockManager stopped
+26/07/16 23:01:19 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/16 23:01:19 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/16 23:01:19 INFO SparkContext: Successfully stopped SparkContext (Uptime: 88 ms)
+[info] ObserverConfigSpec:
+[info] - is disabled by default
+[info] - is enabled by the explicit opt-in flag
+[info] - remains disabled when the flag is explicitly false
+[info] - accepts queue capacities at the supported boundaries
+[info] - rejects queue capacities outside the supported range
+[info] BuildInfoSpec:
+[info] - publishes the plugin version
+[info] - publishes the supported Spark version
+[info] - publishes the Scala binary version
+[info] - publishes the expected artifact name
+[info] PluginBootstrapSpec:
+[info] - creates a fresh DataShip driver plugin
+[info] - does not create an executor plugin
+[info] HealthResponseSpec:
+[info] - renders only the stable health envelope and allowlisted fields
+[info] - moves through starting, ready, and stopping without installing a listener
+[info] - keeps disabled mode explicit when the health endpoint is attached
+[info] - marks a supported enabled runtime as degraded when Spark has no UI
+[info] - does not claim support for a different Spark runtime
+[info] - stores SparkContext during init and installs the health endpoint at most once
+[info] - uses the SparkContext stored by init and degrades cleanly when sc.ui is empty
+[info] Run completed in 2 seconds, 110 milliseconds.
+[info] Total number of tests run: 18
+[info] Suites: completed 4, aborted 0
+[info] Tests: succeeded 18, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 4 s, completed Jul 16, 2026, 11:01:19 PM
+
+Script done on 2026-07-17 00:01:20+01:00 [COMMAND_EXIT_CODE="0"]

@@ -509,12 +509,13 @@ git commit -m "test: add deterministic live observer workload"
 
 ---
 
-## Task 5: implementar lifecycle e endpoint de health
+## Task 5: implement lifecycle and the health endpoint
 
-**Hipótese:** `registerMetrics` anexa `/health` depois que `appId` existe, e a resposta fica `READY` enquanto o submit está vivo.
+**Hypothesis:** `registerMetrics` attaches `/health` after `appId` exists, and the response remains `READY` while the submit process is alive.
 
 **Files:**
 
+- Modify: `docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-plan.md` (keep this Task 5 section and its artifact rule in English)
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
 - Create: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala`
 - Create: `spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala`
@@ -530,49 +531,50 @@ git commit -m "test: add deterministic live observer workload"
 
 **Interfaces:**
 
-- `init(sc, pluginContext)` valida configuração, guarda o `SparkContext` e não instala HTTP.
-- `registerMetrics(appId, pluginContext)` usa o `SparkContext` guardado para acessar `sc.ui` e instala o handler no máximo uma vez quando a Spark UI suportada existe.
-- `PluginContext` será usado apenas para suas APIs públicas, como configuração e métricas; nenhuma task pressupõe `pluginContext.ui`.
-- `shutdown()` muda para `STOPPING` e fecha recursos idempotentemente.
-- JSON health contém o envelope e `status`, `uiAttached`, `listenerInstalled`, `supportedRuntime`, `queueCapacity`, `lastErrorCode`.
-- Sem Spark UI, o plugin registra o código estável `NO_SPARK_UI`, não instala handlers e deixa o job terminar; não há endpoint HTTP a consultar.
+- `init(sc, pluginContext)` validates configuration, stores the `SparkContext`, and does not install HTTP.
+- `registerMetrics(appId, pluginContext)` uses the stored `SparkContext` to access `sc.ui` and installs the handler at most once when the supported Spark UI exists.
+- `PluginContext` is used only through its public APIs, such as configuration and metrics; no task assumes `pluginContext.ui` exists.
+- `shutdown()` transitions to `STOPPING` and closes resources idempotently.
+- The health JSON contains the stable envelope plus `status`, `uiAttached`, `listenerInstalled`, `supportedRuntime`, `queueCapacity`, and `lastErrorCode`.
+- Without a Spark UI, the plugin records the stable `NO_SPARK_UI` code, installs no handlers, and lets the job complete; no HTTP endpoint is promised in this mode.
+- Every source file, test, message, Task 5 execution-log entry, evidence report, transcript label, and screenshot label created or changed by this task must be in English.
 
 **Red phase:**
 
-- [ ] Criar testes de config, envelope, estados e serialização sem campos extras.
-- [ ] Criar testes do installer chamado duas vezes e do caminho `sc.ui.isEmpty`, usando o `SparkContext` guardado no `init`.
-- [ ] Criar testes Python que rejeitam status, content type, JSON ou campos incorretos.
-- [ ] Executar `make observer-tests` e os dois testes Python; confirmar falhas esperadas.
-- [ ] Executar o harness esperando `/health`; confirmar `404`.
+- [ ] Create tests for configuration, the envelope, lifecycle states, and serialization without extra fields.
+- [ ] Create tests for calling the installer twice and for the `sc.ui.isEmpty` path, using the `SparkContext` stored by `init`.
+- [ ] Create Python tests that reject an incorrect status, content type, JSON document, or required field.
+- [ ] Run `make observer-tests` and both Python test modules; confirm the expected behavioral failures.
+- [ ] Run the harness expecting `/health`; confirm the endpoint is absent under Spark's native unknown-route behavior.
 
 **Green phase:**
 
-- [ ] Implementar config imutável e DTOs próprios.
-- [ ] Usar Jackson fornecido pelo Spark para serializar somente maps/lists/primitivos allowlisted.
-- [ ] Implementar o adapter v4.1.2 sob `org.apache.spark.dataship.v412`.
-- [ ] Anexar o servlet à mesma Spark UI, sem iniciar servidor adicional.
-- [ ] Tornar a instalação idempotente e tratar Spark UI ausente como degradação isolada.
-- [ ] Implementar espera com timeout no harness e validação via Python, sem `jq`.
-- [ ] Executar `make observer-runtime-refresh` e confirmar por checksum que o container recebeu o JAR desta task antes do teste live.
-- [ ] Executar teste live e coletar duas respostas health com o submit vivo.
-- [ ] Após shutdown, provar endpoint indisponível, ausência do processo identificado dentro do container e sucesso de uma segunda execução no mesmo mapping.
-- [ ] Executar o workload com `spark.ui.enabled=false`; exigir exit code `0` e `NO_SPARK_UI` no log redigido, sem prometer `/health`.
+- [ ] Implement immutable configuration and task-owned DTOs.
+- [ ] Use the Jackson runtime provided by Spark to serialize only allowlisted maps, lists, and primitive values.
+- [ ] Implement the Spark 4.1.2 adapter under `org.apache.spark.dataship.v412`.
+- [ ] Attach the servlet to the existing Spark UI without starting another server.
+- [ ] Make installation idempotent and treat a missing Spark UI as an isolated degradation.
+- [ ] Implement bounded waiting in the harness and Python validation without `jq`.
+- [ ] Run `make observer-runtime-refresh` and use a checksum to confirm that the container received this task's JAR before the live test.
+- [ ] Run the live test and collect two health responses while the submit process is alive.
+- [ ] After shutdown, prove that the endpoint is unavailable, the identified process is absent inside the container, and a second run succeeds through the same persistent mapping.
+- [ ] Run the workload with `spark.ui.enabled=false`; require exit code `0` and `NO_SPARK_UI` in the redacted log without promising `/health`.
 
 **Acceptance criteria:**
 
-- `/health` responde `200` e `application/json`.
+- `/health` responds with `200` and `application/json`.
 - `schemaVersion=v1`, `pluginVersion=0.1.0-SNAPSHOT`, `sparkVersion=4.1.2`, `mode=live`.
-- `appId` não é vazio, `status=READY`, `uiAttached=true`, `supportedRuntime=true`.
-- `capturedAt` é ISO-8601 UTC e não é comparado como literal.
-- `init` não faz I/O nem scan de store.
-- Duas chamadas de instalação não duplicam handler nem recurso.
-- Com `spark.ui.enabled=false`, o job conclui e nenhum handler é instalado.
-- Com `spark.plugins` presente e `enabled=false`, apenas `/health` responde `DISABLED`; listener, snapshot e aba não são instalados.
-- Duas execuções consecutivas não encontram thread ou processo preso e reutilizam o mapping persistente.
+- `appId` is non-empty, `status=READY`, `uiAttached=true`, and `supportedRuntime=true`.
+- `capturedAt` is an ISO-8601 UTC timestamp and is not compared as a fixed literal.
+- `init` performs no I/O and does not scan stores.
+- Two installation calls do not duplicate a handler or resource.
+- With `spark.ui.enabled=false`, the job completes and no handler is installed.
+- With `spark.plugins` present and `enabled=false`, only `/health` responds with `DISABLED`; no listener, snapshot, or tab is installed.
+- Two consecutive runs leave no stuck thread or process and reuse the persistent mapping.
 
-**Evidência visual para aceite:** abrir `/dataship/api/v1/health` com Playwright durante o submit e capturar o JSON renderizado com `READY`, `appId` e versões visíveis, sem segredos.
+**Visual acceptance evidence:** open `/dataship/api/v1/health` with Playwright during the submit process and capture the rendered JSON with visible `READY`, `appId`, and versions, without secrets.
 
-**User gate:** apresentar o JSON real allowlisted, captura do health, processo interno vivo e segunda execução; parar.
+**User gate:** present the real allowlisted JSON, the health screenshot, the live internal process, and the second run; then stop.
 
 **Commit checkpoint after `ACEITO`:**
 

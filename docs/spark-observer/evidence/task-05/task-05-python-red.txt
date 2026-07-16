@@ -1,0 +1,1147 @@
+Script started on 2026-07-16 23:45:37+01:00 [COMMAND="uv run pytest tests/test_observer_live_probe.py tests/test_observer_response_assertions.py -q" <not executed on terminal>]
+.................FFFFFFFFFFFFFFFFFFFFF                                   [100%]
+=================================== FAILURES ===================================
+________ test_live_harness_uses_the_versioned_health_response_validator ________
+
+    def test_live_harness_uses_the_versioned_health_response_validator():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+    
+>       assert "assert-observer-response.py" in harness
+E       assert 'assert-observer-response.py' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...after" == "$mapping" ]]\nprintf \'spark_master_4040_mapping_persists=%s\\n\' "$mapping_after"\n\nexit "$submit_exit"\n'
+
+tests/test_observer_response_assertions.py:60: AssertionError
+_________________ test_accepts_the_exact_ready_health_contract _________________
+
+    def test_accepts_the_exact_ready_health_contract():
+        helper = _load_helper()
+        payload = _valid_payload()
+    
+>       result = helper.validate_response(
+            status_code=200,
+            content_type="application/json;charset=utf-8",
+            body=json.dumps(payload),
+            expected_status="READY",
+        )
+
+tests/test_observer_response_assertions.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...lastErrorCode": ""}', 'content_type': 'application/json;charset=utf-8', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+_ test_rejects_invalid_http_or_json_documents[503-application/json-{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode": "live", "capturedAt": "2026-07-16T12:34:56Z", "status": "READY", "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}-HTTP status] _
+
+status_code = 503, content_type = 'application/json'
+body = '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode... "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}'
+expected_message = 'HTTP status'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_response(
+                status_code=status_code,
+                content_type=content_type,
+                body=body,
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 503}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+status_code = 503, content_type = 'application/json'
+body = '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode... "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}'
+expected_message = 'HTTP status'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+>       with pytest.raises(helper.ResponseValidationError, match=expected_message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'HTTP status'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:96: AssertionError
+_ test_rejects_invalid_http_or_json_documents[200-text/html-{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode": "live", "capturedAt": "2026-07-16T12:34:56Z", "status": "READY", "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}-Content-Type] _
+
+status_code = 200, content_type = 'text/html'
+body = '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode... "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}'
+expected_message = 'Content-Type'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_response(
+                status_code=status_code,
+                content_type=content_type,
+                body=body,
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...eueCapacity": 1024, "lastErrorCode": ""}', 'content_type': 'text/html', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+status_code = 200, content_type = 'text/html'
+body = '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode... "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}'
+expected_message = 'Content-Type'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+>       with pytest.raises(helper.ResponseValidationError, match=expected_message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'Content-Type'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:96: AssertionError
+_ test_rejects_invalid_http_or_json_documents[200-application/json-not-json-JSON document] _
+
+status_code = 200, content_type = 'application/json', body = 'not-json'
+expected_message = 'JSON document'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_response(
+                status_code=status_code,
+                content_type=content_type,
+                body=body,
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': 'not-json', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+status_code = 200, content_type = 'application/json', body = 'not-json'
+expected_message = 'JSON document'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+>       with pytest.raises(helper.ResponseValidationError, match=expected_message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'JSON document'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:96: AssertionError
+_ test_rejects_invalid_http_or_json_documents[200-application/json-[]-JSON object] _
+
+status_code = 200, content_type = 'application/json', body = '[]'
+expected_message = 'JSON object'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_response(
+                status_code=status_code,
+                content_type=content_type,
+                body=body,
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '[]', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+status_code = 200, content_type = 'application/json', body = '[]'
+expected_message = 'JSON object'
+
+    @pytest.mark.parametrize(
+        ("status_code", "content_type", "body", "expected_message"),
+        (
+            (503, "application/json", json.dumps(_valid_payload()), "HTTP status"),
+            (200, "text/html", json.dumps(_valid_payload()), "Content-Type"),
+            (200, "application/json", "not-json", "JSON document"),
+            (200, "application/json", "[]", "JSON object"),
+        ),
+    )
+    def test_rejects_invalid_http_or_json_documents(
+        status_code,
+        content_type,
+        body,
+        expected_message,
+    ):
+        helper = _load_helper()
+    
+>       with pytest.raises(helper.ResponseValidationError, match=expected_message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'JSON object'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:96: AssertionError
+__________________ test_rejects_an_incorrect_lifecycle_status __________________
+
+    def test_rejects_an_incorrect_lifecycle_status():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["status"] = "STARTING"
+    
+        with pytest.raises(helper.ResponseValidationError, match="status"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+    def test_rejects_an_incorrect_lifecycle_status():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["status"] = "STARTING"
+    
+>       with pytest.raises(helper.ResponseValidationError, match="status"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'status'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:110: AssertionError
+___________ test_rejects_every_missing_required_field[schemaVersion] ___________
+
+field = 'schemaVersion'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode": "live", "ca...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'schemaVersion'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+___________ test_rejects_every_missing_required_field[pluginVersion] ___________
+
+field = 'pluginVersion'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode": "live", "capturedAt": "...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'pluginVersion'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+___________ test_rejects_every_missing_required_field[sparkVersion] ____________
+
+field = 'sparkVersion'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "appId": "app-health-test", "mode": "live", "capt...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'sparkVersion'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+_______________ test_rejects_every_missing_required_field[appId] _______________
+
+field = 'appId'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "mode": "live", "capture...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'appId'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+_______________ test_rejects_every_missing_required_field[mode] ________________
+
+field = 'mode'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'mode'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+____________ test_rejects_every_missing_required_field[capturedAt] _____________
+
+field = 'capturedAt'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'capturedAt'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+______________ test_rejects_every_missing_required_field[status] _______________
+
+field = 'status'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'status'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+____________ test_rejects_every_missing_required_field[uiAttached] _____________
+
+field = 'uiAttached'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'uiAttached'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+_________ test_rejects_every_missing_required_field[listenerInstalled] _________
+
+field = 'listenerInstalled'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'listenerInstalled'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+_________ test_rejects_every_missing_required_field[supportedRuntime] __________
+
+field = 'supportedRuntime'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'supportedRuntime'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+___________ test_rejects_every_missing_required_field[queueCapacity] ___________
+
+field = 'queueCapacity'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...time": true, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'queueCapacity'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+___________ test_rejects_every_missing_required_field[lastErrorCode] ___________
+
+field = 'lastErrorCode'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+        with pytest.raises(helper.ResponseValidationError, match="required fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:129: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...me": true, "queueCapacity": 1024}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+field = 'lastErrorCode'
+
+    @pytest.mark.parametrize(
+        "field",
+        tuple(_valid_payload()),
+    )
+    def test_rejects_every_missing_required_field(field):
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload.pop(field)
+    
+>       with pytest.raises(helper.ResponseValidationError, match="required fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'required fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:128: AssertionError
+_______________ test_rejects_fields_outside_the_health_allowlist _______________
+
+    def test_rejects_fields_outside_the_health_allowlist():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["sparkConf"] = {"spark.secret": "must-not-appear"}
+    
+        with pytest.raises(helper.ResponseValidationError, match="unexpected fields"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...park.secret": "must-not-appear"}}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+    def test_rejects_fields_outside_the_health_allowlist():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["sparkConf"] = {"spark.secret": "must-not-appear"}
+    
+>       with pytest.raises(helper.ResponseValidationError, match="unexpected fields"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'unexpected fields'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:142: AssertionError
+________________ test_rejects_an_invalid_captured_at_timestamp _________________
+
+    def test_rejects_an_invalid_captured_at_timestamp():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["capturedAt"] = "2026-07-16 12:34:56"
+    
+        with pytest.raises(helper.ResponseValidationError, match="capturedAt"):
+>           helper.validate_response(
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_status="READY",
+            )
+
+tests/test_observer_response_assertions.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_args = ()
+_kwargs = {'body': '{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-tes...city": 1024, "lastErrorCode": ""}', 'content_type': 'application/json', 'expected_status': 'READY', 'status_code': 200}
+
+    def missing_validation(*_args, **_kwargs):
+>       raise MissingResponseValidationError(
+            "Health response validation is not implemented."
+        )
+E       tests.test_observer_response_assertions._load_helper.<locals>.MissingResponseValidationError: Health response validation is not implemented.
+
+tests/test_observer_response_assertions.py:22: MissingResponseValidationError
+
+During handling of the above exception, another exception occurred:
+
+    def test_rejects_an_invalid_captured_at_timestamp():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["capturedAt"] = "2026-07-16 12:34:56"
+    
+>       with pytest.raises(helper.ResponseValidationError, match="capturedAt"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'capturedAt'
+E         Actual message: 'Health response validation is not implemented.'
+
+tests/test_observer_response_assertions.py:156: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_response_assertions.py::test_live_harness_uses_the_versioned_health_response_validator
+FAILED tests/test_observer_response_assertions.py::test_accepts_the_exact_ready_health_contract
+FAILED tests/test_observer_response_assertions.py::test_rejects_invalid_http_or_json_documents[503-application/json-{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode": "live", "capturedAt": "2026-07-16T12:34:56Z", "status": "READY", "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}-HTTP status]
+FAILED tests/test_observer_response_assertions.py::test_rejects_invalid_http_or_json_documents[200-text/html-{"schemaVersion": "v1", "pluginVersion": "0.1.0-SNAPSHOT", "sparkVersion": "4.1.2", "appId": "app-health-test", "mode": "live", "capturedAt": "2026-07-16T12:34:56Z", "status": "READY", "uiAttached": true, "listenerInstalled": false, "supportedRuntime": true, "queueCapacity": 1024, "lastErrorCode": ""}-Content-Type]
+FAILED tests/test_observer_response_assertions.py::test_rejects_invalid_http_or_json_documents[200-application/json-not-json-JSON document]
+FAILED tests/test_observer_response_assertions.py::test_rejects_invalid_http_or_json_documents[200-application/json-[]-JSON object]
+FAILED tests/test_observer_response_assertions.py::test_rejects_an_incorrect_lifecycle_status
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[schemaVersion]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[pluginVersion]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[sparkVersion]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[appId]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[mode]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[capturedAt]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[status]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[uiAttached]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[listenerInstalled]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[supportedRuntime]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[queueCapacity]
+FAILED tests/test_observer_response_assertions.py::test_rejects_every_missing_required_field[lastErrorCode]
+FAILED tests/test_observer_response_assertions.py::test_rejects_fields_outside_the_health_allowlist
+FAILED tests/test_observer_response_assertions.py::test_rejects_an_invalid_captured_at_timestamp
+
+Script done on 2026-07-16 23:45:38+01:00 [COMMAND_EXIT_CODE="1"]

@@ -1,0 +1,55 @@
+Script started on 2026-07-17 00:19:39+01:00 [COMMAND="set +e; make observer-tests; scala_exit=$?; uv run pytest tests/test_observer_response_assertions.py -q; python_exit=$?; printf "review_fix_scala_red_exit=%s\nreview_fix_python_red_exit=%s\n" "$scala_exit" "$python_exit"; test "$scala_exit" -ne 0 && test "$python_exit" -ne 0" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 1 Scala source to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:206:12: value unary_! is not a member of Unit
+[error]     assert(!runtime.registerApplication(" "))
+[error]            ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:208:39: type mismatch;
+[error]  found   : Unit
+[error]  required: Boolean
+[error]     assert(runtime.registerApplication("app-with-unrelated-failure"))
+[error]                                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:246:9: missing parameter type
+[error]         _ => {
+[error]         ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:250:10: missing parameter type
+[error]         (config, _) =>
+[error]          ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:250:18: missing parameter type
+[error]         (config, _) =>
+[error]                  ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala:245:20: multiple constructors for SparkDataShipDriverPlugin with alternatives:
+[error]   ()io.dataship.spark.observer.SparkDataShipDriverPlugin <and>
+[error]   (installerFactory: org.apache.spark.SparkContext => io.dataship.spark.observer.HealthEndpointInstaller)io.dataship.spark.observer.SparkDataShipDriverPlugin
+[error]  cannot be invoked with (? => ?, (?, ?) => ?)
+[error]       val plugin = new SparkDataShipDriverPlugin(
+[error]                    ^
+[error] 6 errors found
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 4 s, completed Jul 16, 2026, 11:19:47 PM
+make: *** [Makefile:101: observer-tests] Error 1
+.F....................                                                   [100%]
+=================================== FAILURES ===================================
+_ test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity _
+
+    def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+        allowlist_match = re.search(
+            r"TASK5_FINGERPRINT_INPUTS=\(\n(?P<inputs>.*?)\n\)",
+            harness,
+            re.DOTALL,
+        )
+    
+>       assert allowlist_match is not None
+E       assert None is not None
+
+tests/test_observer_response_assertions.py:74: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_response_assertions.py::test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity
+review_fix_scala_red_exit=2
+review_fix_python_red_exit=1
+
+Script done on 2026-07-17 00:19:48+01:00 [COMMAND_EXIT_CODE="0"]

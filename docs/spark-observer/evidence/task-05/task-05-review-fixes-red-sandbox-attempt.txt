@@ -1,0 +1,9 @@
+Script started on 2026-07-17 00:19:03+01:00 [COMMAND="set +e; make observer-tests; scala_exit=$?; uv run pytest tests/test_observer_response_assertions.py -q; python_exit=$?; printf "review_fix_scala_red_exit=%s\nreview_fix_python_red_exit=%s\n" "$scala_exit" "$python_exit"; test "$scala_exit" -ne 0 && test "$python_exit" -ne 0" <not executed on terminal>]
+permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+make: *** [Makefile:101: observer-tests] Error 1
+error: Failed to initialize cache at `/home/philot/.cache/uv`
+  Caused by: failed to open file `/home/philot/.cache/uv/sdists-v9/.git`: Read-only file system (os error 30)
+review_fix_scala_red_exit=2
+review_fix_python_red_exit=2
+
+Script done on 2026-07-17 00:19:03+01:00 [COMMAND_EXIT_CODE="0"]
