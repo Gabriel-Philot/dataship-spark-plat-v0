@@ -3,6 +3,7 @@
 - **Status:** proposta de design aprovada para decomposição em tarefas
 - **Data:** 2026-07-15
 - **Persistido no repositório:** 2026-07-16
+- **Última revisão:** 2026-07-16 — alinhamento após crítica técnica externa
 - **Repositório-alvo:** `Gabriel-Philot/dataship-spark-plat-v0`
 - **Baseline revalidada:** commit `89202730dfd19d35d52c35d61b739dad4fcca345`
 - **Escopo ativo:** JAR, driver, listeners, estado live, endpoints, aba da Spark UI e testes de execução
@@ -119,7 +120,9 @@ Para o teste local inicial, o Compose deverá publicar uma porta como:
 
 O bind em `127.0.0.1` é intencional: a Spark UI local não deve ser exposta para a rede por padrão.
 
-A primeira versão aceitará apenas um driver de teste por vez nessa porta fixa. Concorrência entre vários drivers será um requisito futuro.
+A publicação pertence ao container persistente `spark-master`, não ao processo temporário `spark-submit`. Portanto, depois que o driver termina, o mapping host→container continua configurado; o comportamento correto é o endpoint deixar de responder porque não há processo ouvindo em 4040 dentro do container. O teste deve diferenciar mapping Docker, endpoint HTTP e processo do driver.
+
+A primeira versão aceitará apenas um driver de teste por vez nessa porta fixa. O preflight de disponibilidade da porta host será feito antes da criação/recriação do container. Depois de cada run, o gate exigirá endpoint indisponível, ausência do processo identificado dentro do container e sucesso de uma segunda execução reutilizando o mesmo mapping. Concorrência entre vários drivers será um requisito futuro.
 
 ---
 
@@ -359,6 +362,8 @@ O plugin não será colocado inicialmente em `spark-defaults.conf` para todos os
 
 O fato de o JAR estar presente em `/opt/spark/jars/` não deve ativá-lo sozinho.
 
+Como o Dockerfile copia o artefato para a imagem Spark, não existe atualização dinâmica do JAR em runtime. Toda prova live posterior a uma alteração do módulo deverá recompilar o JAR, fazer seu staging no contexto, reconstruir a imagem Spark e recriar `spark-master` e `spark-worker`. O teste também comparará checksums do artefato produzido e do JAR dentro do container para impedir validação acidental de uma versão antiga.
+
 ---
 
 ## 7. Contrato HTTP inicial
@@ -441,7 +446,9 @@ Não retornar:
 - objetos Java/Scala serializados diretamente;
 - uma coleção ilimitada;
 - fonte Python/Scala do usuário;
-- SQL sem redação e truncamento.
+- descrição SQL bruta ou não allowlisted.
+
+O recorte SQL do v0 expõe id, status e tempos da execução. A `description` do status store fica desabilitada por default e só pode ser exposta por opt-in depois de redação conservadora e truncamento. Ela será identificada como descrição fornecida pelo Spark, nunca como o texto original passado a `spark.sql(...)`.
 
 ### 7.6 Códigos de resposta
 
@@ -449,8 +456,9 @@ Não retornar:
 - `400`: parâmetro inválido;
 - `404`: rota ou entidade inexistente;
 - `409`: store ainda não pronta para aquela consulta;
-- `429`: proteção local contra consulta excessiva, se necessária;
 - `500`: erro isolado do endpoint, sem derrubar o driver.
+
+O v0 não terá limitador HTTP próprio nem contrato `429`. Se medições futuras mostrarem necessidade, o limite e seu teste determinístico serão objeto de outro design.
 
 ---
 
@@ -597,16 +605,18 @@ O `make smoke` atual executa jobs funcionais, mas não foi desenhado para dar ao
 
 ### Orquestração esperada
 
-1. garantir que a porta local do driver esteja livre;
-2. iniciar `spark-submit` em background de forma controlada;
-3. aguardar `/health` com timeout curto e explícito;
-4. confirmar que o processo ainda está vivo;
-5. consultar contadores e snapshot repetidamente;
-6. validar crescimento e transições;
-7. aguardar conclusão do job;
-8. confirmar exit code zero;
-9. encerrar e limpar processos em caso de erro;
-10. apenas no gate final, confirmar o event log nativo e o fluxo já existente.
+1. antes de criar ou recriar o Compose, garantir que a porta host do driver pode ser publicada;
+2. reconstruir/recriar o runtime quando o JAR ou o Compose tiver mudado e verificar o checksum do artefato dentro do container;
+3. criar um identificador único do probe e iniciar `spark-submit` em background de forma controlada;
+4. localizar o processo real do driver dentro de `spark-master` pelo identificador, sem assumir que o PID do `docker compose exec` é o PID interno;
+5. aguardar `/health` com timeout curto e explícito;
+6. confirmar que o processo ainda está vivo;
+7. consultar contadores e snapshot repetidamente;
+8. validar crescimento e transições;
+9. aguardar conclusão do job e confirmar exit code zero;
+10. confirmar que o endpoint deixou de responder, que o processo interno não existe e que o mapping Docker permanece;
+11. executar novamente no mesmo mapping e confirmar cleanup idempotente;
+12. apenas no gate final, confirmar o event log nativo e o fluxo já existente.
 
 O script de teste deve possuir `trap`/cleanup para não deixar um driver ou processo de polling abandonado.
 
@@ -651,7 +661,7 @@ Gate:
 - `registerMetrics(appId, ...)` instala o handler;
 - `/health` responde enquanto o processo está vivo;
 - `appId`, Spark version e estado estão corretos;
-- shutdown não deixa threads ou portas presas.
+- shutdown não deixa thread/processo preso, o endpoint deixa de responder e uma segunda execução reutiliza o mapping persistente.
 
 ### Fase 3 — fila dedicada e contadores
 
@@ -675,7 +685,7 @@ Gate:
 - job ativo aparece enquanto roda;
 - transição para concluído é observada;
 - stages e agregados de tasks são coerentes;
-- limites e truncamento funcionam;
+- limites e truncamento funcionam no retorno e na leitura do store;
 - nenhuma coleção é ilimitada.
 
 ### Fase 5 — snapshot SQL
@@ -684,9 +694,9 @@ Objetivo: expor o recorte SQL inicial do DataFlint sem instrumentar plano.
 
 Gate:
 
-- execução SQL aparece live;
+- metadados da execução SQL aparecem live;
 - status final é observado;
-- descrição está truncada e redigida;
+- descrição permanece ausente por default; um fixture sintético opt-in prova redação e truncamento sem alegar captura do SQL literal;
 - consulta DataFrame sem SQL textual não inventa código-fonte;
 - nenhum plano é modificado.
 
@@ -700,6 +710,8 @@ Gate:
 - assets são carregados do JAR;
 - página usa os endpoints versionados;
 - polling para ao sair do modo live ou ao receber estado final;
+- instalação repetida não duplica aba ou handlers;
+- com `spark.ui.enabled=false`, o job termina sem aba e registra `NO_SPARK_UI`;
 - falha da página não interfere no job.
 
 ### Fase 7 — fail-open, limites e segurança
@@ -713,7 +725,7 @@ Gate:
 - fila cheia não bloqueia listener;
 - excesso de polling não derruba o driver;
 - respostas não contêm credenciais MinIO ou ClickHouse;
-- versão Spark não suportada é detectada explicitamente.
+- versão Spark não suportada é detectada antes da criação do adapter quando o classloading público permitir, sem promessa de endpoint HTTP.
 
 ### Fase 8 — regressão da plataforma existente
 
@@ -764,13 +776,13 @@ Fontes:
 
 **Risco:** tasks e eventos podem ser milhões.
 
-**Controle:** usar stores nativos, agregar tasks, limitar janelas, paginação e eviction determinística. Testes devem forçar limites pequenos.
+**Controle:** usar stores nativos, agregar tasks, limitar janelas, paginação e eviction determinística. Para jobs e stages, o adapter consultará diretamente o `KVStore` com `max(limit + 1)`; os helpers `jobsList` e `stageList` não serão usados porque materializam toda a retenção. Testes devem forçar limites pequenos.
 
 ### 12.5 Exposição de informações sensíveis
 
 **Risco:** SparkConf, SQL, callsites e environment podem conter dados sensíveis.
 
-**Controle:** allowlist de campos, redação usando as configurações do Spark, truncamento e bind local. Não serializar objetos internos automaticamente.
+**Controle:** allowlist de campos, descrição SQL desabilitada por default, opt-in explícito, `spark.redaction.string.regex` quando configurada, política conservadora adicional do plugin, redação antes do truncamento e bind local. O teste verifica os valores sentinela, não apenas palavras como `password` ou `token`. Não serializar objetos internos automaticamente.
 
 Fontes:
 
@@ -793,9 +805,9 @@ Fonte: [documentação oficial do Hadoop S3A](https://hadoop.apache.org/docs/cur
 
 ### 12.8 Porta de driver e múltiplas aplicações
 
-**Risco:** o Spark tenta 4041, 4042 etc. se 4040 estiver ocupada, mas o Compose inicial terá uma porta fixa.
+**Risco:** o Spark tenta 4041, 4042 etc. se 4040 estiver ocupada, mas o Compose inicial terá uma porta fixa. Além disso, o mapping pertence ao container e permanece depois que o driver termina.
 
-**Controle:** teste serial, preflight da porta, porta 4040 explícita e falha clara quando ocupada. Resolver múltiplos drivers em fase posterior.
+**Controle:** teste serial, preflight antes da criação/recriação do container, porta 4040 explícita, `spark.port.maxRetries=0`, processo marcado por identificador único, verificação dentro do container, endpoint indisponível após o run e segunda execução no mesmo mapping. Resolver múltiplos drivers em fase posterior.
 
 ---
 
@@ -805,8 +817,8 @@ Este tópico não faz parte da implementação inicial, mas precisa ficar regist
 
 ### O que um JAR no driver pode observar
 
-- SQL textual quando realmente existe uma chamada `spark.sql(...)` e o Spark o conserva no evento/status;
-- callsite e descrição quando disponibilizados pelo Spark;
+- id, status, tempos, callsite e descrição de uma execução quando disponibilizados pelo Spark;
+- o texto SQL somente se alguma integração futura fornecer proveniência confiável; a store live usada no v0 não garante conservar o argumento de `spark.sql(...)`;
 - plano parsed/analyzed/optimized/physical em momentos diferentes;
 - atualizações AQE;
 - jobs, stages, tasks e métricas associados.
@@ -831,7 +843,7 @@ O v0 só estará concluído quando um teste automatizado demonstrar, na mesma ex
 2. o plugin está `READY`;
 3. a rota `/health` retorna 200;
 4. os contadores crescem entre dois instantes live;
-5. jobs, stages e SQL aparecem nos snapshots;
+5. jobs, stages e metadados de execuções SQL aparecem nos snapshots;
 6. ao menos uma transição de estado é observada;
 7. a aba DataShip responde pela Spark UI;
 8. fila limitada e falha induzida não derrubam o job;

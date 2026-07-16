@@ -1,19 +1,22 @@
 # DataShip Spark Observer v0 Implementation Plan
 
+**Revisão:** 2026-07-16 — feedback técnico incorporado antes da Task 1.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:test-driven-development` and `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Do not use subagents unless the user explicitly authorizes them.
 
 **Goal:** construir e provar um plugin JVM opt-in no driver Spark 4.1.2 que exponha estado live, endpoints versionados e uma aba mínima na Spark UI sem interferir no job nem alterar o caminho durável existente.
 
 **Architecture:** o plugin terá uma entrada pública pequena em `io.dataship.spark.observer` e todo acesso a APIs internas do Spark ficará isolado em `org.apache.spark.dataship.v412`. Jobs, stages e SQL serão lidos dos stores nativos; apenas contadores e uma janela limitada de transições pertencerão ao plugin. Build e testes JVM usarão um container sbt/Java 17, enquanto o JAR será executado exclusivamente pelo driver no container Spark.
 
-**Tech Stack:** Spark `4.1.2`, Scala `2.13.16`/binary `2.13`, Java `17`, sbt `1.10.11`, ScalaTest `3.2.19`, PySpark, Bash, Python `3.10+`, Node `24` apenas para testes do JavaScript estático, Docker Compose.
+**Tech Stack:** Spark `4.1.2`, Scala `2.13.16`/binary `2.13`, Java `17`, sbt `1.10.11`, ScalaTest `3.2.19`, PySpark, Bash, Python `3.10+`, Node `24.13.1` exclusivamente em container para testes do JavaScript estático, Docker Compose.
 
 **Design aprovado:** `docs/spark-observer/2026-07-15-dataship-spark-observer-live-driver-design.md`
 
 ## Global Constraints
 
-- O host não deve receber Java, Scala ou sbt; ele precisa apenas das ferramentas já usadas pelo repositório, especialmente Docker e Make.
+- O host não deve receber Java, Scala, sbt ou Node; ele precisa apenas das ferramentas já usadas pelo repositório, especialmente Docker e Make.
 - A imagem de build JVM será `sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16`.
+- A imagem de testes da UI será `node:24.13.1-bookworm-slim` e todo teste JavaScript passará pelo target conteinerizado `observer-ui-tests`.
 - O runtime continuará sendo `apache/spark:4.1.2-scala2.13-java17-python3-ubuntu`.
 - Spark e Scala serão dependências `provided`; o JAR não incluirá runtime Scala nem classes Spark.
 - O artefato será `dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar`.
@@ -24,8 +27,31 @@
 - Schemas ClickHouse, loader Go, buckets/prefixos MinIO e event log nativo estão congelados para features.
 - A UI do driver será publicada somente em `127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040`.
 - O teste aceitará um único driver por vez e configurará `spark.ui.port=4040` e `spark.port.maxRetries=0`.
-- Nenhuma resposta poderá expor `SparkConf` completo, ambiente, credenciais, fonte do usuário ou SQL sem redação e truncamento.
+- A publicação `24040:4040` pertence ao container persistente `spark-master`; depois do driver, o gate exige endpoint indisponível e ausência do processo, não remoção do mapeamento Docker.
+- Toda task que alterar o JAR deverá executar `make observer-runtime-refresh` antes de qualquer prova live; esse target recompila, faz staging, reconstrói a imagem Spark e recria `spark-master` e `spark-worker`.
+- Nenhuma resposta poderá expor `SparkConf` completo, ambiente, credenciais, fonte do usuário ou descrição SQL bruta.
 - Nenhuma task poderá alterar código de tasks posteriores para “adiantar” trabalho.
+
+---
+
+## Correções incorporadas antes da Task 1
+
+| # | Decisão executável |
+| --- | --- |
+| 1 | `execution-log.md` participa de todos os checkpoints de commit. |
+| 2 | Toda prova live usa `observer-runtime-refresh` e valida o checksum do JAR no container. |
+| 3 | O gate distingue mapping persistente, endpoint temporário e processo interno do driver. |
+| 4 | Snapshot SQL não promete o literal de `spark.sql(...)`; expõe metadados e descrição identificada. |
+| 5 | Descrição fica desabilitada por default e, quando opt-in, é redigida antes do truncamento e testada contra valores sentinela. |
+| 6 | Node 24 é executado apenas por imagem fixada e target Make conteinerizado. |
+| 7 | A baseline começa com `bootstrap` e `build` antes de `validate`. |
+| 8 | Guards usam a baseline fixa, caminhos imutáveis e teste semântico do contrato MinIO/event log/History. |
+| 9 | Jobs e stages usam consulta `KVStore.max(limit + 1)`, sem materialização total via helpers de lista. |
+| 10 | Spark UI desabilitada e instalação idempotente possuem gates próprios. |
+| 11 | Runtime não suportado não promete `/health`; a guarda impede criar o adapter quando possível. |
+| 12 | `429` foi removido do v0 por YAGNI; eventual rate limit exigirá novo design e teste determinístico. |
+| 13 | O cleanup identifica e verifica o processo real dentro de `spark-master`. |
+| 14 | Vermelho válido falha no comportamento testado, nunca por target, runner ou ferramenta ausente. |
 
 ---
 
@@ -33,7 +59,7 @@
 
 Cada task é uma unidade de revisão e um commit. O executor deve seguir esta sequência:
 
-1. Confirmar branch, baseline, árvore limpa e arquivos da task.
+1. Confirmar branch, baseline fixa `89202730dfd19d35d52c35d61b739dad4fcca345`, árvore limpa e allowlist exata de arquivos da task.
 2. Registrar no `docs/spark-observer/execution-log.md`:
 
    ```text
@@ -65,18 +91,24 @@ Cada task é uma unidade de revisão e um commit. O executor deve seguir esta se
    | Próxima fatia | apenas o título, sem iniciá-la |
 
 9. Parar sem commit e aguardar o usuário responder `ACEITO`.
-10. Depois do aceite, executar somente o checkpoint de commit da task e mostrar hash/status.
+10. Depois do aceite, executar somente o checkpoint de commit da task, sempre incluindo `docs/spark-observer/execution-log.md`, e mostrar hash/status.
 11. Parar novamente. A próxima task exige um novo pedido explícito.
 
 Se qualquer gate falhar, não commitar e não iniciar outra task. Aplicar `superpowers:systematic-debugging`, registrar `FAIL` ou `BLOCKED` e pedir direção quando necessário.
 
-Antes de cada commit, este comando deve continuar sem saída:
+A partir da Task 2, toda task executará `make tests` antes do user gate para manter ativo `tests/test_observer_platform_contract.py`. Se a task alterar o JAR e possuir prova live, `make observer-runtime-refresh` é pré-condição obrigatória dessa prova.
+
+Antes de cada commit, a lista de arquivos alterados deve ser subconjunto de `Files` da task mais `docs/spark-observer/execution-log.md`. Também deve continuar sem saída:
 
 ```bash
-git diff --name-only main -- build/clickhouse build/images/eventlog-loader
+git diff --name-only 89202730dfd19d35d52c35d61b739dad4fcca345 -- \
+  build/clickhouse \
+  build/images/eventlog-loader \
+  build/images/minio/init-buckets.sh \
+  build/config/spark/spark-defaults.conf
 ```
 
-Uma saída não vazia bloqueia o commit e exige decisão de arquitetura do usuário.
+Uma saída não vazia bloqueia o commit e exige decisão de arquitetura do usuário. Como `.env.example` e `build/docker-compose.yml` recebem mudanças permitidas, seus valores do lado direito serão protegidos por testes semânticos fixados na baseline: bucket `spark-logs`, prefixo `events/`, `spark.eventLog.enabled=true` e diretórios `s3a://spark-logs/events` do event log e do History Server.
 
 ---
 
@@ -91,11 +123,11 @@ Uma saída não vazia bloqueia o commit e exige decisão de arquitetura do usuá
 | `spark.dataship.observer.transitions.capacity` | `128` | inteiro entre `1` e `1024` |
 | `spark.dataship.observer.snapshot.limit` | `50` | inteiro entre `1` e `200` |
 | `spark.dataship.observer.sql.maxLength` | `1024` | inteiro entre `64` e `8192` |
-| `spark.dataship.observer.http.maxConcurrentRequests` | `4` | inteiro entre `1` e `32` |
+| `spark.dataship.observer.sql.description.enabled` | `false` | opt-in explícito para expor a descrição fornecida pelo Spark após redação |
 | `spark.dataship.observer.testMode` | `false` | permite controles determinísticos somente nos testes |
 | `spark.dataship.observer.test.processingDelayMs` | `0` | deve ser `0` quando `testMode=false`; máximo `1000` |
 
-O runtime suportado é exatamente Spark `4.1.2`. Uma versão diferente produz estado `DEGRADED`, código `UNSUPPORTED_SPARK_VERSION` e nenhuma instalação de listener, snapshot ou aba.
+O runtime suportado é exatamente Spark `4.1.2`. Em runtime suportado, configuração inválida pode produzir `/health` com `DEGRADED`. Em versão não suportada, a guarda deve impedir a criação do adapter `v412`, registrar `UNSUPPORTED_SPARK_VERSION` e deixar o job continuar quando o classloading público permitir; não há promessa de endpoint HTTP porque o próprio handler depende das internals da UI suportada. Incompatibilidade binária ou `LinkageError` anterior à guarda continua sendo risco coberto apenas pelo build e smoke contra a imagem exata.
 
 ### Estado e rotas
 
@@ -106,6 +138,7 @@ O runtime suportado é exatamente Spark `4.1.2`. Uma versão diferente produz es
 - `GET /dataship/api/v1/snapshot?limit=N`
 - `GET /dataship/`
 - Assets: `/dataship/static/app.css` e `/dataship/static/app.js`.
+- O v0 não implementará limitador HTTP próprio nem responderá `429`; essa feature só será reaberta mediante evidência de necessidade.
 
 Toda resposta JSON bem-sucedida terá `schemaVersion`, `pluginVersion`, `sparkVersion`, `appId`, `mode` e `capturedAt`.
 
@@ -146,7 +179,7 @@ trait Spark412Bridge {
 - `spark-observer/src/main/scala/org/apache/spark/dataship/v412/`: único adapter de internals Spark 4.1.2.
 - `spark-observer/src/main/resources/io/dataship/spark/observer/ui/`: HTML/CSS/JavaScript próprios.
 - `spark-observer/src/test/scala/`: testes unitários JVM.
-- `spark-observer/src/test/js/`: testes `node:test` do polling.
+- `spark-observer/src/test/js/`: testes `node:test` executados exclusivamente pelo target conteinerizado.
 
 ### Integração local
 
@@ -163,7 +196,7 @@ trait Spark412Bridge {
 
 ## Task 1: congelar a baseline e o protocolo de evidência
 
-**Hipótese:** a plataforma existente passa seus gates sem o plugin, a porta `24040` não está publicada e o lado direito funciona antes de qualquer feature.
+**Hipótese:** a plataforma pode ser preparada a partir de checkout novo, passa seus gates sem o plugin, não publica `24040` na baseline e mantém o lado direito funcional antes de qualquer feature.
 
 **Files:**
 
@@ -173,15 +206,19 @@ trait Spark412Bridge {
 **Test first:**
 
 - [ ] Registrar branch, `HEAD`, status e nomes dos serviços.
-- [ ] Executar `make validate` e `make tests`.
+- [ ] Executar `make bootstrap`, que cria/atualiza `.env`, baixa dependências e aquece os caches ignorados pelo Git.
+- [ ] Executar `make build`, `make validate` e `make tests` nessa ordem.
+- [ ] Executar `make down` para remover containers antigos sem apagar volumes.
+- [ ] Antes de `make compose`, confirmar que nenhum listener do host ocupa `127.0.0.1:24040`.
 - [ ] Executar `make compose` e `make smoke`.
+- [ ] Executar `docker compose --env-file .env -f build/docker-compose.yml port spark-master 4040` e confirmar falha porque a baseline ainda não publica a porta.
 - [ ] Executar `curl --fail --silent --show-error http://127.0.0.1:24040/dataship/api/v1/health`.
 - [ ] Confirmar que o `curl` falha com conexão recusada porque a porta do driver ainda não existe.
 - [ ] Executar `make spark-logs` e registrar apenas contagens, nunca credenciais.
 
 **Acceptance criteria:**
 
-- `make validate`, `make tests`, `make smoke` e `make spark-logs` retornam exit code `0`.
+- `make bootstrap`, `make build`, `make validate`, `make tests`, `make smoke` e `make spark-logs` retornam exit code `0`.
 - A porta `24040` não aceita conexão.
 - O execution log registra o commit `89202730dfd19d35d52c35d61b739dad4fcca345`.
 - Nenhum arquivo de ClickHouse, loader Go, MinIO ou event log é alterado.
@@ -199,7 +236,7 @@ git commit -m "test: record Spark Observer baseline"
 
 ## Task 2: adicionar o toolchain JVM totalmente conteinerizado
 
-**Hipótese:** o módulo Scala compila e testa sem Java, Scala ou sbt instalados no host.
+**Hipótese:** o módulo Scala e os testes JavaScript compilam/testam sem Java, Scala, sbt ou Node instalados no host.
 
 **Files:**
 
@@ -212,25 +249,34 @@ git commit -m "test: record Spark Observer baseline"
 - Modify: `Makefile`
 - Modify: `build/scripts/bootstrap.sh`
 - Modify: `build/scripts/validate-bootstrap.sh`
+- Create: `spark-observer/src/test/js/toolchain.test.mjs`
+- Create: `tests/test_observer_platform_contract.py`
 
 **Interfaces:**
 
 - `BuildInfo.PluginVersion = "0.1.0-SNAPSHOT"`
 - `BuildInfo.SupportedSparkVersion = "4.1.2"`
 - `BuildInfo.ScalaBinaryVersion = "2.13"`
-- Make targets: `observer-tests` and `observer-jar`.
+- Make targets: `observer-tests`, `observer-jar` e `observer-ui-tests`.
 - `SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16`.
+- `NODE_IMAGE=node:24.13.1-bookworm-slim`.
+
+**Toolchain preparation:**
+
+- [ ] Criar o projeto sbt, os targets Docker `observer-tests`/`observer-jar` e o target Docker `observer-ui-tests` antes do teste de comportamento.
+- [ ] Fazer `bootstrap.sh` puxar as imagens sbt e Node e aquecer caches em `build/cache/sbt` e `build/cache/coursier`.
+- [ ] Criar `toolchain.test.mjs` verificando major `24` e executar `make observer-ui-tests`; esperar `PASS` dentro da imagem fixada.
+- [ ] Criar `tests/test_observer_platform_contract.py` fixando bucket `spark-logs`, prefixo `events/`, event log habilitado e os dois caminhos `s3a://spark-logs/events`; executar com `make tests` e esperar `PASS` antes de alterar `.env.example`.
 
 **Red phase:**
 
 - [ ] Criar `BuildInfoSpec` verificando as três constantes e o nome do artefato.
 - [ ] Executar `make observer-tests`.
-- [ ] Confirmar falha `No rule to make target 'observer-tests'`.
+- [ ] Confirmar falha de compilação por `BuildInfo` inexistente; ausência do Make target, Docker ou runner não é um vermelho válido.
 
 **Green phase:**
 
-- [ ] Criar o projeto sbt com Scala `2.13.16`, Spark Core/SQL `4.1.2` como `provided` e ScalaTest `3.2.19` em `Test`.
-- [ ] Fazer `bootstrap.sh` puxar a imagem sbt e aquecer caches em `build/cache/sbt` e `build/cache/coursier`.
+- [ ] Adicionar `BuildInfo` e configurar Scala `2.13.16`, Spark Core/SQL `4.1.2` como `provided` e ScalaTest `3.2.19` em `Test`.
 - [ ] Fazer os targets sbt rodarem em Docker com usuário do host e volumes de cache, sem chamar `java` ou `sbt` no host.
 - [ ] Executar `make observer-tests`; esperar todos os testes verdes.
 - [ ] Executar `make observer-jar`; esperar `spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar`.
@@ -245,9 +291,10 @@ make tests
 
 **Acceptance criteria:**
 
-- `command -v java`, `command -v scalac` e `command -v sbt` podem continuar falhando no host.
+- `command -v java`, `command -v scalac`, `command -v sbt` e `command -v node` podem continuar falhando no host.
 - Build e testes usam somente Docker.
 - Spark/Scala não são empacotados.
+- O teste de contrato do lado direito passa e será regressão obrigatória das tasks seguintes.
 - `make validate` e `make tests` continuam verdes.
 
 **User gate:** mostrar comandos, imagem usada, conteúdo relevante do JAR e parar.
@@ -255,7 +302,7 @@ make tests
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer
+git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/execution-log.md
 git commit -m "build: add containerized Spark Observer toolchain"
 ```
 
@@ -282,6 +329,7 @@ git commit -m "build: add containerized Spark Observer toolchain"
 - `executorPlugin(): ExecutorPlugin` returns `null`.
 - `ObserverConfig.from(sc.getConf)` lê `spark.dataship.observer.enabled`, com default `false`.
 - O JAR gerado é copiado para `/opt/spark/jars/` durante `make build`.
+- O target `observer-runtime-refresh` executa, nesta ordem: `observer-jar`, staging pelo `prepare-image-contexts.sh`, rebuild da imagem `SPARK_RUNTIME_IMAGE`, remoção dos containers Spark antigos, preflight da porta host quando o Compose publicar 4040 e recriação de `spark-master` e `spark-worker`.
 
 **Red phase:**
 
@@ -293,7 +341,8 @@ git commit -m "build: add containerized Spark Observer toolchain"
 
 - [ ] Implementar apenas as classes de bootstrap e o parsing da flag enabled; `init` retorna mapa vazio e não faz I/O.
 - [ ] Integrar o JAR produzido ao contexto da imagem Spark sem colocá-lo no bootstrap manifest de dependências externas.
-- [ ] Executar `make observer-tests`, `make observer-jar` e `make build`.
+- [ ] Executar `make observer-tests` e `make observer-runtime-refresh`.
+- [ ] Verificar dentro de `spark-master` que o checksum do JAR corresponde ao artefato recém-produzido no host.
 - [ ] Executar `make compose` e `make smoke` sem flags do plugin.
 - [ ] Executar `check_sanity.py` com `spark.plugins` e `spark.dataship.observer.enabled=true`.
 - [ ] Confirmar exit code `0` nos dois modos e nenhuma rota `/dataship/`.
@@ -301,6 +350,7 @@ git commit -m "build: add containerized Spark Observer toolchain"
 **Acceptance criteria:**
 
 - O JAR está em `/opt/spark/jars/`.
+- O checksum prova que a imagem/container usa o JAR recém-produzido, não um artefato anterior.
 - Estar no classpath não ativa o plugin.
 - O plugin habilitado é carregado no driver e não nos executors.
 - Nenhuma thread, listener, endpoint ou aba customizada existe ainda.
@@ -311,7 +361,7 @@ git commit -m "build: add containerized Spark Observer toolchain"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add Makefile build/scripts/prepare-image-contexts.sh spark-observer
+git add Makefile build/scripts/prepare-image-contexts.sh spark-observer docs/spark-observer/execution-log.md
 git commit -m "feat: add minimal driver-only Spark plugin"
 ```
 
@@ -319,7 +369,7 @@ git commit -m "feat: add minimal driver-only Spark plugin"
 
 ## Task 4: criar workload e harness determinísticos para prova live
 
-**Hipótese:** um `spark-submit` controlado permanece vivo tempo suficiente para duas leituras, executa dois jobs, um shuffle e SQL, e sempre limpa processo e porta.
+**Hipótese:** um `spark-submit` identificado permanece vivo tempo suficiente para duas leituras, executa dois jobs, um shuffle e SQL, e o cleanup sempre remove o driver sem confundir processo, endpoint e mapeamento Docker.
 
 **Files:**
 
@@ -335,7 +385,7 @@ git commit -m "feat: add minimal driver-only Spark plugin"
 - `observer_live_probe.py --rows 40 --partitions 4 --delay-ms 75 --hold-seconds 2`.
 - Make target `observer-live`.
 - Porta `127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040`.
-- O harness aceita `OBSERVER_ENABLED=true|false` e grava apenas artefatos temporários em `/tmp`.
+- O harness aceita `OBSERVER_ENABLED=true|false`, cria um `OBSERVER_RUN_ID` único, inclui esse ID no nome/configuração do submit e grava apenas artefatos temporários em `/tmp`.
 
 **Red phase:**
 
@@ -348,27 +398,32 @@ git commit -m "feat: add minimal driver-only Spark plugin"
 **Green phase:**
 
 - [ ] Implementar o workload com imports PySpark dentro de `main`, dois jobs, um shuffle, uma consulta `spark.sql(...)` e atraso configurável dentro do trabalho distribuído.
-- [ ] Implementar harness com preflight da porta, `trap` para TERM/INT/EXIT, PID do submit, timeout explícito e propagação do exit code.
+- [ ] Fazer `observer-runtime-refresh` remover os containers Spark antigos e, antes de recriá-los, verificar que `127.0.0.1:24040` pode ser publicada; o harness não repetirá esse preflight enquanto o container persistente possuir o mapping.
+- [ ] Implementar harness com `trap` para TERM/INT/EXIT, timeout explícito, propagação do exit code e identificação do PID real do driver dentro de `spark-master` pelo `OBSERVER_RUN_ID`.
 - [ ] Publicar a porta apenas em `127.0.0.1`.
 - [ ] Forçar `spark.ui.port=4040` e `spark.port.maxRetries=0`.
+- [ ] Executar `make observer-runtime-refresh` para aplicar a nova configuração do Compose e verificar `docker compose ... port spark-master 4040`.
 - [ ] Executar o workload com `OBSERVER_ENABLED=false` e `true`.
 - [ ] Durante ambas as execuções, consultar a raiz da Spark UI e provar HTTP `200` com o processo vivo.
 - [ ] Confirmar que `/dataship/` ainda retorna `404`.
+- [ ] Depois de cada run, confirmar que o endpoint 24040 deixa de responder, que não há processo com o `OBSERVER_RUN_ID` dentro de `spark-master` e que o mapping Docker continua publicado.
+- [ ] Executar uma segunda vez reutilizando o mesmo container/mapping e obter exit code `0`.
 
 **Acceptance criteria:**
 
 - O processo está vivo durante pelo menos duas leituras.
 - O workload termina sozinho com exit code `0` nos dois modos.
 - Há dois jobs, shuffle, múltiplos stages e uma execução SQL.
-- Falha induzida no harness não deixa processo nem porta.
+- Falha induzida no harness não deixa processo do probe nem endpoint respondendo; o mapping do container permanece, como esperado.
 - Master UI em `28081` e driver UI em `24040` são demonstradas como interfaces distintas.
+- Uma segunda execução reutiliza `24040:4040` com sucesso.
 
 **User gate:** apresentar timeline do PID, respostas HTTP e cleanup; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add .env.example Makefile build/docker-compose.yml build/scripts/run-observer-live-probe.sh src/apps/observer_live_probe.py tests/test_observer_live_probe.py
+git add .env.example Makefile build/docker-compose.yml build/scripts/run-observer-live-probe.sh src/apps/observer_live_probe.py tests/test_observer_live_probe.py docs/spark-observer/execution-log.md
 git commit -m "test: add deterministic live observer workload"
 ```
 
@@ -390,19 +445,21 @@ git commit -m "test: add deterministic live observer workload"
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala`
 - Create: `build/scripts/assert-observer-response.py`
 - Create: `tests/test_observer_response_assertions.py`
-- Modify: `SparkDataShipDriverPlugin.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 
 **Interfaces:**
 
 - `init(sc, context)` valida configuração, guarda referências e não instala HTTP.
-- `registerMetrics(appId, context)` instala o handler uma vez.
+- `registerMetrics(appId, context)` instala o handler no máximo uma vez quando a Spark UI suportada existe.
 - `shutdown()` muda para `STOPPING` e fecha recursos idempotentemente.
 - JSON health contém o envelope e `status`, `uiAttached`, `listenerInstalled`, `supportedRuntime`, `queueCapacity`, `lastErrorCode`.
+- Sem Spark UI, o plugin registra o código estável `NO_SPARK_UI`, não instala handlers e deixa o job terminar; não há endpoint HTTP a consultar.
 
 **Red phase:**
 
 - [ ] Criar testes de config, envelope, estados e serialização sem campos extras.
+- [ ] Criar testes do installer chamado duas vezes e do caminho `context.ui.isEmpty`.
 - [ ] Criar testes Python que rejeitam status, content type, JSON ou campos incorretos.
 - [ ] Executar `make observer-tests` e os dois testes Python; confirmar falhas esperadas.
 - [ ] Executar o harness esperando `/health`; confirmar `404`.
@@ -413,9 +470,12 @@ git commit -m "test: add deterministic live observer workload"
 - [ ] Usar Jackson fornecido pelo Spark para serializar somente maps/lists/primitivos allowlisted.
 - [ ] Implementar o adapter v4.1.2 sob `org.apache.spark.dataship.v412`.
 - [ ] Anexar o servlet à mesma Spark UI, sem iniciar servidor adicional.
+- [ ] Tornar a instalação idempotente e tratar Spark UI ausente como degradação isolada.
 - [ ] Implementar espera com timeout no harness e validação via Python, sem `jq`.
+- [ ] Executar `make observer-runtime-refresh` e confirmar por checksum que o container recebeu o JAR desta task antes do teste live.
 - [ ] Executar teste live e coletar duas respostas health com o submit vivo.
-- [ ] Após shutdown, provar que a porta é liberada para uma segunda execução.
+- [ ] Após shutdown, provar endpoint indisponível, ausência do processo identificado dentro do container e sucesso de uma segunda execução no mesmo mapping.
+- [ ] Executar o workload com `spark.ui.enabled=false`; exigir exit code `0` e `NO_SPARK_UI` no log redigido, sem prometer `/health`.
 
 **Acceptance criteria:**
 
@@ -424,15 +484,17 @@ git commit -m "test: add deterministic live observer workload"
 - `appId` não é vazio, `status=READY`, `uiAttached=true`, `supportedRuntime=true`.
 - `capturedAt` é ISO-8601 UTC e não é comparado como literal.
 - `init` não faz I/O nem scan de store.
+- Duas chamadas de instalação não duplicam handler nem recurso.
+- Com `spark.ui.enabled=false`, o job conclui e nenhum handler é instalado.
 - Com `spark.plugins` presente e `enabled=false`, apenas `/health` responde `DISABLED`; listener, snapshot e aba não são instalados.
-- Duas execuções consecutivas não encontram thread ou porta presa.
+- Duas execuções consecutivas não encontram thread ou processo preso e reutilizam o mapping persistente.
 
-**User gate:** apresentar o JSON real redigido, PID vivo e segunda execução; parar.
+**User gate:** apresentar o JSON real allowlisted, processo interno vivo e segunda execução; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh tests/test_observer_response_assertions.py
+git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh tests/test_observer_response_assertions.py docs/spark-observer/execution-log.md
 git commit -m "feat: expose observer lifecycle health"
 ```
 
@@ -450,8 +512,8 @@ git commit -m "feat: expose observer lifecycle health"
 - Create: `spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala`
-- Modify: `ObserverConfig.scala`
-- Modify: `ObserverRuntime.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala`
 
 **Interfaces:**
 
@@ -474,6 +536,7 @@ git commit -m "feat: expose observer lifecycle health"
 - [ ] Interromper e aguardar o worker no shutdown sem chamar funções Spark.
 - [ ] Executar os specs repetidamente cinquenta vezes para detectar flakiness.
 - [ ] Executar `make observer-tests` e `make tests`.
+- [ ] Executar `make observer-runtime-refresh` antes da regressão live e confirmar que `/health` da Task 5 continua funcionando com o JAR atual.
 
 **Acceptance criteria:**
 
@@ -488,7 +551,7 @@ git commit -m "feat: expose observer lifecycle health"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer/src/main/scala/io/dataship/spark/observer/events spark-observer/src/test/scala/io/dataship/spark/observer/events spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala
+git add spark-observer/src/main/scala/io/dataship/spark/observer/events spark-observer/src/test/scala/io/dataship/spark/observer/events spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala docs/spark-observer/execution-log.md
 git commit -m "feat: add bounded observer event handoff"
 ```
 
@@ -505,9 +568,9 @@ git commit -m "feat: add bounded observer event handoff"
 - Create: `spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala`
-- Modify: `Spark412Bridge.scala`
-- Modify: `ObserverRuntime.scala`
-- Modify: `HealthResponse.scala`
+- Modify: `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 
 **Interfaces:**
@@ -527,6 +590,7 @@ git commit -m "feat: add bounded observer event handoff"
 - [ ] Implementar callback O(1): classificar, contar e chamar `offer`.
 - [ ] Instalar o listener com `sc.listenerBus.addToQueue(listener, "dataship-observer")` somente no adapter v4.1.2.
 - [ ] Instalar endpoint de contadores e atualizar health para `listenerInstalled=true`.
+- [ ] Executar `make observer-runtime-refresh` e validar o checksum antes dos cenários live.
 - [ ] Executar live normal; exigir `listenerReceived(t2) > listenerReceived(t1)`.
 - [ ] Executar live com capacidade `1`, `testMode=true` e delay controlado; exigir `droppedByPlugin > 0`.
 - [ ] Confirmar resultado e exit code idênticos ao run sem delay.
@@ -545,7 +609,7 @@ git commit -m "feat: add bounded observer event handoff"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/run-observer-live-probe.sh
+git add spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
 git commit -m "feat: expose live listener counters"
 ```
 
@@ -564,7 +628,7 @@ git commit -m "feat: expose live listener counters"
 - Create: `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala`
-- Modify: `Spark412Bridge.scala`
+- Modify: `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 
 **Interfaces:**
@@ -573,6 +637,7 @@ git commit -m "feat: expose live listener counters"
 - Tasks aparecem somente como agregados dentro de `StageView`.
 - Parâmetro `limit` aceita `1..200`; ausência usa config `50`.
 - Resposta informa `truncated=true|false`.
+- Jobs e stages são lidos diretamente do `KVStore` com `.max(limit + 1)`; `AppStatusStore.jobsList` e `stageList` não podem ser usados porque materializam toda a retenção antes do corte.
 
 **Red phase:**
 
@@ -585,8 +650,9 @@ git commit -m "feat: expose live listener counters"
 
 - [ ] Implementar service contra a interface fake antes do adapter real.
 - [ ] Implementar adapter read-only sobre `AppStatusStore` dentro do namespace v4.1.2.
-- [ ] Não chamar `taskList` sem limite nem materializar map de tasks.
+- [ ] Implementar as consultas de jobs/stages no `KVStore` com limite real `limit + 1`, sem `jobsList`, `stageList`, `taskList` ilimitado ou map de tasks.
 - [ ] Instalar servlet com `200`, `400`, `409` e `500` isolado.
+- [ ] Executar `make observer-runtime-refresh` e validar o checksum antes do polling live.
 - [ ] Executar live e capturar um job/stage ativo em `t1` e finalizado em `t2`.
 - [ ] Executar com `limit=1` e provar truncamento.
 
@@ -595,6 +661,7 @@ git commit -m "feat: expose live listener counters"
 - Uma transição `RUNNING -> SUCCEEDED` é vista com submit vivo.
 - Contagens de tasks por stage são coerentes e não negativas.
 - Coleções nunca excedem o limite solicitado.
+- O adapter busca no máximo `limit + 1` registros para decidir `truncated`; o custo residual é limitado também pelas retenções configuradas da Spark UI.
 - Nenhum objeto Spark é serializado diretamente.
 - Falta temporária da store retorna `409`, não falha o driver.
 
@@ -603,64 +670,73 @@ git commit -m "feat: expose live listener counters"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/run-observer-live-probe.sh
+git add spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
 git commit -m "feat: expose live job and stage snapshots"
 ```
 
 ---
 
-## Task 9: acrescentar snapshot SQL com redação e sem fonte inventada
+## Task 9: acrescentar snapshot de execução SQL com descrição opt-in e sem fonte inventada
 
-**Hipótese:** SQL real aparece live e termina, enquanto DataFrame API sem texto SQL permanece descrita apenas pelos dados que o Spark fornece.
+**Hipótese:** metadados de uma execução SQL aparecem live e terminam; o v0 não afirma capturar o texto passado a `spark.sql(...)`, e qualquer descrição fornecida pelo status store permanece oculta por default ou é redigida quando explicitamente habilitada.
 
 **Files:**
 
 - Create: `spark-observer/src/main/scala/io/dataship/spark/observer/api/TextRedactor.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/api/TextRedactorSpec.scala`
 - Create: `spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SqlSnapshotSpec.scala`
-- Modify: `SnapshotModels.scala`
-- Modify: `LiveSnapshotService.scala`
-- Modify: `Spark412SnapshotSource.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotModels.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/LiveSnapshotService.scala`
+- Modify: `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
+- Modify: `spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 - Modify: `src/apps/observer_live_probe.py`
 
 **Interfaces:**
 
-- `SqlExecutionView` contém somente id, status, description, start/end e indicador `textAvailable`.
-- Redação usa as regexes de redação do Spark e depois aplica truncamento em `spark.dataship.observer.sql.maxLength`.
-- Ausência de SQL textual produz `textAvailable=false`; não usa fonte Python, stack trace ou plano como substituto.
+- `SqlExecutionView` contém somente id, status, `description`, start/end, `descriptionAvailable` e `descriptionSource`.
+- `descriptionSource` poderá ser apenas `SPARK_STATUS_STORE` ou `NONE`; ele nunca será rotulado como `SQL_TEXT`.
+- Com `spark.dataship.observer.sql.description.enabled=false`, `description=null`, `descriptionAvailable=false` e `descriptionSource=NONE`.
+- Quando habilitada, a descrição passa por `spark.redaction.string.regex` quando configurada e por uma política conservadora do plugin para assignments sensíveis, bearer tokens e access keys; qualquer correspondência duvidosa pode reduzir a descrição inteira a `[REDACTED]`.
+- Redação ocorre antes do truncamento em `spark.dataship.observer.sql.maxLength`.
+- Ausência de descrição confiável não usa fonte Python, stack trace, plano ou o argumento de `spark.sql(...)` como substituto.
 
 **Red phase:**
 
-- [ ] Criar specs com senha, access key, bearer token, string longa e texto ausente.
+- [ ] Criar specs provando descrição desabilitada por default, `spark.redaction.string.regex`, senha, valor de access key, valor de bearer token, string longa e descrição ausente.
 - [ ] Criar teste do adapter com eventos SQL start/end.
 - [ ] Acrescentar ao harness exigência de execução SQL ativa/final.
 - [ ] Executar e confirmar falhas esperadas.
 
 **Green phase:**
 
-- [ ] Implementar redação antes do truncamento.
+- [ ] Implementar allowlist, opt-in e redação antes do truncamento.
 - [ ] Localizar a store/listener SQL somente no adapter v4.1.2.
 - [ ] Mapear estado sem instrumentar `SparkPlan`, extensions ou AQE.
-- [ ] Executar live com `spark.sql(...)`; capturar ativo e final.
-- [ ] Executar caminho DataFrame API; provar `textAvailable=false` quando texto original não existe.
+- [ ] Executar `make observer-runtime-refresh` e validar o checksum antes dos cenários live.
+- [ ] Executar live com `spark.sql(...)`; capturar a execução ativa e final sem exigir o SQL literal.
+- [ ] Executar o default e provar `descriptionAvailable=false`.
+- [ ] Executar um fixture sintético que define `spark.job.description`, habilita a descrição e configura redação de string; documentar explicitamente que isso testa redação, não captura universal do SQL.
+- [ ] Executar caminho DataFrame API; provar que nenhum código-fonte é reconstruído.
 - [ ] Examinar JSON e confirmar ausência dos valores sensíveis de teste.
 
 **Acceptance criteria:**
 
-- SQL literal aparece redigido e limitado.
+- Uma execução iniciada por `spark.sql(...)` aparece por id/status, sem promessa de SQL literal.
+- Descrição fica ausente por default; no fixture sintético opt-in, aparece redigida, truncada e rotulada `SPARK_STATUS_STORE`.
 - Uma transição SQL live é observada.
 - DataFrame API não recebe código-fonte reconstruído.
 - Nenhum plano é envolvido, reescrito ou modificado.
 - Respostas não contêm segredo conhecido do fixture.
 
-**User gate:** apresentar SQL redigido, transição e caso DataFrame; parar.
+**User gate:** apresentar metadados/transição, descrição sintética redigida e caso DataFrame; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer src/apps/observer_live_probe.py build/scripts/run-observer-live-probe.sh
-git commit -m "feat: add redacted live SQL snapshots"
+git add spark-observer src/apps/observer_live_probe.py build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
+git commit -m "feat: add safe live SQL execution snapshots"
 ```
 
 ---
@@ -679,7 +755,7 @@ git commit -m "feat: add redacted live SQL snapshots"
 - Create: `spark-observer/src/main/resources/io/dataship/spark/observer/ui/app.js`
 - Create: `spark-observer/src/test/scala/org/apache/spark/dataship/v412/DataShipUITabSpec.scala`
 - Create: `spark-observer/src/test/js/polling.test.mjs`
-- Modify: `Spark412Bridge.scala`
+- Modify: `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala`
 - Modify: `Makefile`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 
@@ -694,7 +770,8 @@ git commit -m "feat: add redacted live SQL snapshots"
 
 - [ ] Criar spec que exige tab, page e recursos no classpath.
 - [ ] Criar teste `node:test` com relógio/fetch fake que exige intervalo de um segundo e parada terminal.
-- [ ] Executar `make observer-tests` e `node --test spark-observer/src/test/js/polling.test.mjs`; confirmar falhas.
+- [ ] Executar `make observer-tests` e `make observer-ui-tests`; confirmar falhas de comportamento por tab/assets/exports ausentes, nunca por Node ou target ausente.
+- [ ] Criar spec que chama o installer duas vezes e exige apenas uma tab e um conjunto de handlers.
 - [ ] Acrescentar ao harness `GET /dataship/` e assets; confirmar `404`.
 
 **Green phase:**
@@ -703,7 +780,8 @@ git commit -m "feat: add redacted live SQL snapshots"
 - [ ] Empacotar assets no JAR e anexar handler estático pelo adapter v4.1.2.
 - [ ] Fazer polling apenas de health, counters e snapshot limitado.
 - [ ] Parar polling em `DISABLED`, `STOPPING`, app final, unload ou abort.
-- [ ] Executar testes Scala, JavaScript e live.
+- [ ] Executar `make observer-tests`, `make observer-ui-tests` e `make observer-runtime-refresh`; validar o checksum antes do live.
+- [ ] Executar o cenário live e o cenário `spark.ui.enabled=false` já definido na Task 5.
 - [ ] Inspecionar o JAR e confirmar os três assets.
 
 **Acceptance criteria:**
@@ -714,13 +792,14 @@ git commit -m "feat: add redacted live SQL snapshots"
 - Polling usa um segundo e para nos estados definidos.
 - Falha de fetch exibe estado degradado local, sem afetar o job.
 - Não há nome, logo, asset ou código visual do DataFlint.
+- Instalação repetida não duplica aba ou handlers; sem Spark UI, o job continua sem aba.
 
 **User gate:** apresentar HTML/requests, teste de polling e job concluído; parar.
 
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add Makefile spark-observer build/scripts/run-observer-live-probe.sh
+git add Makefile spark-observer build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
 git commit -m "feat: add minimal DataShip Spark UI tab"
 ```
 
@@ -728,49 +807,50 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 
 ## Task 11: provar fail-open, limites e segurança
 
-**Hipótese:** configuração inválida, runtime não suportado, snapshot quebrado, fila cheia e excesso de requests degradam somente o observador.
+**Hipótese:** configuração inválida, runtime não suportado, snapshot quebrado, fila cheia e polling acelerado degradam somente o observador, sem introduzir um limitador HTTP não justificado no v0.
 
 **Files:**
 
-- Create: `spark-observer/src/main/scala/io/dataship/spark/observer/api/RequestLimiter.scala`
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/FailOpenSpec.scala`
-- Create: `spark-observer/src/test/scala/io/dataship/spark/observer/api/RequestLimiterSpec.scala`
-- Modify: `ObserverConfig.scala`
-- Modify: `ObserverRuntime.scala`
-- Modify: `SparkDataShipDriverPlugin.scala`
-- Modify: servlets em `spark-observer/src/main/scala/io/dataship/spark/observer/api/`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotServlet.scala`
 - Modify: `build/scripts/assert-observer-response.py`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 
 **Interfaces:**
 
 - Erros públicos são códigos estáveis; stack traces permanecem apenas no log redigido.
-- Limite concorrente default `4`; excedentes recebem `429`.
 - Erro isolado do snapshot recebe `500`, health continua disponível e o job continua.
-- Config inválida recebe `DEGRADED` com `INVALID_CONFIG`.
+- Config inválida em Spark 4.1.2 recebe `DEGRADED` com `INVALID_CONFIG`.
+- Versão não suportada impede a factory do adapter `v412`, registra `UNSUPPORTED_SPARK_VERSION` e não promete rota HTTP.
+- Não existe resposta `429` no contrato v0; proteção HTTP própria só entra em outro design se medições demonstrarem necessidade.
 
 **Red phase:**
 
-- [ ] Criar testes unitários para cada falha e limite.
-- [ ] Criar integração que dispara requests concorrentes acima do limite.
+- [ ] Criar testes unitários para cada fronteira de falha e para a guarda que prova que a factory `v412` não é chamada em versão diferente.
+- [ ] Criar integração com polling acelerado por intervalo fixo, sem expectativa de `429`.
 - [ ] Criar fixtures com credenciais sentinela para MinIO/ClickHouse sem imprimir valores.
 - [ ] Executar testes e confirmar que os comportamentos ainda não existem.
 
 **Green phase:**
 
 - [ ] Implementar fail-open por fronteira: config, listener, snapshot, servlet e UI.
-- [ ] Implementar semáforo não bloqueante do HTTP.
 - [ ] Garantir que qualquer erro atualiza `internalFailures` e `lastErrorCode`.
-- [ ] Executar cenário de fila cheia, snapshot falho e excesso de polling.
+- [ ] Executar `make observer-runtime-refresh` e validar o checksum antes dos cenários live.
+- [ ] Executar cenário de fila cheia, snapshot falho e polling acelerado.
 - [ ] Executar scan automatizado das respostas contra valores sentinela.
 - [ ] Confirmar que cada workload termina com mesmo resultado e exit code `0`.
 
 **Acceptance criteria:**
 
 - Nenhum cenário controlado derruba o driver.
-- `429` aparece somente quando a concorrência excede o limite.
+- Polling acelerado não derruba o driver e não adiciona código/contrato `429` ao v0.
 - Após um `500` de snapshot, `/health` ainda responde.
-- Config e versão inválidas são explícitas e não instalam coleta incompatível.
+- Config inválida no runtime suportado é visível em `/health`; versão não suportada não instancia o adapter e é comprovada por código/log estável, não por endpoint.
 - Respostas não expõem credenciais, ambiente, stack trace ou SparkConf completo.
 - Fila cheia continua não bloqueante.
 
@@ -779,7 +859,7 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh
+git add spark-observer build/scripts/assert-observer-response.py build/scripts/run-observer-live-probe.sh docs/spark-observer/execution-log.md
 git commit -m "feat: make Spark Observer fail open"
 ```
 
@@ -803,19 +883,24 @@ git commit -m "feat: make Spark Observer fail open"
 - Make target `observer-smoke`.
 - O script produz um resumo final `PASS`/`FAIL` e preserva artefatos de falha sem segredos.
 
+**Harness preparation:**
+
+- [ ] Criar o target `observer-smoke` e o entrypoint executável antes do teste de comportamento; falha por target/script ausente não conta como vermelho.
+
 **Red phase:**
 
 - [ ] Escrever o gate exigindo os 12 critérios do design.
 - [ ] Executar `make observer-smoke`.
-- [ ] Confirmar falha porque o target/script consolidado ainda não existe.
+- [ ] Confirmar exit code diferente de zero no primeiro critério comportamental ainda não orquestrado, com mensagem `FAIL` específica; erro de Make, permissão ou ferramenta não é um vermelho válido.
 
 **Green phase:**
 
-- [ ] Orquestrar build, compose, submit live, health, counters `t1/t2`, snapshots, transição, UI, backpressure, fail-open, plugin off e cleanup.
+- [ ] Iniciar com `make observer-runtime-refresh`, validar checksum e então orquestrar compose, submit live, health, counters `t1/t2`, snapshots, transição, UI, backpressure, fail-open, plugin off e cleanup.
 - [ ] Confirmar automaticamente processo vivo em cada prova HTTP.
 - [ ] Executar `make validate`, `make tests`, `make observer-tests`, `make smoke` e `make spark-logs`.
 - [ ] Confirmar event logs em `spark-logs/events`, aplicação no History Server e carga existente no ClickHouse.
-- [ ] Comparar schemas e arquivos congelados com `main`; exigir diff vazio.
+- [ ] Comparar os caminhos congelados com `89202730dfd19d35d52c35d61b739dad4fcca345`; exigir diff vazio.
+- [ ] Validar semanticamente no Compose/config final: bucket `spark-logs`, prefixo `events/`, event log habilitado e caminhos `s3a://spark-logs/events` de Spark e History.
 - [ ] Documentar comandos operacionais e matriz exata suportada.
 
 **Acceptance criteria:**
@@ -825,7 +910,7 @@ git commit -m "feat: make Spark Observer fail open"
 - Event log, History, loader e ClickHouse continuam nos caminhos atuais.
 - Nenhum schema ClickHouse, loader Go, bucket ou prefixo muda.
 - Todos os comandos retornam exit code `0`.
-- A árvore fica limpa após cleanup e antes do commit.
+- Antes do commit, o status contém somente os arquivos da Task 12 e `execution-log.md`; depois do commit, a árvore fica limpa.
 
 **User gate:** apresentar relatório final completo e parar.
 
@@ -852,7 +937,7 @@ O histórico esperado será:
 6. fila interna limitada;
 7. listener e contadores;
 8. snapshots de jobs/stages;
-9. snapshot SQL redigido;
+9. metadados SQL e descrição opt-in redigida;
 10. aba DataShip;
 11. fail-open e segurança;
 12. E2E e regressão durável.
