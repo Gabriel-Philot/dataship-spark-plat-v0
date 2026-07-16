@@ -1,0 +1,37 @@
+Script started on 2026-07-16 14:23:38+01:00 [COMMAND="bash .superpowers/sdd/capture-task2-tests.sh" <not executed on terminal>]
+$ make observer-tests
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] BuildInfoSpec:
+[info] - publishes the plugin version
+[info] - publishes the supported Spark version
+[info] - publishes the Scala binary version
+[info] - publishes the expected artifact name
+[info] Run completed in 233 milliseconds.
+[info] Total number of tests run: 4
+[info] Suites: completed 1, aborted 0
+[info] Tests: succeeded 4, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 16, 2026, 1:23:43 PM
+
+$ make observer-ui-tests
+✔ uses the pinned Node 24 toolchain (1.347918ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 76.006141
+
+$ make tests
+.................                                                        [100%]
+17 passed in 0.07s
+
+$ make validate
+Validation passed
+
+Script done on 2026-07-16 14:23:48+01:00 [COMMAND_EXIT_CODE="0"]

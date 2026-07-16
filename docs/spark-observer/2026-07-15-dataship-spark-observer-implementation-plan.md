@@ -8,7 +8,7 @@
 
 **Architecture:** o plugin terá uma entrada pública pequena em `io.dataship.spark.observer` e todo acesso a APIs internas do Spark ficará isolado em `org.apache.spark.dataship.v412`. Jobs, stages e SQL serão lidos dos stores nativos; apenas contadores e uma janela limitada de transições pertencerão ao plugin. Build e testes JVM usarão um container sbt/Java 17, enquanto o JAR será executado exclusivamente pelo driver no container Spark.
 
-**Tech Stack:** Spark `4.1.2`, Scala `2.13.16`/binary `2.13`, Java `17`, sbt `1.10.11`, ScalaTest `3.2.19`, PySpark, Bash, Python `3.10+`, Node `24.13.1` exclusivamente em container para testes do JavaScript estático, Docker Compose.
+**Tech Stack:** Spark `4.1.2`, Scala `2.13.17`/binary `2.13`, Java `17`, sbt `1.10.11`, ScalaTest `3.2.19`, PySpark, Bash, Python `3.10+`, Node `24.13.1` exclusivamente em container para testes do JavaScript estático, Docker Compose.
 
 **Design aprovado:** `docs/spark-observer/2026-07-15-dataship-spark-observer-live-driver-design.md`
 
@@ -16,6 +16,7 @@
 
 - O host não deve receber Java, Scala, sbt ou Node; ele precisa apenas das ferramentas já usadas pelo repositório, especialmente Docker e Make.
 - A imagem de build JVM será `sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16`.
+- A tag da imagem sbt permanece fixada em `2.13.16`, mas o projeto e suas dependências Scala usarão `2.13.17`, alinhados ao runtime real do Spark `4.1.2`.
 - A imagem de testes da UI será `node:24.13.1-bookworm-slim` e todo teste JavaScript passará pelo target conteinerizado `observer-ui-tests`.
 - O runtime continuará sendo `apache/spark:4.1.2-scala2.13-java17-python3-ubuntu`.
 - Spark e Scala serão dependências `provided`; o JAR não incluirá runtime Scala nem classes Spark.
@@ -257,6 +258,7 @@ git commit -m "test: record Spark Observer baseline"
 - Modify: `Makefile`
 - Modify: `build/scripts/bootstrap.sh`
 - Modify: `build/scripts/validate-bootstrap.sh`
+- Modify: `docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-plan.md`
 - Create: `spark-observer/src/test/js/toolchain.test.mjs`
 - Create: `tests/test_observer_platform_contract.py`
 
@@ -284,7 +286,7 @@ git commit -m "test: record Spark Observer baseline"
 
 **Green phase:**
 
-- [ ] Adicionar `BuildInfo` e configurar Scala `2.13.16`, Spark Core/SQL `4.1.2` como `provided` e ScalaTest `3.2.19` em `Test`.
+- [ ] Adicionar `BuildInfo` e configurar Scala `2.13.17`, alinhado ao runtime do Spark `4.1.2`, Spark Core/SQL `4.1.2` como `provided` e ScalaTest `3.2.19` em `Test`.
 - [ ] Fazer os targets sbt rodarem em Docker com usuário do host e volumes de cache, sem chamar `java` ou `sbt` no host.
 - [ ] Executar `make observer-tests`; esperar todos os testes verdes.
 - [ ] Executar `make observer-jar`; esperar `spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar`.
@@ -312,7 +314,7 @@ make tests
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-02
+git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-plan.md docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-02
 git commit -m "build: add containerized Spark Observer toolchain"
 ```
 

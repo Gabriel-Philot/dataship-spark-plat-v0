@@ -13,3 +13,7 @@ build/images/spark/context/
 .pytest_cache/
 .ruff_cache/
 *.py[cod]
+spark-observer/.bsp/
+spark-observer/.metals/
+spark-observer/project/target/
+spark-observer/target/

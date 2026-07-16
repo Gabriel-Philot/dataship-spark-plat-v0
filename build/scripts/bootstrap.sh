@@ -33,7 +33,10 @@ MANIFEST="$JARS_DIR/.bootstrap-manifest"
 REQ_FILE="$ROOT_DIR/build/images/spark/requirements.txt"
 WHEELS_DIR="$ROOT_DIR/build/cache/python-wheels"
 WHEELS_MANIFEST="$WHEELS_DIR/.requirements.sha256"
-mkdir -p "$JARS_DIR" "$WHEELS_DIR" build/var/minio-data build/var/clickhouse-data build/var/clickhouse-logs build/var/metrics build/cache
+SBT_CACHE_DIR="$ROOT_DIR/build/cache/sbt"
+COURSIER_CACHE_DIR="$ROOT_DIR/build/cache/coursier"
+OBSERVER_CACHE_MARKER="$SBT_CACHE_DIR/.observer-bootstrap.sha256"
+mkdir -p "$JARS_DIR" "$WHEELS_DIR" "$SBT_CACHE_DIR" "$COURSIER_CACHE_DIR" build/var/minio-data build/var/clickhouse-data build/var/clickhouse-logs build/var/metrics build/cache
 
 required_tools=(docker sha256sum)
 for tool in "${required_tools[@]}"; do
@@ -71,6 +74,21 @@ ensure_uv() {
 
 ensure_uv
 
+observer_cache_fingerprint() {
+  local build_sbt_hash
+  local build_properties_hash
+  build_sbt_hash="$(sha256sum "$ROOT_DIR/spark-observer/build.sbt" | awk '{print $1}')"
+  build_properties_hash="$(sha256sum "$ROOT_DIR/spark-observer/project/build.properties" | awk '{print $1}')"
+  printf '%s\n' \
+    "SBT_IMAGE=$SBT_IMAGE" \
+    "spark-observer/build.sbt=$build_sbt_hash" \
+    "spark-observer/project/build.properties=$build_properties_hash" \
+    | sha256sum \
+    | awk '{print $1}'
+}
+
+OBSERVER_CACHE_FINGERPRINT="$(observer_cache_fingerprint)"
+
 echo "Syncing project Python dependencies with uv..."
 uv sync
 
@@ -80,6 +98,23 @@ docker pull "$GO_BASE_IMAGE"
 docker pull "$MINIO_BASE_IMAGE"
 docker pull "$MINIO_MC_BASE_IMAGE"
 docker pull "$CLICKHOUSE_BASE_IMAGE"
+docker pull "$SBT_IMAGE"
+docker pull "$NODE_IMAGE"
+
+echo "Warming sbt and Coursier caches for Spark Observer..."
+rm -f "$OBSERVER_CACHE_MARKER"
+docker run --rm \
+  --user "$(id -u):$(id -g)" \
+  -e HOME=/tmp \
+  -e COURSIER_CACHE=/cache/coursier \
+  -e SBT_OPTS="-Dsbt.global.base=/cache/sbt/global -Dsbt.boot.directory=/cache/sbt/boot -Dsbt.ivy.home=/cache/sbt/ivy -Dsbt.supershell=false" \
+  -v "$ROOT_DIR:/workspace" \
+  -v "$SBT_CACHE_DIR:/cache/sbt" \
+  -v "$COURSIER_CACHE_DIR:/cache/coursier" \
+  -w /workspace/spark-observer \
+  "$SBT_IMAGE" \
+  sbt update
+printf '%s\n' "$OBSERVER_CACHE_FINGERPRINT" > "$OBSERVER_CACHE_MARKER"
 
 manifest_complete=false
 if [[ -f "$MANIFEST" ]]; then

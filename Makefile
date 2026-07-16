@@ -3,16 +3,30 @@ ROOT_DIR := $(CURDIR)
 ENV_FILE := $(ROOT_DIR)/.env
 COMPOSE_FILE := $(ROOT_DIR)/build/docker-compose.yml
 COMPOSE := docker compose --env-file $(ENV_FILE) -f $(COMPOSE_FILE)
+SBT_CACHE_DIR := $(ROOT_DIR)/build/cache/sbt
+COURSIER_CACHE_DIR := $(ROOT_DIR)/build/cache/coursier
 
 include .env.example
 -include .env
 
-.PHONY: bootstrap build validate compose ingest-landing bronze sanity smoke spark-logs services test tests down removeimage clean-data
+.PHONY: bootstrap build validate compose ingest-landing bronze sanity smoke spark-logs services test tests observer-tests observer-jar observer-ui-tests down removeimage clean-data
 
 SPARK_SUBMIT := $(COMPOSE) exec -T spark-master env PYTHONPATH=/opt/spark/src /opt/spark/bin/spark-submit \
 	--master spark://spark-master:7077 \
 	--deploy-mode client \
 	--conf spark.executorEnv.PYTHONPATH=/opt/spark/src
+
+OBSERVER_SBT := docker run --rm \
+	--user "$$(id -u):$$(id -g)" \
+	--env HOME=/tmp \
+	--env COURSIER_CACHE=/cache/coursier \
+	--env SBT_OPTS="-Dsbt.global.base=/cache/sbt/global -Dsbt.boot.directory=/cache/sbt/boot -Dsbt.ivy.home=/cache/sbt/ivy -Dsbt.supershell=false" \
+	--volume "$(ROOT_DIR):/workspace" \
+	--volume "$(SBT_CACHE_DIR):/cache/sbt" \
+	--volume "$(COURSIER_CACHE_DIR):/cache/coursier" \
+	--workdir /workspace/spark-observer \
+	"$(SBT_IMAGE)" \
+	sbt
 
 bootstrap:
 	@build/scripts/bootstrap.sh
@@ -81,6 +95,22 @@ test: tests
 
 tests:
 	@uv run pytest
+
+observer-tests:
+	@mkdir -p "$(SBT_CACHE_DIR)" "$(COURSIER_CACHE_DIR)"
+	@$(OBSERVER_SBT) test
+
+observer-jar:
+	@mkdir -p "$(SBT_CACHE_DIR)" "$(COURSIER_CACHE_DIR)"
+	@$(OBSERVER_SBT) package
+
+observer-ui-tests:
+	@docker run --rm \
+		--user "$$(id -u):$$(id -g)" \
+		--volume "$(ROOT_DIR):/workspace:ro" \
+		--workdir /workspace \
+		"$(NODE_IMAGE)" \
+		node --test spark-observer/src/test/js/toolchain.test.mjs
 
 down:
 	@$(COMPOSE) down

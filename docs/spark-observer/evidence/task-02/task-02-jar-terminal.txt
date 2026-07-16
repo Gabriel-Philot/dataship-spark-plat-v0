@@ -1,0 +1,25 @@
+Script started on 2026-07-16 14:23:58+01:00 [COMMAND="bash .superpowers/sdd/capture-task2-jar.sh" <not executed on terminal>]
+$ make observer-jar
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[success] Total time: 1 s, completed Jul 16, 2026, 1:24:03 PM
+
+$ jar tf spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar  # inside the pinned sbt container
+META-INF/MANIFEST.MF
+io/
+io/dataship/
+io/dataship/spark/
+io/dataship/spark/observer/
+io/dataship/spark/observer/BuildInfo$.class
+io/dataship/spark/observer/BuildInfo.class
+PASS: no org/apache/spark/ or scala/ entries
+
+$ wc -c spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+2522 spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+$ sha256sum spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+ba3e358661a8e707eb238c5a00cfcdcd60bb02c14d44d3485c123da97630019c  spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+Script done on 2026-07-16 14:24:05+01:00 [COMMAND_EXIT_CODE="0"]
