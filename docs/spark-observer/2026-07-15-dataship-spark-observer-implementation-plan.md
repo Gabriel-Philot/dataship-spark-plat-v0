@@ -338,7 +338,7 @@ script -qefc 'make observer-verify' \
   docs/spark-observer/evidence/task-02/task-02-reproducible-verification.txt
 ```
 
-- [ ] Confirmar no header do transcript `COMMAND="make observer-verify"`, commit `967035b...` e `COMMAND_EXIT_CODE="0"`.
+- [ ] Confirmar no header do transcript `COMMAND="make observer-verify"`, commit `4ed06277a2b94a486dd5b42c78abfae930403534` e `COMMAND_EXIT_CODE="0"`.
 - [ ] Renderizar uma captura Playwright desse transcript e atualizar o relatório visual.
 - [ ] Não recriar o RED original removendo `BuildInfo`. Como nenhum transcript bruto original foi conservado, registrar apenas essa ausência e manter o RED documental existente.
 

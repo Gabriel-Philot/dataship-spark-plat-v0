@@ -27,8 +27,8 @@ Os targets `observer-tests` e `observer-jar` executam como UID/GID do host, mont
 
 | Gate | Resultado |
 | --- | --- |
-| Contrato Python | `make tests`: `17 passed in 0.05s` |
-| Contrato focado da plataforma | `5 passed` |
+| Contrato Python | `make tests`: `18 passed in 0.06s` |
+| Contrato focado da plataforma | `6 passed` |
 | Scala | `make observer-tests`: `4/4` |
 | Node conteinerizado | `make observer-ui-tests`: `1/1` |
 | Build do JAR | `make observer-jar`: exit `0` |
@@ -36,7 +36,37 @@ Os targets `observer-tests` e `observer-jar` executam como UID/GID do host, mont
 
 ## Evidência visual do terminal
 
-As imagens abaixo foram geradas com Playwright a partir de transcripts capturados por `script` em uma sessão PTY real. Os arquivos `.txt` preservam o comando, o output bruto, os horários e `COMMAND_EXIT_CODE="0"`.
+### Gate reproduzível completo — evidência primária
+
+![Terminal executando o gate reproduzível completo da Task 2](task-02-reproducible-verification.png)
+
+Transcript auditável: [`task-02-reproducible-verification.txt`](task-02-reproducible-verification.txt).
+
+O transcript foi criado diretamente com:
+
+```bash
+script -qefc 'make observer-verify' \
+  docs/spark-observer/evidence/task-02/task-02-reproducible-verification.txt
+```
+
+O header contém `COMMAND="make observer-verify"`, sem wrapper intermediário. O target e seu script estão em arquivos do repositório. A execução imprime:
+
+- commit `4ed06277a2b94a486dd5b42c78abfae930403534`, no qual o script e o target já estavam versionados;
+- imagens sbt e Node completas;
+- IDs e `RepoDigests` reais das duas imagens;
+- ScalaTest `4/4`;
+- Node `1/1`;
+- Python `18/18`;
+- `Validation passed`;
+- build e listagem do JAR;
+- ausência de classes Spark/Scala;
+- tamanho e SHA-256 do artefato;
+- `observer_verify_exit_code=0`;
+- `COMMAND_EXIT_CODE="0"`.
+
+### Capturas anteriores — evidência histórica
+
+As imagens abaixo foram geradas com Playwright a partir de transcripts capturados por `script` em sessões PTY reais. Elas permanecem preservadas como histórico, mas chamavam helpers não versionados e não são mais a evidência primária do gate.
 
 ### Testes críticos
 
@@ -51,6 +81,8 @@ Essa execução mostra:
 - `make tests`: Python `17/17`;
 - `make validate`: `Validation passed`;
 - exit code final `0`.
+
+Não existe transcript bruto do RED original por ausência de `BuildInfo`. O RED continua documentado no execution log, mas não foi recriado artificialmente removendo código.
 
 ### Build e inspeção do JAR
 

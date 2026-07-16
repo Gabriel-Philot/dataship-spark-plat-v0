@@ -160,12 +160,14 @@ O relatório tabular renderizável está em:
 
 Também foram persistidas evidências de terminal:
 
+- `docs/spark-observer/evidence/task-02/task-02-reproducible-verification.txt`;
+- `docs/spark-observer/evidence/task-02/task-02-reproducible-verification.png`;
 - `docs/spark-observer/evidence/task-02/task-02-tests-terminal.txt`;
 - `docs/spark-observer/evidence/task-02/task-02-tests-terminal.png`;
 - `docs/spark-observer/evidence/task-02/task-02-jar-terminal.txt`;
 - `docs/spark-observer/evidence/task-02/task-02-jar-terminal.png`.
 
-Os arquivos `.txt` foram capturados por `script` em sessões PTY reais e terminam com `COMMAND_EXIT_CODE="0"`. As imagens foram produzidas com Playwright a partir desses transcripts, sem reescrever o output. Elas mostram os testes Scala/Node/Python, a validação, o build, a listagem do JAR, sua verificação de conteúdo, tamanho e SHA-256.
+O gate primário foi capturado diretamente por `script -qefc 'make observer-verify'`; seu header contém `COMMAND="make observer-verify"` e não chama wrapper ignorado. Os arquivos `.txt` foram capturados em sessões PTY reais e terminam com `COMMAND_EXIT_CODE="0"`. As imagens foram produzidas com Playwright a partir desses transcripts, sem reescrever o output. Elas mostram os testes Scala/Node/Python, a validação, o build, a listagem do JAR, sua verificação de conteúdo, tamanho e SHA-256.
 
 O relatório registra ainda imagens e versões fixadas, fronteira host/container e as verificações de ausência de classes Spark/Scala. Nenhuma UI de produto foi criada.
 
@@ -278,4 +280,47 @@ O plano `docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-p
 | Minor | `0` |
 | Actionable issues | nenhum |
 
-Task 2 está `READY — aguardando ACEITO do usuário`. Nenhum commit, stage ou push foi realizado, e a Task 3 permanece não iniciada.
+Naquele gate, a Task 2 estava `READY — aguardando ACEITO do usuário`. O checkpoint foi posteriormente publicado como `967035b`; a Task 3 permaneceu não iniciada.
+
+#### Gate reproduzível solicitado antes do ACEITO
+
+O review externo apontou que as primeiras capturas chamavam helpers em `.superpowers/sdd/`, ignorados pelo Git. O hardening começou sobre o HEAD já publicado `967035baf78d7c199786571693ec3219cd5598b4`. O script, target, teste e adendo do plano foram então versionados no commit `4ed06277a2b94a486dd5b42c78abfae930403534`; a captura primária foi executada diretamente nesse commit.
+
+**RED adicional:** `uv run pytest tests/test_observer_platform_contract.py -q` terminou com exit `1`; `5` testes passaram e o novo contrato falhou exclusivamente porque `build/scripts/verify-observer-toolchain.sh` ainda não existia.
+
+**GREEN adicional:** foram adicionados:
+
+- `build/scripts/verify-observer-toolchain.sh`;
+- target `make observer-verify`;
+- contrato dos valores completos de `SBT_IMAGE` e `NODE_IMAGE`;
+- contrato estrutural da sequência, inspeção de imagens/JAR e exit code final.
+
+O teste focado terminou com `6 passed`.
+
+**Captura direta:**
+
+```bash
+script -qefc 'make observer-verify' \
+  docs/spark-observer/evidence/task-02/task-02-reproducible-verification.txt
+```
+
+Resultados observados:
+
+| Campo | Evidência |
+| --- | --- |
+| Commit impresso | `4ed06277a2b94a486dd5b42c78abfae930403534` |
+| Imagem sbt ID/digest | `sha256:16b0af1a3fddcd4cbf14731c2695876354f96ee4ca43e6252580c23282166849` |
+| Imagem Node ID/digest | `sha256:a81a03dd965b4052269a57fac857004022b522a4bf06e7a739e25e18bce45af2` |
+| Scala | `4/4` |
+| Node | `1/1` |
+| Python | `18/18` |
+| JAR | `2522` bytes; SHA-256 `ba3e358661a8e707eb238c5a00cfcdcd60bb02c14d44d3485c123da97630019c`; sem classes Spark/Scala |
+| Validação | `Validation passed` |
+| Exit do verifier | `observer_verify_exit_code=0` |
+| Exit do transcript | `COMMAND_EXIT_CODE="0"` |
+
+O header do transcript contém `COMMAND="make observer-verify"`. O script força as imagens fixadas nos targets Observer, mesmo se `.env` definir outros valores.
+
+Não existe transcript bruto do RED original por ausência de `BuildInfo`; ele não foi recriado artificialmente removendo código.
+
+**Estrutura dos checkpoints:** `4ed0627` contém o gate reproduzível versionado. O checkpoint documental seguinte conserva o transcript e a captura gerados diretamente sobre esse commit. A Task 3 permanece não iniciada.
