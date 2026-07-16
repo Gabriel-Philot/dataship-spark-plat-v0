@@ -19,7 +19,7 @@
 
 **Evidência visual planejada:** screenshots da Spark Master UI com worker `ALIVE` e da History Server UI com a aplicação reconstruída, persistidos em `docs/spark-observer/evidence/task-01/`.
 
-**Status:** `PASS TÉCNICO` — commit e push autorizados exclusivamente para revisão externa; aceite funcional do usuário permanece pendente.
+**Status:** `PASS — ACEITO` — Task 1 encerrada pelo usuário em 2026-07-16.
 
 ### Preflight
 
@@ -76,6 +76,12 @@ Os dois arquivos estão versionados dentro de `docs/` para que a evidência seja
   - `build/images/minio/init-buckets.sh`;
   - `build/config/spark/spark-defaults.conf`.
 - Nenhum código de produção foi alterado.
+
+### Aceite do usuário
+
+- Resultado: `ACEITO`.
+- Task 1 encerrada em 2026-07-16.
+- O aceite não inicia automaticamente a Task 2.
 
 ### Risco restante
 
