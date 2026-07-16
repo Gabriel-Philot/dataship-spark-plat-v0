@@ -9,7 +9,7 @@ COURSIER_CACHE_DIR := $(ROOT_DIR)/build/cache/coursier
 include .env.example
 -include .env
 
-.PHONY: bootstrap build validate compose ingest-landing bronze sanity smoke spark-logs services test tests observer-tests observer-jar observer-ui-tests down removeimage clean-data
+.PHONY: bootstrap build validate compose ingest-landing bronze sanity smoke spark-logs services test tests observer-tests observer-jar observer-ui-tests observer-verify down removeimage clean-data
 
 SPARK_SUBMIT := $(COMPOSE) exec -T spark-master env PYTHONPATH=/opt/spark/src /opt/spark/bin/spark-submit \
 	--master spark://spark-master:7077 \
@@ -111,6 +111,9 @@ observer-ui-tests:
 		--workdir /workspace \
 		"$(NODE_IMAGE)" \
 		node --test spark-observer/src/test/js/toolchain.test.mjs
+
+observer-verify:
+	@build/scripts/verify-observer-toolchain.sh
 
 down:
 	@$(COMPOSE) down

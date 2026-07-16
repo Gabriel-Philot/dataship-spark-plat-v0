@@ -258,6 +258,7 @@ git commit -m "test: record Spark Observer baseline"
 - Modify: `Makefile`
 - Modify: `build/scripts/bootstrap.sh`
 - Modify: `build/scripts/validate-bootstrap.sh`
+- Create: `build/scripts/verify-observer-toolchain.sh`
 - Modify: `docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-plan.md`
 - Create: `spark-observer/src/test/js/toolchain.test.mjs`
 - Create: `tests/test_observer_platform_contract.py`
@@ -267,7 +268,7 @@ git commit -m "test: record Spark Observer baseline"
 - `BuildInfo.PluginVersion = "0.1.0-SNAPSHOT"`
 - `BuildInfo.SupportedSparkVersion = "4.1.2"`
 - `BuildInfo.ScalaBinaryVersion = "2.13"`
-- Make targets: `observer-tests`, `observer-jar` e `observer-ui-tests`.
+- Make targets: `observer-tests`, `observer-jar`, `observer-ui-tests` e `observer-verify`.
 - `SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16`.
 - `NODE_IMAGE=node:24.13.1-bookworm-slim`.
 
@@ -292,6 +293,55 @@ git commit -m "test: record Spark Observer baseline"
 - [ ] Executar `make observer-jar`; esperar `spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar`.
 - [ ] Listar o JAR dentro do container e confirmar ausência de `org/apache/spark/` e `scala/`.
 
+### Hardening do gate de aceite após review
+
+O gate final da Task 2 será reproduzível a partir de arquivos versionados. Ele não chamará helpers em `.superpowers/`, `/tmp` ou qualquer outro caminho ignorado.
+
+**RED adicional:**
+
+- [ ] Estender `tests/test_observer_platform_contract.py` para exigir os valores completos:
+
+```text
+SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16
+NODE_IMAGE=node:24.13.1-bookworm-slim
+```
+
+- [ ] O mesmo teste exigirá `build/scripts/verify-observer-toolchain.sh`, o target `observer-verify`, o trap de exit code, a inspeção das imagens e a sequência completa de comandos.
+- [ ] Executar `uv run pytest tests/test_observer_platform_contract.py -q`.
+- [ ] Confirmar falha porque o script e o target ainda não existem. Ausência de Docker ou de imagens não será um RED válido.
+
+**GREEN adicional:**
+
+- [ ] Criar `build/scripts/verify-observer-toolchain.sh` com `set -euo pipefail` e trap `EXIT` que sempre imprima `observer_verify_exit_code=<código>`.
+- [ ] Fixar dentro do script as imagens sbt e Node exatas acima e passá-las como variáveis de linha de comando para os targets Observer, impedindo override silencioso por `.env`.
+- [ ] Imprimir `git rev-parse HEAD`.
+- [ ] Para cada imagem fixada, executar `docker image inspect` e imprimir nome, ID real e `RepoDigests`; imagem ausente encerra o gate com código diferente de zero.
+- [ ] Executar, nesta ordem:
+
+```text
+make observer-tests
+make observer-ui-tests
+make observer-jar
+jar tf do artefato dentro da imagem sbt fixada
+verificação de ausência de org/apache/spark/ e scala/
+wc -c e sha256sum do artefato
+make tests
+make validate
+```
+
+- [ ] Adicionar `observer-verify` ao `Makefile` chamando somente `build/scripts/verify-observer-toolchain.sh`.
+- [ ] Executar novamente o teste focado; esperar todos verdes.
+- [ ] Capturar a execução diretamente, sem wrapper intermediário:
+
+```bash
+script -qefc 'make observer-verify' \
+  docs/spark-observer/evidence/task-02/task-02-reproducible-verification.txt
+```
+
+- [ ] Confirmar no header do transcript `COMMAND="make observer-verify"`, commit `967035b...` e `COMMAND_EXIT_CODE="0"`.
+- [ ] Renderizar uma captura Playwright desse transcript e atualizar o relatório visual.
+- [ ] Não recriar o RED original removendo `BuildInfo`. Como nenhum transcript bruto original foi conservado, registrar apenas essa ausência e manter o RED documental existente.
+
 **Regression:**
 
 ```bash
@@ -306,15 +356,17 @@ make tests
 - Spark/Scala não são empacotados.
 - O teste de contrato do lado direito passa e será regressão obrigatória das tasks seguintes.
 - `make validate` e `make tests` continuam verdes.
+- `make observer-verify` é reproduzível sem helpers ignorados e registra commit, imagens reais, IDs/digests, testes, JAR e exit code final.
+- `SBT_IMAGE` e `NODE_IMAGE` possuem valores completos protegidos por teste e são forçados pelo gate, mesmo se `.env` contiver overrides locais.
 
-**Evidência visual para aceite:** apresentar um relatório tabular renderizado com imagem sbt/Node, versões, testes, tamanho do JAR e verificação de ausência de classes Spark/Scala; não criar UI de produto nesta task.
+**Evidência visual para aceite:** apresentar um relatório tabular renderizado com imagem sbt/Node, IDs/digests reais, versões, testes, tamanho do JAR e verificação de ausência de classes Spark/Scala. A evidência primária será a captura derivada do transcript produzido diretamente por `script -qefc 'make observer-verify'`; não criar UI de produto nesta task.
 
 **User gate:** mostrar comandos, imagem usada, relatório visual do artefato, conteúdo relevante do JAR e parar.
 
 **Commit checkpoint after `ACEITO`:**
 
 ```bash
-git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-plan.md docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-02
+git add .env.example .gitignore Makefile build/scripts/bootstrap.sh build/scripts/validate-bootstrap.sh build/scripts/verify-observer-toolchain.sh spark-observer tests/test_observer_platform_contract.py docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-plan.md docs/spark-observer/execution-log.md docs/spark-observer/evidence/task-02
 git commit -m "build: add containerized Spark Observer toolchain"
 ```
 

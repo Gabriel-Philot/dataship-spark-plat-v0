@@ -6,6 +6,11 @@ import yaml
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
+EXPECTED_SBT_IMAGE = (
+    "sbtscala/scala-sbt:"
+    "eclipse-temurin-17.0.15_6_1.10.11_2.13.16"
+)
+EXPECTED_NODE_IMAGE = "node:24.13.1-bookworm-slim"
 
 
 def _read_env_example() -> dict[str, str]:
@@ -165,3 +170,40 @@ def test_observer_cache_marker_is_input_bound_and_strictly_validated():
     ) in validator
     assert 'validate_cache_subtree "$SBT_CACHE_DIR/boot"' in validator
     assert 'validate_cache_subtree "$COURSIER_CACHE_DIR/https"' in validator
+
+
+def test_observer_verifier_is_versioned_direct_and_uses_exact_images():
+    env = _read_env_example()
+    makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+    verifier_path = ROOT_DIR / "build/scripts/verify-observer-toolchain.sh"
+
+    assert env["SBT_IMAGE"] == EXPECTED_SBT_IMAGE
+    assert env["NODE_IMAGE"] == EXPECTED_NODE_IMAGE
+    assert verifier_path.is_file()
+
+    verifier = verifier_path.read_text(encoding="utf-8")
+    assert re.search(r"^observer-verify:\s*$", makefile, re.MULTILINE)
+    assert "build/scripts/verify-observer-toolchain.sh" in makefile
+    assert f'SBT_IMAGE="{EXPECTED_SBT_IMAGE}"' in verifier
+    assert f'NODE_IMAGE="{EXPECTED_NODE_IMAGE}"' in verifier
+    assert "git rev-parse HEAD" in verifier
+    assert "docker image inspect" in verifier
+    assert "{{.Id}}" in verifier
+    assert "{{json .RepoDigests}}" in verifier
+    assert "trap print_final_exit_code EXIT" in verifier
+    assert 'observer_verify_exit_code=%s\\n' in verifier
+    assert ".superpowers/" not in verifier
+
+    commands = (
+        "run_make observer-tests",
+        "run_make observer-ui-tests",
+        "run_make observer-jar",
+        "jar tf",
+        'grep -Eq "^(org/apache/spark/|scala/)"',
+        'wc -c "$JAR_PATH"',
+        'sha256sum "$JAR_PATH"',
+        "run_make tests",
+        "run_make validate",
+    )
+    positions = [verifier.index(command) for command in commands]
+    assert positions == sorted(positions)
