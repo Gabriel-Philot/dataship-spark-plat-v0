@@ -1,0 +1,9 @@
+---
+description: Canonical DataShip Spark Platform repository instructions
+globs:
+alwaysApply: true
+---
+
+Before planning, editing, testing, committing, or publishing changes in this repository, read and follow @AGENTS.md.
+
+Treat `AGENTS.md` as the canonical repository-wide instruction source. Do not duplicate mutable task status in this Cursor rule; read the plans, execution logs, and evidence paths referenced by `AGENTS.md`.
