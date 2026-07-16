@@ -1,0 +1,5 @@
+Script started on 2026-07-16 17:58:29+01:00 [COMMAND="host_checksum=$(sha256sum spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar | awk "{print \$1}"); container_checksum=$(docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master sha256sum /opt/spark/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar | awk "{print \$1}"); printf "host_jar_sha256=%s\ncontainer_jar_sha256=%s\n" "$host_checksum" "$container_checksum"; test "$host_checksum" = "$container_checksum"" <not executed on terminal>]
+host_jar_sha256=6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa
+container_jar_sha256=6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa
+
+Script done on 2026-07-16 17:58:29+01:00 [COMMAND_EXIT_CODE="0"]

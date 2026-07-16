@@ -1,0 +1,4 @@
+Script started on 2026-07-16 17:55:06+01:00 [COMMAND="uv run pytest tests/test_spark_runtime_readiness.py -q" <not executed on terminal>]
+....                                                                     [100%]
+
+Script done on 2026-07-16 17:55:07+01:00 [COMMAND_EXIT_CODE="0"]

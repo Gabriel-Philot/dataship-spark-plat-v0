@@ -1,0 +1,297 @@
+Script started on 2026-07-16 17:58:53+01:00 [COMMAND="make smoke" <not executed on terminal>]
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 13:58:56] - [1;36m[Info]:[0m Starting spark-plat-v0-sample-customer-landing
+[07/16 13:58:56] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-sample-customer-landing
+26/07/16 16:58:56 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 16:58:56 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 16:58:56 INFO SparkContext: Java version 17.0.19+10
+26/07/16 16:58:56 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 16:58:56 INFO ResourceUtils: ==============================================================
+26/07/16 16:58:56 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 16:58:56 INFO ResourceUtils: ==============================================================
+26/07/16 16:58:56 INFO SparkContext: Submitted application: spark-plat-v0-sample-customer-landing
+26/07/16 16:58:56 INFO SecurityManager: Changing view acls to: spark
+26/07/16 16:58:56 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 16:58:56 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 16:58:56 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 16:58:56 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 16:58:56 INFO Utils: Successfully started service 'sparkDriver' on port 41801.
+26/07/16 16:58:56 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 16:58:56 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 16:58:57 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 16:58:57 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 16:58:57 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 16:58:57 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-88ac8b93-9302-4e12-8564-95b68c3bcfe6
+26/07/16 16:58:57 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 16:58:57 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 16:58:57 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 16:58:57 INFO Server: Started Server@21a85115{STARTING}[11.0.26,sto=30000] @3396ms
+26/07/16 16:58:57 INFO AbstractConnector: Started ServerConnector@bd79bfe{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 16:58:57 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 16:58:57 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5834de84{/,null,AVAILABLE,@Spark}
+26/07/16 16:58:57 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 16:58:57 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 16:58:57 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 16:58:57 INFO SecurityManager: Changing view acls to: spark
+26/07/16 16:58:57 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 16:58:57 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 16:58:57 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 16:58:57 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 16:58:57 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 16:58:57 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 25 ms (0 ms spent in bootstraps)
+26/07/16 16:58:57 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716165857-0000
+26/07/16 16:58:57 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33791.
+26/07/16 16:58:57 INFO NettyBlockTransferService: Server created on 80e40a089fdf:33791
+26/07/16 16:58:57 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 16:58:57 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716165857-0000/0 on worker-20260716165811-172.19.0.5-34721 (172.19.0.5:34721) with 1 core(s)
+26/07/16 16:58:57 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716165857-0000/0 on hostPort 172.19.0.5:34721 with 1 core(s), 1024.0 MiB RAM
+26/07/16 16:58:57 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 80e40a089fdf, 33791, None)
+26/07/16 16:58:57 INFO BlockManagerMasterEndpoint: Registering block manager 80e40a089fdf:33791 with 434.4 MiB RAM, BlockManagerId(driver, 80e40a089fdf, 33791, None)
+26/07/16 16:58:57 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 80e40a089fdf, 33791, None)
+26/07/16 16:58:57 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 80e40a089fdf, 33791, None)
+26/07/16 16:58:57 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716165857-0000/0 is now RUNNING
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 16:58:59 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716165857-0000/events_1_app-20260716165857-0000.zstd
+26/07/16 16:58:59 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@5834de84{/,null,STOPPED,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@28f66382{/jobs,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3c6d4c62{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3b69148b{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2c126dcd{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@38a2ca2b{/stages,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@25503e75{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@43064182{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5e916638{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@60d02aed{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@59484308{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@72d71758{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@fe78951{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5868cd32{/storage,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@19eea5ce{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6e78c1b1{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@28685b21{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4c80148e{/environment,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@40cc5d5a{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1d3babf{/executors,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@34842d82{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3aa8bc28{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3d63e378{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@733676e7{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@83525d0{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@42eb24c3{/static,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7a901f5d{/,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@41688a0{/api,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@55f73c97{/metrics,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5df31cdf{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5826ed76{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@63dcbee{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 16:58:59 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 16:59:00 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:33970) with ID 0, ResourceProfileId 0
+26/07/16 16:59:00 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:40599 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 40599, None)
+[07/16 13:59:03] - [1;36m[Info]:[0m Writing json dataset to s3a://lakehouse/landing/customer with mode=overwrite
+26/07/16 16:59:03 WARN AbstractS3ACommitterFactory: Using standard FileOutputCommitter to commit work. This is slow and potentially unsafe.
+[07/16 13:59:08] - [1;36m[Info]:[0m Wrote landing.customer to s3a://lakehouse/landing/customer
+[07/16 13:59:08] - [1;36m[Info]:[0m Completed spark-plat-v0-sample-customer-landing
+[07/16 13:59:08] - [1;36m[Info]:[0m Stopping active SparkSession
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 13:59:11] - [1;36m[Info]:[0m Starting spark-plat-v0-smoke-customer-bronze
+[07/16 13:59:11] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-smoke-customer-bronze
+26/07/16 16:59:11 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 16:59:11 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 16:59:11 INFO SparkContext: Java version 17.0.19+10
+26/07/16 16:59:12 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 16:59:12 INFO ResourceUtils: ==============================================================
+26/07/16 16:59:12 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 16:59:12 INFO ResourceUtils: ==============================================================
+26/07/16 16:59:12 INFO SparkContext: Submitted application: spark-plat-v0-smoke-customer-bronze
+26/07/16 16:59:12 INFO SecurityManager: Changing view acls to: spark
+26/07/16 16:59:12 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 16:59:12 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 16:59:12 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 16:59:12 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 16:59:12 INFO Utils: Successfully started service 'sparkDriver' on port 43989.
+26/07/16 16:59:12 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 16:59:12 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 16:59:12 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 16:59:12 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 16:59:12 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 16:59:12 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-c5a9aeb5-eea5-482a-8930-4647301611ff
+26/07/16 16:59:12 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 16:59:12 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 16:59:12 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 16:59:12 INFO Server: Started Server@7adc03a1{STARTING}[11.0.26,sto=30000] @3217ms
+26/07/16 16:59:12 INFO AbstractConnector: Started ServerConnector@123d064e{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 16:59:12 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 16:59:12 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@21738617{/,null,AVAILABLE,@Spark}
+26/07/16 16:59:12 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 16:59:12 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 16:59:12 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 16:59:12 INFO SecurityManager: Changing view acls to: spark
+26/07/16 16:59:12 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 16:59:12 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 16:59:12 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 16:59:12 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 16:59:12 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 16:59:13 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 27 ms (0 ms spent in bootstraps)
+26/07/16 16:59:13 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716165913-0001
+26/07/16 16:59:13 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716165913-0001/0 on worker-20260716165811-172.19.0.5-34721 (172.19.0.5:34721) with 1 core(s)
+26/07/16 16:59:13 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716165913-0001/0 on hostPort 172.19.0.5:34721 with 1 core(s), 1024.0 MiB RAM
+26/07/16 16:59:13 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40857.
+26/07/16 16:59:13 INFO NettyBlockTransferService: Server created on 80e40a089fdf:40857
+26/07/16 16:59:13 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 16:59:13 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 80e40a089fdf, 40857, None)
+26/07/16 16:59:13 INFO BlockManagerMasterEndpoint: Registering block manager 80e40a089fdf:40857 with 434.4 MiB RAM, BlockManagerId(driver, 80e40a089fdf, 40857, None)
+26/07/16 16:59:13 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 80e40a089fdf, 40857, None)
+26/07/16 16:59:13 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716165913-0001/0 is now RUNNING
+26/07/16 16:59:13 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 80e40a089fdf, 40857, None)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 16:59:13 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716165913-0001/events_1_app-20260716165913-0001.zstd
+26/07/16 16:59:13 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@21738617{/,null,STOPPED,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@21b824e2{/jobs,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@59952eb5{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7c2da2f8{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@61349dc9{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@12eaeb74{/stages,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@79603fe7{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6d91ba44{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2902b335{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6a16798e{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@23341c6e{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5d2d778d{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5d143ddf{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1a486b31{/storage,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3c3cd245{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@36c9d44e{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7bbaa77c{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@659575f6{/environment,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1d9d6f44{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7b0a070e{/executors,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2b7716b6{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@42a62fea{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@39d1b542{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@586bc476{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4028fbd6{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@66bb81eb{/static,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@15ceafee{/,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@15b16dce{/api,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@666f1c35{/metrics,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@32307d8e{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4d1068d9{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@387132c9{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:13 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 16:59:14 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:59970) with ID 0, ResourceProfileId 0
+26/07/16 16:59:14 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:35045 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 35045, None)
+[07/16 13:59:15] - [1;36m[Info]:[0m Reading json dataset from s3a://lakehouse/landing/customer
+[07/16 13:59:19] - [1;36m[Info]:[0m Writing delta dataset to s3a://lakehouse/bronze/customer with mode=overwrite
+26/07/16 16:59:21 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+[07/16 13:59:33] - [1;36m[Info]:[0m Wrote bronze.customer to s3a://lakehouse/bronze/customer
+[07/16 13:59:33] - [1;36m[Info]:[0m Completed spark-plat-v0-smoke-customer-bronze
+[07/16 13:59:33] - [1;36m[Info]:[0m Stopping active SparkSession
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 13:59:36] - [1;36m[Info]:[0m Starting spark-plat-v0-sanity-customer-lakehouse
+[07/16 13:59:36] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-sanity-customer-lakehouse
+26/07/16 16:59:36 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 16:59:36 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 16:59:36 INFO SparkContext: Java version 17.0.19+10
+26/07/16 16:59:37 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 16:59:37 INFO ResourceUtils: ==============================================================
+26/07/16 16:59:37 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 16:59:37 INFO ResourceUtils: ==============================================================
+26/07/16 16:59:37 INFO SparkContext: Submitted application: spark-plat-v0-sanity-customer-lakehouse
+26/07/16 16:59:37 INFO SecurityManager: Changing view acls to: spark
+26/07/16 16:59:37 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 16:59:37 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 16:59:37 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 16:59:37 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 16:59:37 INFO Utils: Successfully started service 'sparkDriver' on port 41411.
+26/07/16 16:59:37 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 16:59:37 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 16:59:37 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 16:59:37 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 16:59:37 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 16:59:37 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-696303b6-c602-4065-ab2b-f8c8b10fc729
+26/07/16 16:59:37 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 16:59:37 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 16:59:37 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 16:59:37 INFO Server: Started Server@dad96d3{STARTING}[11.0.26,sto=30000] @3263ms
+26/07/16 16:59:37 INFO AbstractConnector: Started ServerConnector@38d7e26b{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 16:59:37 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 16:59:37 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1518ea45{/,null,AVAILABLE,@Spark}
+26/07/16 16:59:37 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 16:59:37 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 16:59:37 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 16:59:37 INFO SecurityManager: Changing view acls to: spark
+26/07/16 16:59:37 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 16:59:37 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 16:59:37 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 16:59:37 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 16:59:37 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 16:59:37 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 26 ms (0 ms spent in bootstraps)
+26/07/16 16:59:38 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716165938-0002
+26/07/16 16:59:38 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716165938-0002/0 on worker-20260716165811-172.19.0.5-34721 (172.19.0.5:34721) with 1 core(s)
+26/07/16 16:59:38 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716165938-0002/0 on hostPort 172.19.0.5:34721 with 1 core(s), 1024.0 MiB RAM
+26/07/16 16:59:38 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 36895.
+26/07/16 16:59:38 INFO NettyBlockTransferService: Server created on 80e40a089fdf:36895
+26/07/16 16:59:38 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 16:59:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 80e40a089fdf, 36895, None)
+26/07/16 16:59:38 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716165938-0002/0 is now RUNNING
+26/07/16 16:59:38 INFO BlockManagerMasterEndpoint: Registering block manager 80e40a089fdf:36895 with 434.4 MiB RAM, BlockManagerId(driver, 80e40a089fdf, 36895, None)
+26/07/16 16:59:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 80e40a089fdf, 36895, None)
+26/07/16 16:59:38 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 80e40a089fdf, 36895, None)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 16:59:39 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716165938-0002/events_1_app-20260716165938-0002.zstd
+26/07/16 16:59:40 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@1518ea45{/,null,STOPPED,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@20b07ce5{/jobs,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@36c81db6{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@28d6ff8b{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2baeef56{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4189f774{/stages,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5d0ee92f{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1beebd83{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5fae1ce3{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@244b451{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6f744abe{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6446c4b1{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7912faae{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@50ea1e70{/storage,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@79c3c3de{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@22548b16{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6a753b1{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4aef65f5{/environment,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7a73ca3a{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2ddb8ff6{/executors,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@269b10eb{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1f26fbad{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4ab6c350{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@178e16d4{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7b116dee{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@488f9de4{/static,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@60950daf{/,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@12ccf07c{/api,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2b9641d{/metrics,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@462e54df{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@36e62b23{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4e483d1f{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 16:59:40 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 16:59:40 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:39230) with ID 0, ResourceProfileId 0
+26/07/16 16:59:40 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:40755 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 40755, None)
+[07/16 13:59:42] - [1;36m[Info]:[0m Reading json dataset from s3a://lakehouse/landing/customer
+[07/16 13:59:44] - [1;36m[Info]:[0m Reading delta dataset from s3a://lakehouse/bronze/customer
+26/07/16 16:59:47 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+[07/16 13:59:59] - [1;36m[Info]:[0m Sanity check passed landing_rows=5 bronze_rows=5 country_groups=2
+[07/16 13:59:59] - [1;36m[Info]:[0m Completed spark-plat-v0-sanity-customer-lakehouse
+[07/16 13:59:59] - [1;36m[Info]:[0m Stopping active SparkSession
+ Container spark-plat-v0-minio-init-run-cb40339e6427 Creating 
+ Container spark-plat-v0-minio-init-run-cb40339e6427 Created 
+ Container spark-plat-v0-minio-init-run-3e21796ed348 Creating 
+ Container spark-plat-v0-minio-init-run-3e21796ed348 Created 
+ Container spark-plat-v0-minio-init-run-e69571318ee0 Creating 
+ Container spark-plat-v0-minio-init-run-e69571318ee0 Created 
+Smoke validation passed
+
+Script done on 2026-07-16 18:00:03+01:00 [COMMAND_EXIT_CODE="0"]

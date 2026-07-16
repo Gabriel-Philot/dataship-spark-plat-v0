@@ -1,0 +1,1949 @@
+Script started on 2026-07-16 18:17:06+01:00 [COMMAND="make observer-bootstrap-verify" <not executed on terminal>]
+task3_commit_start=c4d014caa55c935596b323ede6f66736594cb708
+task3_fingerprint_file=Makefile
+task3_fingerprint_file=build/scripts/prepare-image-contexts.sh
+task3_fingerprint_file=build/scripts/wait_spark_runtime_ready.py
+task3_fingerprint_file=build/scripts/verify-observer-bootstrap.sh
+task3_fingerprint_file=spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala
+task3_fingerprint_file=spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala
+task3_fingerprint_file=spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala
+task3_fingerprint_file=spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala
+task3_fingerprint_file=spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala
+task3_fingerprint_file=tests/test_observer_platform_contract.py
+task3_fingerprint_file=tests/test_spark_runtime_readiness.py
+task3_fingerprint_start=50e5a70b92511257f7d22525ef1100c77617b42f0db41112c606adb80b739e1d
+
+$ uv run pytest tests/test_spark_runtime_readiness.py -q
+.....                                                                    [100%]
+
+$ make observer-tests
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] BuildInfoSpec:
+[info] - publishes the plugin version
+[info] - publishes the supported Spark version
+[info] - publishes the Scala binary version
+[info] - publishes the expected artifact name
+[info] PluginBootstrapSpec:
+[info] - creates a fresh DataShip driver plugin
+[info] - does not create an executor plugin
+[info] ObserverConfigSpec:
+[info] - is disabled by default
+[info] - is enabled by the explicit opt-in flag
+[info] - remains disabled when the flag is explicitly false
+[info] Run completed in -520 milliseconds.
+[info] Total number of tests run: 9
+[info] Suites: completed 3, aborted 0
+[info] Tests: succeeded 9, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 16, 2026, 5:17:11 PM
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make observer-runtime-refresh
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[success] Total time: 1 s, completed Jul 16, 2026, 5:17:17 PM
+[1A[1B[0G[?25l
+[?25h[1A[0G[?25l
+[?25h[1A[0G[?25l
+[?25h[1A[0G[?25l
+[?25h[1A[0G[?25l
+[?25h[1A[0G[?25l
+[?25h[1A[0G[?25l
+[?25h[1A[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.2s (0/1)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.2s
+ => => transferring dockerfile: 690B                                       0.0s
+[?25h[1A[1A[1A[0G[?25l[+] Building 0.4s (0/1)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.4s
+ => => transferring dockerfile: 690B                                       0.0s
+[?25h[1A[1A[1A[0G[?25l[+] Building 0.5s (0/1)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.5s
+ => => transferring dockerfile: 690B                                       0.0s
+[?25h[1A[1A[1A[0G[?25l[+] Building 0.6s (1/1)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 690B                                       0.0s
+[?25h[1A[1A[1A[0G[?25l[+] Building 0.8s (1/2)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.2s
+[?25h[1A[1A[1A[1A[0G[?25l[+] Building 0.9s (2/2)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+[?25h[1A[1A[1A[1A[0G[?25l[+] Building 1.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.1s
+ => => transferring context: 5.38MB                                        0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.2s
+ => => transferring context: 15.19MB                                       0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.3s
+ => => transferring context: 24.54MB                                       0.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.4s
+ => => transferring context: 31.44MB                                       0.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.5s
+ => => transferring context: 38.44MB                                       0.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.6s
+ => => transferring context: 46.38MB                                       0.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.7s
+ => => transferring context: 53.38MB                                       0.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.8s
+ => => transferring context: 63.71MB                                       0.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.0s
+ => => transferring context: 73.49MB                                       0.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.1s
+ => => transferring context: 82.35MB                                       1.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.2s
+ => => transferring context: 90.81MB                                       1.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.3s
+ => => transferring context: 104.24MB                                      1.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.4s
+ => => transferring context: 113.88MB                                      1.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.5s
+ => => transferring context: 122.14MB                                      1.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.6s
+ => => transferring context: 132.62MB                                      1.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.7s
+ => => transferring context: 143.93MB                                      1.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.8s
+ => => transferring context: 150.77MB                                      1.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.9s
+ => => transferring context: 160.75MB                                      1.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.0s
+ => => transferring context: 170.32MB                                      1.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.1s
+ => => transferring context: 180.71MB                                      2.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.2s
+ => => transferring context: 190.80MB                                      2.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.3s
+ => => transferring context: 201.85MB                                      2.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.5s
+ => => transferring context: 222.50MB                                      2.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.6s
+ => => transferring context: 230.47MB                                      2.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.7s
+ => => transferring context: 240.92MB                                      2.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.8s
+ => => transferring context: 250.92MB                                      2.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.9s
+ => => transferring context: 261.93MB                                      2.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.0s
+ => => transferring context: 272.55MB                                      2.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.1s
+ => => transferring context: 280.19MB                                      3.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.2s
+ => => transferring context: 289.92MB                                      3.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.3s
+ => => transferring context: 300.57MB                                      3.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.4s
+ => => transferring context: 311.23MB                                      3.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.5s
+ => => transferring context: 322.86MB                                      3.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.6s
+ => => transferring context: 335.77MB                                      3.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.7s
+ => => transferring context: 347.51MB                                      3.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.8s
+ => => transferring context: 359.18MB                                      3.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.9s
+ => => transferring context: 371.30MB                                      3.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.0s
+ => => transferring context: 385.10MB                                      3.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.1s
+ => => transferring context: 398.21MB                                      4.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.3s
+ => => transferring context: 420.04MB                                      4.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.4s
+ => => transferring context: 432.40MB                                      4.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.5s
+ => => transferring context: 443.08MB                                      4.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.6s
+ => => transferring context: 451.51MB                                      4.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.7s
+ => => transferring context: 457.28MB                                      4.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.9s
+ => => transferring context: 479.10MB                                      4.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.0s
+ => => transferring context: 489.17MB                                      4.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.1s
+ => => transferring context: 498.44MB                                      5.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.3s
+ => => transferring context: 513.35MB                                      5.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.4s
+ => => transferring context: 523.61MB                                      5.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.5s
+ => => transferring context: 536.53MB                                      5.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.6s
+ => => transferring context: 553.96MB                                      5.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.7s
+ => => transferring context: 565.11MB                                      5.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.8s
+ => => transferring context: 577.20MB                                      5.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.0s
+ => => transferring context: 602.80MB                                      5.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.1s
+ => => transferring context: 615.19MB                                      6.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.3s
+ => => transferring context: 639.97MB                                      6.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.5s
+ => => transferring context: 664.52MB                                      6.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.7s
+ => => transferring context: 688.74MB                                      6.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.8s
+ => => transferring context: 703.55MB                                      6.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.0s
+ => => transferring context: 729.09MB                                      6.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.1s
+ => => transferring context: 739.87MB                                      7.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.3s
+ => => transferring context: 770.02MB                                      7.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.4s
+ => => transferring context: 785.49MB                                      7.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.5s
+ => => transferring context: 799.23MB                                      7.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.6s
+ => => transferring context: 799.23MB                                      7.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.8s
+ => => transferring context: 799.23MB                                      7.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.9s
+ => => transferring context: 799.23MB                                      7.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          8.1s
+ => => transferring context: 799.23MB                                      8.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          8.2s
+ => => transferring context: 799.23MB                                      8.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          8.4s
+ => => transferring context: 799.23MB                                      8.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          8.5s
+ => => transferring context: 799.23MB                                      8.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          8.7s
+ => => transferring context: 799.23MB                                      8.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          8.8s
+ => => transferring context: 799.23MB                                      8.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.0s
+ => => transferring context: 799.23MB                                      8.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.1s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.1s
+ => => transferring context: 799.23MB                                      9.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.2s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.3s
+ => => transferring context: 799.23MB                                      9.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.4s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.4s
+ => => transferring context: 799.23MB                                      9.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.5s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.6s
+ => => transferring context: 799.23MB                                      9.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.7s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.7s
+ => => transferring context: 799.23MB                                      9.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.8s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          9.9s
+ => => transferring context: 799.23MB                                      9.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.0s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.0s
+ => => transferring context: 799.23MB                                     10.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.1s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.2s
+ => => transferring context: 799.23MB                                     10.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.3s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.3s
+ => => transferring context: 799.23MB                                     10.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.4s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.5s
+ => => transferring context: 799.23MB                                     10.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.6s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.6s
+ => => transferring context: 799.23MB                                     10.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.7s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.8s
+ => => transferring context: 799.23MB                                     10.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.9s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         10.9s
+ => => transferring context: 799.23MB                                     10.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.0s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         11.1s
+ => => transferring context: 799.23MB                                     11.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.2s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         11.2s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.3s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         11.4s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.5s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         11.5s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.6s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         11.7s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.8s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         11.8s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.9s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         12.0s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.1s (4/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         12.1s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.2s (5/12)                                        docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         12.2s
+ => => transferring context: 807.42MB                                     11.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.3s (12/13)                                       docker:default
+ => CACHED [4/8] COPY context/python-wheels /tmp/python-wheels             0.0s
+ => CACHED [5/8] COPY requirements.txt /tmp/requirements.txt               0.0s
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:72da6cd55ec065b43ac9f86e09e860b516d2f92a  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.4s (12/13)                                       docker:default
+ => CACHED [5/8] COPY requirements.txt /tmp/requirements.txt               0.0s
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:72da6cd55ec065b43ac9f86e09e860b516d2f92a  0.0s
+ => => exporting config sha256:fb6c06f9baecdda3eb50e79f83a78d7befb5c9b4d8  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.5s (12/13)                                       docker:default
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:72da6cd55ec065b43ac9f86e09e860b516d2f92a  0.0s
+ => => exporting config sha256:fb6c06f9baecdda3eb50e79f83a78d7befb5c9b4d8  0.0s
+ => => exporting attestation manifest sha256:424f25e0ee0667da769068515b6d  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.6s (12/13)                                       docker:default
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.4s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:72da6cd55ec065b43ac9f86e09e860b516d2f92a  0.0s
+ => => exporting config sha256:fb6c06f9baecdda3eb50e79f83a78d7befb5c9b4d8  0.0s
+ => => exporting attestation manifest sha256:424f25e0ee0667da769068515b6d  0.1s
+ => => exporting manifest list sha256:ba58541d76f336354e6fadcf2c9dd6adcc2  0.0s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.8s (13/13)                                       docker:default
+ => exporting to image                                                     0.4s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:72da6cd55ec065b43ac9f86e09e860b516d2f92a  0.0s
+ => => exporting config sha256:fb6c06f9baecdda3eb50e79f83a78d7befb5c9b4d8  0.0s
+ => => exporting attestation manifest sha256:424f25e0ee0667da769068515b6d  0.1s
+ => => exporting manifest list sha256:ba58541d76f336354e6fadcf2c9dd6adcc2  0.0s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.9s (13/13) FINISHED                              docker:default
+ => [internal] load build definition from Dockerfile                       0.6s
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.3s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                         12.2s
+ => => transferring context: 807.42MB                                     11.2s
+ => CACHED [2/8] RUN mkdir -p /opt/spark/apps /opt/spark/metrics     && c  0.0s
+ => CACHED [3/8] COPY context/jars/*.jar /opt/spark/jars/                  0.0s
+ => CACHED [4/8] COPY context/python-wheels /tmp/python-wheels             0.0s
+ => CACHED [5/8] COPY requirements.txt /tmp/requirements.txt               0.0s
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.4s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:72da6cd55ec065b43ac9f86e09e860b516d2f92a  0.0s
+ => => exporting config sha256:fb6c06f9baecdda3eb50e79f83a78d7befb5c9b4d8  0.0s
+ => => exporting attestation manifest sha256:424f25e0ee0667da769068515b6d  0.1s
+ => => exporting manifest list sha256:ba58541d76f336354e6fadcf2c9dd6adcc2  0.0s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[?25l[0G[+] stop 0/1
+ ⠋ Container spv0-spark-worker-1 Stopping                                   0.0s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠙ Container spv0-spark-worker-1 Stopping                                   0.1s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠹ Container spv0-spark-worker-1 Stopping                                   0.2s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠸ Container spv0-spark-worker-1 Stopping                                   0.3s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠼ Container spv0-spark-worker-1 Stopping                                   0.4s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠴ Container spv0-spark-worker-1 Stopping                                   0.5s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠦ Container spv0-spark-worker-1 Stopping                                   0.6s
+[?25h[?25l[2A[0G[+] stop 0/1
+ ⠧ Container spv0-spark-worker-1 Stopping                                   0.7s
+[?25h[?25l[2A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠋ Container spv0-spark-master   Stopping                                   0.1s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠙ Container spv0-spark-master   Stopping                                   0.2s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠹ Container spv0-spark-master   Stopping                                   0.3s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠸ Container spv0-spark-master   Stopping                                   0.4s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠼ Container spv0-spark-master   Stopping                                   0.5s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠴ Container spv0-spark-master   Stopping                                   0.6s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠦ Container spv0-spark-master   Stopping                                   0.7s
+[?25h[?25l[3A[0G[+] stop 1/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ⠧ Container spv0-spark-master   Stopping                                   0.8s
+[?25h[?25l[3A[0G[+] stop 2/2
+ ✔ Container spv0-spark-worker-1 Stopped                                    0.8s
+ ✔ Container spv0-spark-master   Stopped                                    0.8s
+[?25hGoing to remove spv0-spark-worker-1, spv0-spark-master
+[?25l[3A[0G[+] remove 0/2
+ ⠇ Container spv0-spark-worker-1 Removing                                   1.8s
+ ⠇ Container spv0-spark-master   Removing                                   1.0s
+[?25h[?25l[3A[0G[+] remove 0/2
+ ⠏ Container spv0-spark-worker-1 Removing                                   1.9s
+ ⠏ Container spv0-spark-master   Removing                                   1.1s
+[?25h[?25l[3A[0G[+] remove 0/2
+ ⠋ Container spv0-spark-worker-1 Removing                                   2.0s
+ ⠋ Container spv0-spark-master   Removing                                   1.2s
+[?25h[?25l[3A[0G[+] remove 0/2
+ ⠙ Container spv0-spark-worker-1 Removing                                   2.1s
+ ⠙ Container spv0-spark-master   Removing                                   1.3s
+[?25h[?25l[3A[0G[+] remove 2/2
+ ✔ Container spv0-spark-worker-1 Removed                                    2.1s
+ ✔ Container spv0-spark-master   Removed                                    1.4s
+[?25h[?25l[0G[+] up 1/2
+ ✔ Container spv0-minio        Running                                      0.0s
+ ⠋ Container spv0-spark-master Creating                                     0.1s
+[?25h[?25l[3A[0G[+] up 2/3
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ⠋ Container spv0-spark-worker-1 Creating                                   0.0s
+[?25h[?25l[4A[0G[+] up 2/3
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ⠙ Container spv0-spark-worker-1 Creating                                   0.1s
+[?25h[?25l[4A[0G[+] up 3/3
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+[?25h[?25l[4A[0G[+] up 3/3
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+[?25h[?25l[4A[0G[+] up 3/3
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+[?25h[?25l[4A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠋ Container spv0-minio-init     Waiting                                    0.0s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠙ Container spv0-minio-init     Waiting                                    0.1s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠹ Container spv0-minio-init     Waiting                                    0.2s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠸ Container spv0-minio-init     Waiting                                    0.3s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠼ Container spv0-minio-init     Waiting                                    0.4s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠴ Container spv0-minio-init     Waiting                                    0.5s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠦ Container spv0-minio-init     Waiting                                    0.6s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠧ Container spv0-minio-init     Waiting                                    0.7s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠇ Container spv0-minio-init     Waiting                                    0.8s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠏ Container spv0-minio-init     Waiting                                    0.9s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠋ Container spv0-minio-init     Waiting                                    1.0s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠙ Container spv0-minio-init     Waiting                                    1.1s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠹ Container spv0-minio-init     Waiting                                    1.2s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠸ Container spv0-minio-init     Waiting                                    1.3s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠼ Container spv0-minio-init     Waiting                                    1.4s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠴ Container spv0-minio-init     Waiting                                    1.5s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠦ Container spv0-minio-init     Waiting                                    1.6s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠧ Container spv0-minio-init     Waiting                                    1.7s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠇ Container spv0-minio-init     Waiting                                    1.8s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠏ Container spv0-minio-init     Waiting                                    1.9s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠋ Container spv0-minio-init     Waiting                                    2.0s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠙ Container spv0-minio-init     Waiting                                    2.1s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠹ Container spv0-minio-init     Waiting                                    2.2s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠸ Container spv0-minio-init     Waiting                                    2.3s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠼ Container spv0-minio-init     Waiting                                    2.4s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠴ Container spv0-minio-init     Waiting                                    2.5s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠦ Container spv0-minio-init     Waiting                                    2.6s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠧ Container spv0-minio-init     Waiting                                    2.7s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠇ Container spv0-minio-init     Waiting                                    2.8s
+[?25h[?25l[5A[0G[+] up 3/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ⠏ Container spv0-minio-init     Waiting                                    2.9s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25h[?25l[5A[0G[+] up 4/4
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Created                                    0.2s
+ ✔ Container spv0-spark-worker-1 Created                                    0.2s
+ ✔ Container spv0-minio-init     Exited                                     3.0s
+[?25hSpark Master UI responded HTTP 200
+Spark runtime ready: 1 registered worker(s) ALIVE
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ docker image inspect spark-plat-v0-spark:4.1.2
+spark_runtime_image=spark-plat-v0-spark:4.1.2 id=sha256:ba58541d76f336354e6fadcf2c9dd6adcc2ef1c984b6ec15bea8b83700e48cff repo_digests=["spark-plat-v0-spark@sha256:ba58541d76f336354e6fadcf2c9dd6adcc2ef1c984b6ec15bea8b83700e48cff"]
+
+$ compare host and spark-master Observer JAR checksums
+host_jar_sha256=6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa
+container_jar_sha256=6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa
+
+$ make compose
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+Validation passed
+[?25l[0G[+] up 5/5
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+[?25h[?25l[6A[0G[+] up 5/5
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+[?25h[?25l[6A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠋ Container spv0-minio-init     Waiting                                    0.0s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠙ Container spv0-minio-init     Waiting                                    0.1s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠹ Container spv0-minio-init     Waiting                                    0.2s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠸ Container spv0-minio-init     Waiting                                    0.3s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠼ Container spv0-minio-init     Waiting                                    0.4s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠴ Container spv0-minio-init     Waiting                                    0.5s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠦ Container spv0-minio-init     Waiting                                    0.6s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠧ Container spv0-minio-init     Waiting                                    0.7s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠇ Container spv0-minio-init     Waiting                                    0.8s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠏ Container spv0-minio-init     Waiting                                    0.9s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠋ Container spv0-minio-init     Waiting                                    1.0s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠙ Container spv0-minio-init     Waiting                                    1.1s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠹ Container spv0-minio-init     Waiting                                    1.2s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠸ Container spv0-minio-init     Waiting                                    1.3s
+[?25h[?25l[7A[0G[+] up 5/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ⠼ Container spv0-minio-init     Waiting                                    1.4s
+[?25h[?25l[7A[0G[+] up 6/6
+ ✔ Container spv0-clickhouse     Running                                    0.0s
+ ✔ Container spv0-minio          Running                                    0.0s
+ ✔ Container spv0-spark-master   Running                                    0.0s
+ ✔ Container spv0-spark-worker-1 Running                                    0.0s
+ ✔ Container spv0-spark-history  Running                                    0.0s
+ ✔ Container spv0-minio-init     Exited                                     1.5s
+[?25hClickHouse is ready
+Spark Master is ready
+Spark History is ready
+MinIO Console is ready
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make smoke
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 14:17:57] - [1;36m[Info]:[0m Starting spark-plat-v0-sample-customer-landing
+[07/16 14:17:57] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-sample-customer-landing
+26/07/16 17:17:58 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 17:17:58 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 17:17:58 INFO SparkContext: Java version 17.0.19+10
+26/07/16 17:17:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 17:17:58 INFO ResourceUtils: ==============================================================
+26/07/16 17:17:58 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 17:17:58 INFO ResourceUtils: ==============================================================
+26/07/16 17:17:58 INFO SparkContext: Submitted application: spark-plat-v0-sample-customer-landing
+26/07/16 17:17:58 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:17:58 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:17:58 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:17:58 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:17:58 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:17:58 INFO Utils: Successfully started service 'sparkDriver' on port 34535.
+26/07/16 17:17:58 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 17:17:58 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 17:17:58 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 17:17:58 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 17:17:58 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 17:17:58 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-40120a23-9c78-46b9-8248-37588177e897
+26/07/16 17:17:58 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 17:17:58 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 17:17:59 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 17:17:59 INFO Server: Started Server@353ac960{STARTING}[11.0.26,sto=30000] @3571ms
+26/07/16 17:17:59 INFO AbstractConnector: Started ServerConnector@26111e2e{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 17:17:59 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 17:17:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2c1615b5{/,null,AVAILABLE,@Spark}
+26/07/16 17:17:59 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 17:17:59 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 17:17:59 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 17:17:59 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:17:59 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:17:59 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:17:59 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:17:59 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:17:59 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 17:17:59 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 33 ms (0 ms spent in bootstraps)
+26/07/16 17:17:59 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716171759-0000
+26/07/16 17:17:59 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 36629.
+26/07/16 17:17:59 INFO NettyBlockTransferService: Server created on 00f32b1690f5:36629
+26/07/16 17:17:59 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 17:17:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 00f32b1690f5, 36629, None)
+26/07/16 17:17:59 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716171759-0000/0 on worker-20260716171747-172.19.0.5-38333 (172.19.0.5:38333) with 1 core(s)
+26/07/16 17:17:59 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716171759-0000/0 on hostPort 172.19.0.5:38333 with 1 core(s), 1024.0 MiB RAM
+26/07/16 17:17:59 INFO BlockManagerMasterEndpoint: Registering block manager 00f32b1690f5:36629 with 434.4 MiB RAM, BlockManagerId(driver, 00f32b1690f5, 36629, None)
+26/07/16 17:17:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 00f32b1690f5, 36629, None)
+26/07/16 17:17:59 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 00f32b1690f5, 36629, None)
+26/07/16 17:17:59 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716171759-0000/0 is now RUNNING
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 17:18:01 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716171759-0000/events_1_app-20260716171759-0000.zstd
+26/07/16 17:18:01 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@2c1615b5{/,null,STOPPED,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@53221839{/jobs,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5968ab67{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1919bd23{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5ba8f2d7{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3ae4f998{/stages,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7a0ec710{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@36edcf04{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@698d7a75{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@bc1f22{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@49c10775{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7ab00633{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1ca4c5b7{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@56008c62{/storage,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4d53c6b1{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6f5bf80e{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4a1c5e2c{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1732c03f{/environment,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6da35ac4{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@55b6827{/executors,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3c5d581{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@12ba69a7{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@75d65a75{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@9f1153c{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1477dd3{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@757ae54e{/static,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4963542d{/,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@683ac4c7{/api,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3c14ee23{/metrics,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1625ad6c{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@44c2fd87{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4cd0e8ac{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:01 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 17:18:02 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:49130) with ID 0, ResourceProfileId 0
+26/07/16 17:18:02 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:36989 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 36989, None)
+[07/16 14:18:05] - [1;36m[Info]:[0m Writing json dataset to s3a://lakehouse/landing/customer with mode=overwrite
+26/07/16 17:18:05 WARN AbstractS3ACommitterFactory: Using standard FileOutputCommitter to commit work. This is slow and potentially unsafe.
+[07/16 14:18:10] - [1;36m[Info]:[0m Wrote landing.customer to s3a://lakehouse/landing/customer
+[07/16 14:18:10] - [1;36m[Info]:[0m Completed spark-plat-v0-sample-customer-landing
+[07/16 14:18:10] - [1;36m[Info]:[0m Stopping active SparkSession
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 14:18:14] - [1;36m[Info]:[0m Starting spark-plat-v0-smoke-customer-bronze
+[07/16 14:18:14] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-smoke-customer-bronze
+26/07/16 17:18:14 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 17:18:14 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 17:18:14 INFO SparkContext: Java version 17.0.19+10
+26/07/16 17:18:14 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 17:18:13 INFO ResourceUtils: ==============================================================
+26/07/16 17:18:13 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 17:18:13 INFO ResourceUtils: ==============================================================
+26/07/16 17:18:13 INFO SparkContext: Submitted application: spark-plat-v0-smoke-customer-bronze
+26/07/16 17:18:13 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:18:13 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:18:13 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:18:13 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:18:13 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:18:13 INFO Utils: Successfully started service 'sparkDriver' on port 39799.
+26/07/16 17:18:13 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 17:18:13 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 17:18:13 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 17:18:13 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 17:18:13 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 17:18:13 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-2e711b41-5f0b-4b91-974c-a32acf9c0534
+26/07/16 17:18:13 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 17:18:13 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 17:18:13 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 17:18:13 INFO Server: Started Server@7233e35{STARTING}[11.0.26,sto=30000] @3341ms
+26/07/16 17:18:13 INFO AbstractConnector: Started ServerConnector@38d7e26b{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 17:18:13 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 17:18:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5c2ce0b5{/,null,AVAILABLE,@Spark}
+26/07/16 17:18:13 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 17:18:13 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 17:18:13 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 17:18:13 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:18:13 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:18:13 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:18:13 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:18:13 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:18:13 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 17:18:13 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 24 ms (0 ms spent in bootstraps)
+26/07/16 17:18:14 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716171814-0001
+26/07/16 17:18:14 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716171814-0001/0 on worker-20260716171747-172.19.0.5-38333 (172.19.0.5:38333) with 1 core(s)
+26/07/16 17:18:14 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716171814-0001/0 on hostPort 172.19.0.5:38333 with 1 core(s), 1024.0 MiB RAM
+26/07/16 17:18:14 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33135.
+26/07/16 17:18:14 INFO NettyBlockTransferService: Server created on 00f32b1690f5:33135
+26/07/16 17:18:14 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 17:18:14 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 00f32b1690f5, 33135, None)
+26/07/16 17:18:14 INFO BlockManagerMasterEndpoint: Registering block manager 00f32b1690f5:33135 with 434.4 MiB RAM, BlockManagerId(driver, 00f32b1690f5, 33135, None)
+26/07/16 17:18:14 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716171814-0001/0 is now RUNNING
+26/07/16 17:18:14 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 00f32b1690f5, 33135, None)
+26/07/16 17:18:14 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 00f32b1690f5, 33135, None)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 17:18:16 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716171814-0001/events_1_app-20260716171814-0001.zstd
+26/07/16 17:18:16 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@5c2ce0b5{/,null,STOPPED,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@693313ca{/jobs,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2d131733{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4725541c{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5174f7a0{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1df8d014{/stages,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@49fcf1d5{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@29a5b299{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@66aed9ab{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3020949d{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2dec3e36{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@39cb6ca{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@c4cdc8e{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3f3fc8e3{/storage,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7f7312ca{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7f07a926{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@50b6a35{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@941ba86{/environment,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7bef0029{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5fb11088{/executors,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@25adb5b0{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@29935877{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4785ceff{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3f3b8d1{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@a118bf6{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@24e8d4e7{/static,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@129d29f4{/,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2be83b6c{/api,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6ad27d72{/metrics,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1aff4bb7{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@17e6813c{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7b930c96{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:16 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 17:18:16 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:41194) with ID 0, ResourceProfileId 0
+26/07/16 17:18:17 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:43717 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 43717, None)
+[07/16 14:18:18] - [1;36m[Info]:[0m Reading json dataset from s3a://lakehouse/landing/customer
+[07/16 14:18:23] - [1;36m[Info]:[0m Writing delta dataset to s3a://lakehouse/bronze/customer with mode=overwrite
+26/07/16 17:18:24 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+[07/16 14:18:37] - [1;36m[Info]:[0m Wrote bronze.customer to s3a://lakehouse/bronze/customer
+[07/16 14:18:37] - [1;36m[Info]:[0m Completed spark-plat-v0-smoke-customer-bronze
+[07/16 14:18:37] - [1;36m[Info]:[0m Stopping active SparkSession
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 14:18:40] - [1;36m[Info]:[0m Starting spark-plat-v0-sanity-customer-lakehouse
+[07/16 14:18:40] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-sanity-customer-lakehouse
+26/07/16 17:18:41 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 17:18:41 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 17:18:41 INFO SparkContext: Java version 17.0.19+10
+26/07/16 17:18:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 17:18:41 INFO ResourceUtils: ==============================================================
+26/07/16 17:18:41 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 17:18:41 INFO ResourceUtils: ==============================================================
+26/07/16 17:18:41 INFO SparkContext: Submitted application: spark-plat-v0-sanity-customer-lakehouse
+26/07/16 17:18:41 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:18:41 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:18:41 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:18:41 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:18:41 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:18:41 INFO Utils: Successfully started service 'sparkDriver' on port 35741.
+26/07/16 17:18:41 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 17:18:41 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 17:18:41 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 17:18:41 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 17:18:41 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 17:18:41 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-12347e64-e36b-42ca-a718-14f237c09100
+26/07/16 17:18:41 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 17:18:41 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 17:18:41 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 17:18:41 INFO Server: Started Server@7233e35{STARTING}[11.0.26,sto=30000] @3332ms
+26/07/16 17:18:42 INFO AbstractConnector: Started ServerConnector@123d064e{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 17:18:42 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 17:18:42 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5c2ce0b5{/,null,AVAILABLE,@Spark}
+26/07/16 17:18:42 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 17:18:42 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 17:18:42 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 17:18:42 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:18:42 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:18:42 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:18:42 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:18:42 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:18:42 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 17:18:42 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 31 ms (0 ms spent in bootstraps)
+26/07/16 17:18:42 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716171842-0002
+26/07/16 17:18:42 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716171842-0002/0 on worker-20260716171747-172.19.0.5-38333 (172.19.0.5:38333) with 1 core(s)
+26/07/16 17:18:42 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716171842-0002/0 on hostPort 172.19.0.5:38333 with 1 core(s), 1024.0 MiB RAM
+26/07/16 17:18:42 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 43131.
+26/07/16 17:18:42 INFO NettyBlockTransferService: Server created on 00f32b1690f5:43131
+26/07/16 17:18:42 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 17:18:42 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 00f32b1690f5, 43131, None)
+26/07/16 17:18:42 INFO BlockManagerMasterEndpoint: Registering block manager 00f32b1690f5:43131 with 434.4 MiB RAM, BlockManagerId(driver, 00f32b1690f5, 43131, None)
+26/07/16 17:18:42 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716171842-0002/0 is now RUNNING
+26/07/16 17:18:42 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 00f32b1690f5, 43131, None)
+26/07/16 17:18:42 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 00f32b1690f5, 43131, None)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 17:18:44 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716171842-0002/events_1_app-20260716171842-0002.zstd
+26/07/16 17:18:44 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@5c2ce0b5{/,null,STOPPED,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@44649129{/jobs,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6486ddf7{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3495c9ec{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3d1fdbbf{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@372c58ce{/stages,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@409d4725{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3ebe16c2{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6209c1fc{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4b4d7450{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@256b8c73{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5ba014f0{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@26400719{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7e713261{/storage,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@f4dfa93{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@30900e54{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@630a435e{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3a43d64e{/environment,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@15c96397{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3754417b{/executors,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@bf2f069{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5859f13{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@32f3c24{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4001408c{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@32cfffb8{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@38280d14{/static,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4b7d2fb1{/,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1dcd3c00{/api,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@167d0de5{/metrics,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@105181a8{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@39564e58{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@69ef9e84{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 17:18:44 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 17:18:45 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:53752) with ID 0, ResourceProfileId 0
+26/07/16 17:18:45 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:44023 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 44023, None)
+[07/16 14:18:45] - [1;36m[Info]:[0m Reading json dataset from s3a://lakehouse/landing/customer
+[07/16 14:18:49] - [1;36m[Info]:[0m Reading delta dataset from s3a://lakehouse/bronze/customer
+26/07/16 17:18:52 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+[07/16 14:19:04] - [1;36m[Info]:[0m Sanity check passed landing_rows=5 bronze_rows=5 country_groups=2
+[07/16 14:19:04] - [1;36m[Info]:[0m Completed spark-plat-v0-sanity-customer-lakehouse
+[07/16 14:19:04] - [1;36m[Info]:[0m Stopping active SparkSession
+ Container spark-plat-v0-minio-init-run-a7fc5f6e2157 Creating 
+ Container spark-plat-v0-minio-init-run-a7fc5f6e2157 Created 
+ Container spark-plat-v0-minio-init-run-df45ae809870 Creating 
+ Container spark-plat-v0-minio-init-run-df45ae809870 Created 
+ Container spark-plat-v0-minio-init-run-2fa260d69ea3 Creating 
+ Container spark-plat-v0-minio-init-run-2fa260d69ea3 Created 
+Smoke validation passed
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ plugin-on check_sanity.py
+WARNING: Using incubator modules: jdk.incubator.vector
+[07/16 14:19:11] - [1;36m[Info]:[0m Starting spark-plat-v0-sanity-customer-lakehouse
+[07/16 14:19:11] - [1;36m[Info]:[0m Creating SparkSession app_name=spark-plat-v0-sanity-customer-lakehouse
+26/07/16 17:19:12 INFO SparkContext: Running Spark version 4.1.2
+26/07/16 17:19:12 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/16 17:19:12 INFO SparkContext: Java version 17.0.19+10
+26/07/16 17:19:12 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/16 17:19:12 INFO ResourceUtils: ==============================================================
+26/07/16 17:19:12 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/16 17:19:12 INFO ResourceUtils: ==============================================================
+26/07/16 17:19:12 INFO SparkContext: Submitted application: spark-plat-v0-sanity-customer-lakehouse
+26/07/16 17:19:12 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:19:12 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:19:12 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:19:12 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:19:12 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:19:12 INFO Utils: Successfully started service 'sparkDriver' on port 43803.
+26/07/16 17:19:12 INFO SparkEnv: Registering MapOutputTracker
+26/07/16 17:19:12 INFO SparkEnv: Registering BlockManagerMaster
+26/07/16 17:19:12 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/16 17:19:12 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/16 17:19:12 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/16 17:19:12 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-42d273ec-fd0a-4032-996c-2af534c48258
+26/07/16 17:19:12 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/16 17:19:13 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/16 17:19:13 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/16 17:19:13 INFO Server: Started Server@1b56a01f{STARTING}[11.0.26,sto=30000] @3637ms
+26/07/16 17:19:13 INFO AbstractConnector: Started ServerConnector@38d7e26b{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/16 17:19:13 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/16 17:19:13 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1b4b5e52{/,null,AVAILABLE,@Spark}
+26/07/16 17:19:13 INFO DriverPluginContainer: Initialized driver component for plugin io.dataship.spark.observer.SparkDataShipPlugin.
+26/07/16 17:19:13 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/16 17:19:13 INFO ResourceProfile: Limiting resource is cpu
+26/07/16 17:19:13 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/16 17:19:13 INFO SecurityManager: Changing view acls to: spark
+26/07/16 17:19:13 INFO SecurityManager: Changing modify acls to: spark
+26/07/16 17:19:13 INFO SecurityManager: Changing view acls groups to: spark
+26/07/16 17:19:13 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/16 17:19:13 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/16 17:19:13 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/16 17:19:13 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.4:7077 after 23 ms (0 ms spent in bootstraps)
+26/07/16 17:19:13 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260716171913-0003
+26/07/16 17:19:13 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260716171913-0003/0 on worker-20260716171747-172.19.0.5-38333 (172.19.0.5:38333) with 1 core(s)
+26/07/16 17:19:13 INFO StandaloneSchedulerBackend: Granted executor ID app-20260716171913-0003/0 on hostPort 172.19.0.5:38333 with 1 core(s), 1024.0 MiB RAM
+26/07/16 17:19:13 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 45629.
+26/07/16 17:19:13 INFO NettyBlockTransferService: Server created on 00f32b1690f5:45629
+26/07/16 17:19:13 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/16 17:19:13 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 00f32b1690f5, 45629, None)
+26/07/16 17:19:13 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260716171913-0003/0 is now RUNNING
+26/07/16 17:19:13 INFO BlockManagerMasterEndpoint: Registering block manager 00f32b1690f5:45629 with 434.4 MiB RAM, BlockManagerId(driver, 00f32b1690f5, 45629, None)
+26/07/16 17:19:13 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 00f32b1690f5, 45629, None)
+26/07/16 17:19:13 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 00f32b1690f5, 45629, None)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/16 17:19:15 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260716171913-0003/events_1_app-20260716171913-0003.zstd
+26/07/16 17:19:15 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@1b4b5e52{/,null,STOPPED,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@de53928{/jobs,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4c5eb7de{/jobs/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1ce7ed4{/jobs/job,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6708a1e4{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@13a194db{/stages,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5bc38580{/stages/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2d64df8d{/stages/stage,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@292ff67e{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1aaa7784{/stages/pool,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5537112d{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@47deb403{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@454691df{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@76aa96a0{/storage,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@598b5c5{/storage/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@51d1e4fa{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6d2d94f6{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2364ce6e{/environment,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5690e7a4{/environment/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4e4b521f{/executors,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@123d4523{/executors/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2ba3a69{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@30e4651e{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5fdf8d5e{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@45aadb3c{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@46479306{/static,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@433ccbaa{/,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@583ac30b{/api,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1c78f823{/metrics,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3cd5b74{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@22e7a82b{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@78c1c478{/metrics/json,null,AVAILABLE,@Spark}
+26/07/16 17:19:15 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/16 17:19:14 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.5:53482) with ID 0, ResourceProfileId 0
+26/07/16 17:19:14 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.5:37711 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.5, 37711, None)
+[07/16 14:19:16] - [1;36m[Info]:[0m Reading json dataset from s3a://lakehouse/landing/customer
+[07/16 14:19:20] - [1;36m[Info]:[0m Reading delta dataset from s3a://lakehouse/bronze/customer
+26/07/16 17:19:23 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+[07/16 14:19:35] - [1;36m[Info]:[0m Sanity check passed landing_rows=5 bronze_rows=5 country_groups=2
+[07/16 14:19:35] - [1;36m[Info]:[0m Completed spark-plat-v0-sanity-customer-lakehouse
+[07/16 14:19:35] - [1;36m[Info]:[0m Stopping active SparkSession
+
+$ verify Task 3 has no driver mapping or /dataship route
+no port 4040/tcp for container spv0-spark-master: 28081/tcp, 28081/tcp
+spark_master_4040_mapping_absent_exit=1
+curl: (7) Failed to connect to 127.0.0.1 port 24040 after 0 ms: Couldn't connect to server
+dataship_route_absent_exit=7
+
+$ make tests
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+........................                                                 [100%]
+24 passed in 0.08s
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make validate
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+Validation passed
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make observer-ui-tests
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+✔ uses the pinned Node 24 toolchain (1.361538ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 73.43285
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make observer-verify
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+commit=c4d014caa55c935596b323ede6f66736594cb708
+
+$ docker image inspect sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16
+image=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 id=sha256:16b0af1a3fddcd4cbf14731c2695876354f96ee4ca43e6252580c23282166849 repo_digests=["sbtscala/scala-sbt@sha256:16b0af1a3fddcd4cbf14731c2695876354f96ee4ca43e6252580c23282166849"]
+
+$ docker image inspect node:24.13.1-bookworm-slim
+image=node:24.13.1-bookworm-slim id=sha256:a81a03dd965b4052269a57fac857004022b522a4bf06e7a739e25e18bce45af2 repo_digests=["node@sha256:a81a03dd965b4052269a57fac857004022b522a4bf06e7a739e25e18bce45af2"]
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim observer-tests
+make[2]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] PluginBootstrapSpec:
+[info] - creates a fresh DataShip driver plugin
+[info] - does not create an executor plugin
+[info] BuildInfoSpec:
+[info] - publishes the plugin version
+[info] - publishes the supported Spark version
+[info] - publishes the Scala binary version
+[info] - publishes the expected artifact name
+[info] ObserverConfigSpec:
+[info] - is disabled by default
+[info] - is enabled by the explicit opt-in flag
+[info] - remains disabled when the flag is explicitly false
+[info] Run completed in -704 milliseconds.
+[info] Total number of tests run: 9
+[info] Suites: completed 3, aborted 0
+[info] Tests: succeeded 9, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 16, 2026, 5:19:45 PM
+make[2]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim observer-ui-tests
+make[2]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+✔ uses the pinned Node 24 toolchain (0.64279ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 65.94392
+make[2]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim observer-jar
+make[2]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[success] Total time: 1 s, completed Jul 16, 2026, 5:19:51 PM
+make[2]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ jar tf spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar  # inside sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16
+META-INF/MANIFEST.MF
+io/
+io/dataship/
+io/dataship/spark/
+io/dataship/spark/observer/
+io/dataship/spark/observer/BuildInfo$.class
+io/dataship/spark/observer/BuildInfo.class
+io/dataship/spark/observer/ObserverConfig$.class
+io/dataship/spark/observer/ObserverConfig.class
+io/dataship/spark/observer/SparkDataShipDriverPlugin.class
+io/dataship/spark/observer/SparkDataShipPlugin.class
+PASS: no org/apache/spark/ or scala/ entries
+
+$ wc -c spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+8889 spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+$ sha256sum spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa  spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim tests
+make[2]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+........................                                                 [100%]
+24 passed in 0.09s
+make[2]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim validate
+make[2]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+Validation passed
+make[2]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+observer_verify_exit_code=0
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+task3_commit_end=c4d014caa55c935596b323ede6f66736594cb708
+task3_fingerprint_end=50e5a70b92511257f7d22525ef1100c77617b42f0db41112c606adb80b739e1d
+observer_bootstrap_verify_status=PASS
+
+observer_bootstrap_verify_exit_code=0
+
+Script done on 2026-07-16 18:19:55+01:00 [COMMAND_EXIT_CODE="0"]

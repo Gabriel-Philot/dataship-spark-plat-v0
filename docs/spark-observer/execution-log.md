@@ -96,7 +96,7 @@ Task 2 — adicionar o toolchain JVM totalmente conteinerizado.
 **Data:** 2026-07-16
 **Branch:** `exp-dataflint-based-test-jar`
 **HEAD inicial:** `ec3e76486cdd6ae6a08a003c8c9584af853274f0`
-**Status:** `READY — aguardando ACEITO do usuário`
+**Status:** `PASS — ACEITO`
 
 **Hipótese:** o módulo Scala e os testes JavaScript compilam/testam sem Java, Scala, sbt ou Node instalados no host.
 
@@ -260,7 +260,7 @@ O plano `docs/spark-observer/2026-07-15-dataship-spark-observer-implementation-p
 | `Runtime / managedClasspath` | vazio, confirmando o escopo `Provided` |
 | JAR | listing exato anterior preservado; `2522` bytes; SHA-256 `ba3e358661a8e707eb238c5a00cfcdcd60bb02c14d44d3485c123da97630019c`; nenhuma entrada `org/apache/spark/` ou `scala/` |
 
-**Estado final desta execução:** `READY — aguardando ACEITO do usuário`, sem commit, stage ou push. Isso não constitui `PASS`/`ACEITO`, e a Task 3 não foi iniciada.
+**Estado final daquela execução:** `READY — aguardando ACEITO do usuário`, sem commit, stage ou push. Naquele momento isso ainda não constituía `PASS`/`ACEITO`, e a Task 3 não havia sido iniciada.
 
 #### Hardening do contrato live de History — re-review
 
@@ -324,3 +324,199 @@ O header do transcript contém `COMMAND="make observer-verify"`. O script força
 Não existe transcript bruto do RED original por ausência de `BuildInfo`; ele não foi recriado artificialmente removendo código.
 
 **Estrutura dos checkpoints:** `4ed0627` contém o gate reproduzível versionado. O checkpoint documental seguinte conserva o transcript e a captura gerados diretamente sobre esse commit. A Task 3 permanece não iniciada.
+
+### Aceite do usuário
+
+- Resultado: `PASS — ACEITO`.
+- A Task 2 foi encerrada pelo usuário em 2026-07-16 após o gate reproduzível e a re-review independente sem findings.
+- O aceite da Task 2 não autorizou automaticamente a Task 3; o usuário autorizou a Task 3 separadamente em 2026-07-16.
+
+## Task 3 — produzir o JAR mínimo carregável e opt-in
+
+**Data:** 2026-07-16
+**Branch:** `exp-dataflint-based-test-jar`
+**HEAD inicial:** `c4d014caa55c935596b323ede6f66736594cb708`
+**Status:** `PASS — ACEITO`
+
+**Hipótese:** Spark carrega o plugin somente com as duas flags opt-in, cria
+apenas o componente de driver, não cria componente de executor e preserva o
+resultado do workload existente.
+
+### RED válido
+
+| Comando | Exit | Falha observada | Por que é válido |
+| --- | ---: | --- | --- |
+| `make observer-tests` | 2 | Sete erros `not found` para `ObserverConfig`, `SparkDataShipPlugin` e `SparkDataShipDriverPlugin`. | Docker, sbt, Java, projeto e runner carregaram; somente as classes sob teste estavam ausentes. |
+| `uv run pytest tests/test_spark_runtime_readiness.py -q` | 2 | `ModuleNotFoundError: No module named 'build.scripts.wait_spark_runtime_ready'`. | Pytest coletou o arquivo focado e falhou exclusivamente porque o helper ainda não existia. |
+
+A primeira tentativa confinada de `make observer-tests` não foi contada como
+RED porque o sandbox bloqueou o socket Docker. O transcript válido foi
+capturado ao repetir o mesmo target com acesso autorizado, antes de criar as
+classes de produção.
+
+### GREEN, runtime e workloads
+
+| Gate | Comando | Exit | Resultado |
+| --- | --- | ---: | --- |
+| Readiness unitário | `uv run pytest tests/test_spark_runtime_readiness.py -q` | 0 | `4 passed`; master indisponível, sem worker, worker `ALIVE` e timeout determinístico sem espera real. |
+| Scala focado | `make observer-tests` | 0 | `9/9`; driver novo, executor nulo e configuração enabled/default false. |
+| Refresh | `make observer-runtime-refresh` | 0 | JAR recompilado e staged, imagem Spark reconstruída, containers antigos removidos, master/worker recriados; depois `Spark Master UI responded HTTP 200` e `1 registered worker(s) ALIVE`. |
+| Checksum | host + `spark-master:/opt/spark/jars/...` | 0 | Ambos `6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa`. |
+| Compose | `make compose` | 0 | Validação e readiness existentes passaram. |
+| Plugin off | `make smoke` | 0 | `Smoke validation passed`; sanity `landing_rows=5 bronze_rows=5 country_groups=2`. |
+| Plugin on | `check_sanity.py` com as duas flags | 0 | Spark registrou o componente do driver; sanity idêntico `5/5/2`. |
+| Ausência de rota | mapping `4040` + `curl 24040/dataship/` | 0 no wrapper | Exits internos esperados `1` e `7`; nenhuma rota/porta DataShip. |
+| Regressões | `make tests && make validate && make observer-ui-tests` | 0 | `22 passed`, `Validation passed`, Node `1/1`. |
+| Verifier aceito | `make observer-verify` | 0 | Scala `9/9`, Node `1/1`, Python `22/22`, JAR sem classes Spark/Scala, validate PASS. |
+
+### Evidência
+
+- relatório humano: `docs/spark-observer/evidence/task-03/bootstrap-report.md`;
+- Master UI: `spark-master-plugin-bootstrap.png`;
+- JSON que sustenta a captura: `spark-master-plugin-bootstrap.json`;
+- transcripts RED/GREEN: `task-03-scala-red.txt`,
+  `task-03-scala-green.txt`, `task-03-python-red.txt`,
+  `task-03-python-green.txt`;
+- runtime/checksum: `task-03-runtime-refresh.txt`,
+  `task-03-jar-checksum.txt`;
+- workloads: `task-03-plugin-off-smoke.txt`,
+  `task-03-plugin-on-sanity.txt`;
+- regressões e ausência: `task-03-regressions.txt`,
+  `task-03-observer-verify.txt`, `task-03-route-absence.txt`.
+
+### Escopo e risco restante
+
+- O plugin contém somente bootstrap e parsing da flag enabled.
+- `init` faz apenas parsing local e retorna mapa vazio; não há I/O externo.
+- Não existem thread, listener, endpoint, aba, executor plugin ou adapter de
+  internals nesta task.
+- Nenhum arquivo protegido do caminho durável foi alterado.
+- Task 4 não foi iniciada: não há publicação de `4040`, probe live ou harness.
+- O estado é `READY`; nenhum commit, stage, push ou aceite foi executado.
+
+### Correções pós-review — timeout estrito e gate reproduzível
+
+O review encontrou dois pontos `Important`, ambos corrigidos sem ampliar o
+escopo da Task 3.
+
+#### Deadline estrito da readiness
+
+Foi adicionado um teste determinístico no qual a consulta começa antes do
+deadline, termina depois dele e devolve um worker `ALIVE`.
+
+- RED: `uv run pytest tests/test_spark_runtime_readiness.py -q` terminou com
+  exit `1`; `4` testes passaram e o novo teste falhou porque o helper retornou
+  `True` após o deadline.
+- Correção mínima: o relógio é consultado imediatamente depois de
+  `fetch_status`; o timeout é aplicado antes de aceitar uma resposta ready.
+- GREEN: o mesmo comando terminou com exit `0` e `5 passed`.
+
+Evidências:
+
+- `task-03-timeout-review-red.txt`;
+- `task-03-timeout-review-green.txt`.
+
+#### Verifier versionado e vinculado à identidade
+
+Foi adicionado `build/scripts/verify-observer-bootstrap.sh`, exposto por
+`make observer-bootstrap-verify`. O script:
+
+- calcula um fingerprint de uma allowlist explícita de `11` arquivos Task 3;
+- exclui `.env`, arquivos ignorados, relatórios e evidência gerada;
+- imprime commit e fingerprint antes dos gates;
+- executa, em ordem, readiness, Scala, refresh, identidade da imagem,
+  igualdade do checksum do JAR, compose, plugin off, plugin on, ausência de
+  mapping/rota, regressões, validação e verifiers existentes;
+- repete commit e fingerprint ao final e exige igualdade;
+- emite status e exit code finais explícitos.
+
+O contrato foi conduzido por TDD:
+
+- RED comportamental: o target e o esqueleto já existiam, mas o teste focado
+  terminou com exit `1` porque a allowlist de fingerprint ainda estava
+  ausente;
+- GREEN: `uv run pytest tests/test_observer_platform_contract.py -q`
+  terminou com exit `0` e `7 passed`.
+
+Evidências:
+
+- `task-03-verifier-contract-red.txt`;
+- `task-03-verifier-contract-green.txt`.
+
+#### Gate autoritativo
+
+Captura direta:
+
+```bash
+script -qefc 'make observer-bootstrap-verify' \
+  docs/spark-observer/evidence/task-03/task-03-bootstrap-verification.txt
+```
+
+| Campo | Resultado |
+| --- | --- |
+| Commit inicial/final | `c4d014caa55c935596b323ede6f66736594cb708` |
+| Fingerprint inicial/final | `50e5a70b92511257f7d22525ef1100c77617b42f0db41112c606adb80b739e1d` |
+| Imagem runtime ID/digest | `sha256:ba58541d76f336354e6fadcf2c9dd6adcc2ef1c984b6ec15bea8b83700e48cff` |
+| Readiness | `5/5` |
+| Scala | `9/9` |
+| Python | `24/24` |
+| Node | `1/1` |
+| Workloads off/on | ambos `landing_rows=5 bronze_rows=5 country_groups=2` |
+| Host/container JAR | SHA-256 idêntico `6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa` |
+| Mapping/rota | exits internos esperados `1` e `7` |
+| Status | `observer_bootstrap_verify_status=PASS` |
+| Exits finais | verifier `0`; transcript `COMMAND_EXIT_CODE="0"` |
+
+O JSON e a captura da Spark Master foram regenerados depois desse gate. Eles
+mostram um worker `ALIVE` e quatro aplicações concluídas, incluindo as duas
+execuções sanity usadas na comparação plugin off/on.
+
+Os transcripts separados de runtime, checksum e workloads continuam
+preservados como histórico da implementação, mas o transcript autoritativo
+acima os substitui como evidência de aceite da Task 3.
+
+#### Verificação independente do controlador
+
+Depois da re-review aprovada, o controlador repetiu diretamente o mesmo gate:
+
+```bash
+script -qefc 'make observer-bootstrap-verify' \
+  docs/spark-observer/evidence/task-03/task-03-controller-verification.txt
+```
+
+O segundo transcript confirmou novamente:
+
+- commit inicial/final `c4d014caa55c935596b323ede6f66736594cb708`;
+- fingerprint inicial/final
+  `50e5a70b92511257f7d22525ef1100c77617b42f0db41112c606adb80b739e1d`;
+- readiness `5/5`, Scala `9/9`, Python `24/24` e Node `1/1`;
+- workloads off/on com resultado idêntico `5/5/2`;
+- inicialização do componente de driver somente no modo opt-in;
+- checksum idêntico do JAR no host e no `spark-master`;
+- ausência esperada do mapping `4040` e da rota `/dataship/`;
+- `observer_bootstrap_verify_status=PASS`;
+- verifier e transcript com exit code `0`.
+
+A captura e o JSON da Spark Master foram regenerados depois da repetição do
+controlador e mostram um worker `ALIVE` e quatro aplicações concluídas.
+
+#### Escopo final e risco menor conhecido
+
+- Foi adicionada uma regra `.gitattributes` limitada aos transcripts de
+  evidência `task-*/*.txt`. Ela preserva o output bruto de PTY/Docker e
+  desabilita somente o detector de whitespace para esses arquivos; código e
+  documentação continuam cobertos por `git diff --check`.
+- Nenhum caminho protegido foi alterado.
+- Nenhum arquivo reservado à Task 4 foi alterado.
+- Não foi adicionado teste unitário que invoque diretamente
+  `SparkDataShipDriverPlugin.init`; esse finding `Minor` permanece registrado.
+  O caminho de `init` está coberto pela inicialização live observada no log do
+  Spark e por inspeção do código, mas não por chamada unitária direta.
+- O estado passou para `PASS — ACEITO` após autorização explícita do usuário
+  em 2026-07-16.
+
+### Aceite do usuário
+
+- Resultado: `PASS — ACEITO`.
+- O usuário autorizou o commit e o push da Task 3 para validação externa.
+- O aceite e a publicação desta task não autorizam o início da Task 4.

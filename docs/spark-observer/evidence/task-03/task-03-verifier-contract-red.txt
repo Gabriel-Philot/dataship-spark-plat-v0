@@ -1,0 +1,49 @@
+Script started on 2026-07-16 18:15:09+01:00 [COMMAND="uv run pytest tests/test_observer_platform_contract.py -q" <not executed on terminal>]
+......F                                                                  [100%]
+=================================== FAILURES ===================================
+____ test_observer_bootstrap_verifier_binds_identity_and_live_gate_sequence ____
+
+    def test_observer_bootstrap_verifier_binds_identity_and_live_gate_sequence():
+        makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+        verifier_path = ROOT_DIR / "build/scripts/verify-observer-bootstrap.sh"
+    
+        assert verifier_path.is_file()
+        verifier = verifier_path.read_text(encoding="utf-8")
+        assert re.search(
+            r"^observer-bootstrap-verify:\s*$",
+            makefile,
+            re.MULTILINE,
+        )
+        assert "build/scripts/verify-observer-bootstrap.sh" in makefile
+    
+        expected_fingerprint_files = (
+            "Makefile",
+            "build/scripts/prepare-image-contexts.sh",
+            "build/scripts/wait_spark_runtime_ready.py",
+            "build/scripts/verify-observer-bootstrap.sh",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/"
+            "ObserverConfig.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/"
+            "SparkDataShipDriverPlugin.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/"
+            "SparkDataShipPlugin.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/"
+            "ObserverConfigSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/"
+            "PluginBootstrapSpec.scala",
+            "tests/test_observer_platform_contract.py",
+            "tests/test_spark_runtime_readiness.py",
+        )
+        fingerprint_block = re.search(
+            r"TASK3_FILES=\(\n(?P<files>.*?)\n\)",
+            verifier,
+            re.DOTALL,
+        )
+>       assert fingerprint_block is not None
+E       assert None is not None
+
+tests/test_observer_platform_contract.py:248: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_platform_contract.py::test_observer_bootstrap_verifier_binds_identity_and_live_gate_sequence
+
+Script done on 2026-07-16 18:15:09+01:00 [COMMAND_EXIT_CODE="1"]

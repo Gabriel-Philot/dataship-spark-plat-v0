@@ -1,0 +1,35 @@
+Script started on 2026-07-16 18:13:36+01:00 [COMMAND="uv run pytest tests/test_spark_runtime_readiness.py -q" <not executed on terminal>]
+....F                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_wait_for_spark_runtime_rejects_ready_response_after_deadline _______
+
+    def test_wait_for_spark_runtime_rejects_ready_response_after_deadline():
+        now = [0.0]
+        messages = []
+    
+        def ready_after_deadline(_url):
+            now[0] = 5.0
+            return MasterStatus(
+                http_status=200,
+                alive_workers=1,
+                detail="master ready; 1 ALIVE worker",
+            )
+    
+        ready = wait_for_spark_runtime(
+            "http://127.0.0.1:28081",
+            timeout_seconds=4,
+            poll_interval_seconds=2,
+            fetch_status=ready_after_deadline,
+            monotonic=lambda: now[0],
+            sleep=lambda _seconds: None,
+            emit=messages.append,
+        )
+    
+>       assert not ready
+E       assert not True
+
+tests/test_spark_runtime_readiness.py:139: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_spark_runtime_readiness.py::test_wait_for_spark_runtime_rejects_ready_response_after_deadline
+
+Script done on 2026-07-16 18:13:37+01:00 [COMMAND_EXIT_CODE="1"]

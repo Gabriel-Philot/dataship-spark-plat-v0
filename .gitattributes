@@ -1,0 +1,2 @@
+# Raw terminal transcripts intentionally preserve PTY and tool output.
+docs/spark-observer/evidence/task-*/*.txt -whitespace

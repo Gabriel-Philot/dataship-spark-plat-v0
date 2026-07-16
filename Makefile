@@ -9,7 +9,7 @@ COURSIER_CACHE_DIR := $(ROOT_DIR)/build/cache/coursier
 include .env.example
 -include .env
 
-.PHONY: bootstrap build validate compose ingest-landing bronze sanity smoke spark-logs services test tests observer-tests observer-jar observer-ui-tests observer-verify down removeimage clean-data
+.PHONY: bootstrap build validate compose ingest-landing bronze sanity smoke spark-logs services test tests observer-tests observer-jar observer-ui-tests observer-verify observer-runtime-refresh observer-bootstrap-verify down removeimage clean-data
 
 SPARK_SUBMIT := $(COMPOSE) exec -T spark-master env PYTHONPATH=/opt/spark/src /opt/spark/bin/spark-submit \
 	--master spark://spark-master:7077 \
@@ -31,7 +31,7 @@ OBSERVER_SBT := docker run --rm \
 bootstrap:
 	@build/scripts/bootstrap.sh
 
-build:
+build: observer-jar
 	@build/scripts/validate-bootstrap.sh
 	@build/scripts/prepare-image-contexts.sh >/dev/null
 	@docker build \
@@ -114,6 +114,34 @@ observer-ui-tests:
 
 observer-verify:
 	@build/scripts/verify-observer-toolchain.sh
+
+observer-runtime-refresh: observer-jar
+	@build/scripts/prepare-image-contexts.sh >/dev/null
+	@docker build \
+		--build-arg SPARK_BASE_IMAGE=$(SPARK_BASE_IMAGE) \
+		-f build/images/spark/Dockerfile \
+		-t $(SPARK_RUNTIME_IMAGE) \
+		build/images/spark
+	@$(COMPOSE) rm -sf spark-master spark-worker
+	@driver_port="$$( \
+		$(COMPOSE) config | \
+		awk '$$1 == "target:" && $$2 == "4040" { found = 1; next } found && $$1 == "published:" { gsub(/"/, "", $$2); print $$2; exit }' \
+	)"; \
+	if [[ -n "$$driver_port" ]]; then \
+		if ss -ltn "sport = :$$driver_port" | grep -q LISTEN; then \
+			echo "Host port $$driver_port is already in use; cannot recreate spark-master." >&2; \
+			exit 1; \
+		fi; \
+		echo "Driver UI host port $$driver_port is available."; \
+	fi
+	@$(COMPOSE) up -d --force-recreate spark-master spark-worker
+	@uv run python build/scripts/wait_spark_runtime_ready.py \
+		--master-url "http://127.0.0.1:$(SPARK_MASTER_UI_PORT)" \
+		--timeout-seconds 120 \
+		--poll-interval-seconds 2
+
+observer-bootstrap-verify:
+	@build/scripts/verify-observer-bootstrap.sh
 
 down:
 	@$(COMPOSE) down

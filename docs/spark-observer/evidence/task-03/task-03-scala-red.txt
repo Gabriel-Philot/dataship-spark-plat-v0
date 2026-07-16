@@ -1,0 +1,33 @@
+Script started on 2026-07-16 17:52:47+01:00 [COMMAND="make observer-tests" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 3 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:8:18: not found: value ObserverConfig
+[error]     val config = ObserverConfig.from(new SparkConf(false))
+[error]                  ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:17:18: not found: value ObserverConfig
+[error]     val config = ObserverConfig.from(sparkConf)
+[error]                  ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:26:18: not found: value ObserverConfig
+[error]     val config = ObserverConfig.from(sparkConf)
+[error]                  ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala:7:22: not found: type SparkDataShipPlugin
+[error]     val plugin = new SparkDataShipPlugin
+[error]                      ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala:12:37: not found: type SparkDataShipDriverPlugin
+[error]     assert(firstDriver.isInstanceOf[SparkDataShipDriverPlugin])
+[error]                                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala:13:38: not found: type SparkDataShipDriverPlugin
+[error]     assert(secondDriver.isInstanceOf[SparkDataShipDriverPlugin])
+[error]                                      ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala:18:22: not found: type SparkDataShipPlugin
+[error]     val plugin = new SparkDataShipPlugin
+[error]                      ^
+[error] 7 errors found
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 3 s, completed Jul 16, 2026, 4:52:54 PM
+make: *** [Makefile:101: observer-tests] Error 1
+
+Script done on 2026-07-16 17:52:55+01:00 [COMMAND_EXIT_CODE="2"]

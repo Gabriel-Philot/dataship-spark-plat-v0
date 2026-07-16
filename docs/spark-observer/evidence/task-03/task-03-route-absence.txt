@@ -1,0 +1,7 @@
+Script started on 2026-07-16 18:01:09+01:00 [COMMAND="if docker compose --env-file .env -f build/docker-compose.yml port spark-master 4040; then echo "unexpected_4040_mapping"; exit 1; else code=$?; printf "spark_master_4040_mapping_absent_exit=%s\n" "$code"; test "$code" -eq 1; fi; if curl --fail --silent --show-error --connect-timeout 3 http://127.0.0.1:24040/dataship/; then echo "unexpected_dataship_route"; exit 1; else code=$?; printf "dataship_route_absent_exit=%s\n" "$code"; test "$code" -eq 7; fi" <not executed on terminal>]
+no port 4040/tcp for container spv0-spark-master: 28081/tcp, 28081/tcp
+spark_master_4040_mapping_absent_exit=1
+curl: (7) Failed to connect to 127.0.0.1 port 24040 after 0 ms: Couldn't connect to server
+dataship_route_absent_exit=7
+
+Script done on 2026-07-16 18:01:09+01:00 [COMMAND_EXIT_CODE="0"]

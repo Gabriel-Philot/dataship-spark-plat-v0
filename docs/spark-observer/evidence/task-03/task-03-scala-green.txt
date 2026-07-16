@@ -1,0 +1,29 @@
+Script started on 2026-07-16 17:55:22+01:00 [COMMAND="make observer-tests" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 4 Scala sources to /workspace/spark-observer/target/scala-2.13/classes ...
+[info] done compiling
+[info] compiling 3 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[info] done compiling
+[info] BuildInfoSpec:
+[info] - publishes the plugin version
+[info] - publishes the supported Spark version
+[info] - publishes the Scala binary version
+[info] - publishes the expected artifact name
+[info] PluginBootstrapSpec:
+[info] - creates a fresh DataShip driver plugin
+[info] - does not create an executor plugin
+[info] ObserverConfigSpec:
+[info] - is disabled by default
+[info] - is enabled by the explicit opt-in flag
+[info] - remains disabled when the flag is explicitly false
+[info] Run completed in 801 milliseconds.
+[info] Total number of tests run: 9
+[info] Suites: completed 3, aborted 0
+[info] Tests: succeeded 9, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 6 s, completed Jul 16, 2026, 4:55:32 PM
+
+Script done on 2026-07-16 17:55:33+01:00 [COMMAND_EXIT_CODE="0"]

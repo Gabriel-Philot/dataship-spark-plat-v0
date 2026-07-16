@@ -1,0 +1,15 @@
+Script started on 2026-07-16 18:02:06+01:00 [COMMAND="make tests && make validate && make observer-ui-tests" <not executed on terminal>]
+......................                                                   [100%]
+22 passed in 0.09s
+Validation passed
+✔ uses the pinned Node 24 toolchain (0.845775ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 124.252648
+
+Script done on 2026-07-16 18:02:09+01:00 [COMMAND_EXIT_CODE="0"]
