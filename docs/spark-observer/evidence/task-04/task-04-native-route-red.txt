@@ -1,0 +1,31 @@
+Script started on 2026-07-16 19:42:12+01:00 [COMMAND="uv run pytest tests/test_observer_live_probe.py -q" <not executed on terminal>]
+........F                                                                [100%]
+=================================== FAILURES ===================================
+____________ test_versioned_live_harness_is_the_primary_make_target ____________
+
+    def test_versioned_live_harness_is_the_primary_make_target():
+        makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+        harness_path = ROOT_DIR / "build/scripts/run-observer-live-probe.sh"
+    
+        assert harness_path.is_file()
+        harness = harness_path.read_text(encoding="utf-8")
+    
+        assert re.search(r"^observer-live:\s*$", makefile, re.MULTILINE)
+        assert "build/scripts/run-observer-live-probe.sh" in makefile
+        assert ".superpowers/" not in harness
+        assert "OBSERVER_ENABLED" in harness
+        assert "OBSERVER_RUN_ID" in harness
+        assert "/tmp/" in harness
+        assert "trap cleanup EXIT" in harness
+        assert "trap 'exit 143' TERM" in harness
+        assert "trap 'exit 130' INT" in harness
+        assert "timeout" in harness
+        assert "--location" in harness
+>       assert "native_dataship_route_absent=true" in harness
+E       assert 'native_dataship_route_absent=true' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...after" == "$mapping" ]]\nprintf \'spark_master_4040_mapping_persists=%s\\n\' "$mapping_after"\n\nexit "$submit_exit"\n'
+
+tests/test_observer_live_probe.py:103: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_live_probe.py::test_versioned_live_harness_is_the_primary_make_target
+
+Script done on 2026-07-16 19:42:13+01:00 [COMMAND_EXIT_CODE="1"]

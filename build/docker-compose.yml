@@ -80,6 +80,7 @@ services:
       - "8080"
     ports:
       - "${SPARK_MASTER_UI_PORT:-28081}:8080"
+      - "127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040"
     volumes:
       - ../src:/opt/spark/src:ro
       - ./var/metrics:/opt/spark/metrics

@@ -1,0 +1,280 @@
+Script started on 2026-07-16 19:25:21+01:00 [COMMAND="uv run pytest tests/test_observer_live_probe.py -q" <not executed on terminal>]
+FFFFFFFFF                                                                [100%]
+=================================== FAILURES ===================================
+_________________ test_defaults_match_the_live_probe_contract __________________
+
+    def test_defaults_match_the_live_probe_contract():
+>       probe = _load_probe()
+                ^^^^^^^^^^^^^
+
+tests/test_observer_live_probe.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_observer_live_probe.py:15: in _load_probe
+    return importlib.import_module("apps.observer_live_probe")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'apps.observer_live_probe'
+import_ = <function _gcd_import at 0x72d5d7bd04a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'apps.observer_live_probe'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_________________ test_negative_values_are_rejected[--rows--1] _________________
+
+flag = '--rows', value = '-1'
+
+    @pytest.mark.parametrize(
+        ("flag", "value"),
+        (
+            ("--rows", "-1"),
+            ("--partitions", "-1"),
+            ("--delay-ms", "-1"),
+            ("--hold-seconds", "-1"),
+        ),
+    )
+    def test_negative_values_are_rejected(flag, value):
+>       probe = _load_probe()
+                ^^^^^^^^^^^^^
+
+tests/test_observer_live_probe.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_observer_live_probe.py:15: in _load_probe
+    return importlib.import_module("apps.observer_live_probe")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'apps.observer_live_probe'
+import_ = <function _gcd_import at 0x72d5d7bd04a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'apps.observer_live_probe'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+______________ test_negative_values_are_rejected[--partitions--1] ______________
+
+flag = '--partitions', value = '-1'
+
+    @pytest.mark.parametrize(
+        ("flag", "value"),
+        (
+            ("--rows", "-1"),
+            ("--partitions", "-1"),
+            ("--delay-ms", "-1"),
+            ("--hold-seconds", "-1"),
+        ),
+    )
+    def test_negative_values_are_rejected(flag, value):
+>       probe = _load_probe()
+                ^^^^^^^^^^^^^
+
+tests/test_observer_live_probe.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_observer_live_probe.py:15: in _load_probe
+    return importlib.import_module("apps.observer_live_probe")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'apps.observer_live_probe'
+import_ = <function _gcd_import at 0x72d5d7bd04a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'apps.observer_live_probe'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_______________ test_negative_values_are_rejected[--delay-ms--1] _______________
+
+flag = '--delay-ms', value = '-1'
+
+    @pytest.mark.parametrize(
+        ("flag", "value"),
+        (
+            ("--rows", "-1"),
+            ("--partitions", "-1"),
+            ("--delay-ms", "-1"),
+            ("--hold-seconds", "-1"),
+        ),
+    )
+    def test_negative_values_are_rejected(flag, value):
+>       probe = _load_probe()
+                ^^^^^^^^^^^^^
+
+tests/test_observer_live_probe.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_observer_live_probe.py:15: in _load_probe
+    return importlib.import_module("apps.observer_live_probe")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'apps.observer_live_probe'
+import_ = <function _gcd_import at 0x72d5d7bd04a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'apps.observer_live_probe'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_____________ test_negative_values_are_rejected[--hold-seconds--1] _____________
+
+flag = '--hold-seconds', value = '-1'
+
+    @pytest.mark.parametrize(
+        ("flag", "value"),
+        (
+            ("--rows", "-1"),
+            ("--partitions", "-1"),
+            ("--delay-ms", "-1"),
+            ("--hold-seconds", "-1"),
+        ),
+    )
+    def test_negative_values_are_rejected(flag, value):
+>       probe = _load_probe()
+                ^^^^^^^^^^^^^
+
+tests/test_observer_live_probe.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_observer_live_probe.py:15: in _load_probe
+    return importlib.import_module("apps.observer_live_probe")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'apps.observer_live_probe'
+import_ = <function _gcd_import at 0x72d5d7bd04a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'apps.observer_live_probe'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+_______________ test_expected_result_is_small_and_deterministic ________________
+
+    def test_expected_result_is_small_and_deterministic():
+>       probe = _load_probe()
+                ^^^^^^^^^^^^^
+
+tests/test_observer_live_probe.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_observer_live_probe.py:15: in _load_probe
+    return importlib.import_module("apps.observer_live_probe")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'apps.observer_live_probe'
+import_ = <function _gcd_import at 0x72d5d7bd04a0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'apps.observer_live_probe'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+______________ test_pyspark_imports_are_confined_to_runtime_main _______________
+
+    def test_pyspark_imports_are_confined_to_runtime_main():
+>       source = (ROOT_DIR / "src/apps/observer_live_probe.py").read_text(
+            encoding="utf-8"
+        )
+
+tests/test_observer_live_probe.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/home/philot/compendium/forge/dataship/spark-plat-v0/src/apps/observer_live_probe.py')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/home/philot/compendium/forge/dataship/spark-plat-v0/src/apps/observer_live_probe.py'
+
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+__________ test_spark_master_publishes_only_the_local_driver_ui_port ___________
+
+    def test_spark_master_publishes_only_the_local_driver_ui_port():
+        compose = yaml.safe_load(
+            (ROOT_DIR / "build/docker-compose.yml").read_text(encoding="utf-8")
+        )
+    
+>       assert (
+            "127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040"
+            in compose["services"]["spark-master"]["ports"]
+        )
+E       AssertionError: assert '127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040' in ['${SPARK_MASTER_UI_PORT:-28081}:8080']
+
+tests/test_observer_live_probe.py:79: AssertionError
+____________ test_versioned_live_harness_is_the_primary_make_target ____________
+
+    def test_versioned_live_harness_is_the_primary_make_target():
+        makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+        harness_path = ROOT_DIR / "build/scripts/run-observer-live-probe.sh"
+    
+>       assert harness_path.is_file()
+E       AssertionError: assert False
+E        +  where False = is_file()
+E        +    where is_file = PosixPath('/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh').is_file
+
+tests/test_observer_live_probe.py:89: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_live_probe.py::test_defaults_match_the_live_probe_contract
+FAILED tests/test_observer_live_probe.py::test_negative_values_are_rejected[--rows--1]
+FAILED tests/test_observer_live_probe.py::test_negative_values_are_rejected[--partitions--1]
+FAILED tests/test_observer_live_probe.py::test_negative_values_are_rejected[--delay-ms--1]
+FAILED tests/test_observer_live_probe.py::test_negative_values_are_rejected[--hold-seconds--1]
+FAILED tests/test_observer_live_probe.py::test_expected_result_is_small_and_deterministic
+FAILED tests/test_observer_live_probe.py::test_pyspark_imports_are_confined_to_runtime_main
+FAILED tests/test_observer_live_probe.py::test_spark_master_publishes_only_the_local_driver_ui_port
+FAILED tests/test_observer_live_probe.py::test_versioned_live_harness_is_the_primary_make_target
+
+Script done on 2026-07-16 19:25:22+01:00 [COMMAND_EXIT_CODE="1"]

@@ -1,0 +1,184 @@
+Script started on 2026-07-16 20:14:59+01:00 [COMMAND="uv run pytest tests/test_observer_live_probe.py -q" <not executed on terminal>]
+.........F..F.FFF                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_missing_driver_pid_normalizes_submit_success_only[0-1] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-59/test_missing_driver_pid_normal0')
+submit_exit = 0, expected_harness_exit = 1
+
+    @pytest.mark.parametrize(
+        ("submit_exit", "expected_harness_exit"),
+        ((0, 1), (17, 17)),
+    )
+    def test_missing_driver_pid_normalizes_submit_success_only(
+        tmp_path,
+        submit_exit,
+        expected_harness_exit,
+    ):
+        result = _run_fake_harness(
+            tmp_path,
+            FAKE_SUBMIT_EXIT=str(submit_exit),
+        )
+    
+>       assert result.returncode == expected_harness_exit, result.stdout
+E       AssertionError: observer_run_id=observer-live-20260716T201459Z-302213-3474
+E         observer_enabled=false
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=302220
+E         Could not identify exactly one Spark driver PID for observer-live-20260716T201459Z-302213-3474.
+E         observer_live_exit_code=0
+E         
+E       assert 0 == 1
+E        +  where 0 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260716T201459Z-302213-3474.\nobserver_live_exit_code=0\n').returncode
+
+tests/test_observer_live_probe.py:254: AssertionError
+__________ test_timeout_values_reject_every_numeric_zero_spelling[00] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-59/test_timeout_values_reject_eve1')
+zero_spelling = '00'
+
+    @pytest.mark.parametrize(
+        "zero_spelling",
+        ("0", "00", "0.0", "0.00", "000.000"),
+    )
+    def test_timeout_values_reject_every_numeric_zero_spelling(
+        tmp_path,
+        zero_spelling,
+    ):
+        result = _run_fake_harness(
+            tmp_path,
+            OBSERVER_PROBE_TIMEOUT_SECONDS=zero_spelling,
+        )
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: observer_run_id=observer-live-20260716T201459Z-302245-18593
+E         observer_enabled=false
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=302252
+E         Could not identify exactly one Spark driver PID for observer-live-20260716T201459Z-302245-18593.
+E         observer_live_exit_code=0
+E         
+E       assert 0 == 2
+E        +  where 0 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...t identify exactly one Spark driver PID for observer-live-20260716T201459Z-302245-18593.\nobserver_live_exit_code=0\n').returncode
+
+tests/test_observer_live_probe.py:271: AssertionError
+_________ test_timeout_values_reject_every_numeric_zero_spelling[0.00] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-59/test_timeout_values_reject_eve3')
+zero_spelling = '0.00'
+
+    @pytest.mark.parametrize(
+        "zero_spelling",
+        ("0", "00", "0.0", "0.00", "000.000"),
+    )
+    def test_timeout_values_reject_every_numeric_zero_spelling(
+        tmp_path,
+        zero_spelling,
+    ):
+        result = _run_fake_harness(
+            tmp_path,
+            OBSERVER_PROBE_TIMEOUT_SECONDS=zero_spelling,
+        )
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: observer_run_id=observer-live-20260716T201459Z-302280-2306
+E         observer_enabled=false
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=302291
+E         Could not identify exactly one Spark driver PID for observer-live-20260716T201459Z-302280-2306.
+E         observer_live_exit_code=0
+E         
+E       assert 0 == 2
+E        +  where 0 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260716T201459Z-302280-2306.\nobserver_live_exit_code=0\n').returncode
+
+tests/test_observer_live_probe.py:271: AssertionError
+_______ test_timeout_values_reject_every_numeric_zero_spelling[000.000] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-59/test_timeout_values_reject_eve4')
+zero_spelling = '000.000'
+
+    @pytest.mark.parametrize(
+        "zero_spelling",
+        ("0", "00", "0.0", "0.00", "000.000"),
+    )
+    def test_timeout_values_reject_every_numeric_zero_spelling(
+        tmp_path,
+        zero_spelling,
+    ):
+        result = _run_fake_harness(
+            tmp_path,
+            OBSERVER_PROBE_TIMEOUT_SECONDS=zero_spelling,
+        )
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: observer_run_id=observer-live-20260716T201500Z-302303-24381
+E         observer_enabled=false
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=302310
+E         Could not identify exactly one Spark driver PID for observer-live-20260716T201500Z-302303-24381.
+E         observer_live_exit_code=0
+E         
+E       assert 0 == 2
+E        +  where 0 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...t identify exactly one Spark driver PID for observer-live-20260716T201500Z-302303-24381.\nobserver_live_exit_code=0\n').returncode
+
+tests/test_observer_live_probe.py:271: AssertionError
+________ test_early_term_cleans_run_id_wrapper_before_driver_discovery _________
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-59/test_early_term_cleans_run_id_0')
+
+    def test_early_term_cleans_run_id_wrapper_before_driver_discovery(tmp_path):
+        bin_dir, state_dir = _write_fake_runtime(tmp_path)
+        output_path = tmp_path / "harness-output.txt"
+        output_stream = output_path.open("w", encoding="utf-8")
+        process = subprocess.Popen(
+            [str(HARNESS_PATH)],
+            cwd=ROOT_DIR,
+            env=_fake_runtime_env(
+                bin_dir,
+                state_dir,
+                FAKE_SUBMIT_MODE="wrapper",
+            ),
+            text=True,
+            stdout=output_stream,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+        wrapper_pid = None
+        try:
+            deadline = time.monotonic() + 5
+            wrapper_pid_path = state_dir / "wrapper.pid"
+            while time.monotonic() < deadline and not wrapper_pid_path.exists():
+                time.sleep(0.05)
+            assert wrapper_pid_path.exists(), "fake timeout wrapper was not started"
+            wrapper_pid = int(wrapper_pid_path.read_text(encoding="utf-8"))
+    
+            process.send_signal(signal.SIGTERM)
+            process.wait(timeout=15)
+            output_stream.close()
+            output = output_path.read_text(encoding="utf-8")
+    
+            assert process.returncode == 143, output
+>           assert not _process_is_running(wrapper_pid), output
+E           AssertionError: observer_run_id=observer-live-20260716T201500Z-302316-26475
+E             observer_enabled=false
+E             spark_master_4040_mapping=127.0.0.1:24040
+E             initial_driver_ui_http_exit=7 status=000
+E             host_compose_exec_pid=302323
+E             observer_live_exit_code=143
+E             
+E           assert not True
+E            +  where True = _process_is_running(302326)
+
+tests/test_observer_live_probe.py:307: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_live_probe.py::test_missing_driver_pid_normalizes_submit_success_only[0-1]
+FAILED tests/test_observer_live_probe.py::test_timeout_values_reject_every_numeric_zero_spelling[00]
+FAILED tests/test_observer_live_probe.py::test_timeout_values_reject_every_numeric_zero_spelling[0.00]
+FAILED tests/test_observer_live_probe.py::test_timeout_values_reject_every_numeric_zero_spelling[000.000]
+FAILED tests/test_observer_live_probe.py::test_early_term_cleans_run_id_wrapper_before_driver_discovery
+
+Script done on 2026-07-16 20:15:00+01:00 [COMMAND_EXIT_CODE="1"]

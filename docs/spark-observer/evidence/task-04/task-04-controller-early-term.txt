@@ -1,0 +1,23 @@
+Script started on 2026-07-16 20:27:22+01:00 [COMMAND="bash docs/spark-observer/evidence/task-04/task-04-early-term-command.sh" <not executed on terminal>]
+initial_driver_ui_unavailable=true curl_exit=56
+early_term_run_id=observer-live-20260716T202722Z-321674-18217 harness_pid=321674
+harness_stopped_before_driver_discovery=true docker_child=321800
+records_before_term=7409 7409 wrapper,7419 7409 driver
+driver_pid_recorded_before_term_count=0
+early_term_harness_exit=143
+observer_run_id=observer-live-20260716T202722Z-321674-18217
+observer_enabled=true
+spark_master_4040_mapping=127.0.0.1:24040
+initial_driver_ui_http_exit=56 status=000
+host_compose_exec_pid=321800
+WARNING: Using incubator modules: jdk.incubator.vector
+cleanup_observer_processes=wrapper:7409/pgid:7409,driver:7415/pgid:7409
+observer_wrapper_process_absent_after_cleanup=true
+observer_driver_process_absent_after_cleanup=true
+observer_live_exit_code=143
+remaining_observer_process_records=
+driver_ui_unavailable_after_early_term=true curl_exit=56
+spark_master_4040_mapping_persists=127.0.0.1:24040
+early_term_cleanup_proof=pass
+
+Script done on 2026-07-16 20:27:24+01:00 [COMMAND_EXIT_CODE="0"]

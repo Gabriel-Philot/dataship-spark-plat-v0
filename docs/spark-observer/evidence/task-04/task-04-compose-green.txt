@@ -1,0 +1,11 @@
+Script started on 2026-07-16 19:52:42+01:00 [COMMAND="docker compose --env-file .env -f build/docker-compose.yml config | rg -n -C 2 "host_ip: 127.0.0.1|target: 4040|published: \"24040\"" && docker compose --env-file .env -f build/docker-compose.yml port spark-master 4040" <not executed on terminal>]
+150-        protocol: tcp
+151-      - mode: ingress
+152:        host_ip: 127.0.0.1
+153:        target: 4040
+154:        published: "24040"
+155-        protocol: tcp
+156-    volumes:
+127.0.0.1:24040
+
+Script done on 2026-07-16 19:52:42+01:00 [COMMAND_EXIT_CODE="0"]

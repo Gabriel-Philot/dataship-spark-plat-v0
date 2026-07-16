@@ -520,3 +520,219 @@ controlador e mostram um worker `ALIVE` e quatro aplicações concluídas.
 - Resultado: `PASS — ACEITO`.
 - O usuário autorizou o commit e o push da Task 3 para validação externa.
 - O aceite e a publicação desta task não autorizam o início da Task 4.
+
+## Task 4 — workload e harness determinísticos para prova live
+
+**Data de execução:** 2026-07-16
+**Estado:** `READY — awaiting user acceptance`
+**HEAD inicial/final:** `f2fa08dc2151fc3058a33d6d23ae05ce39929dfd`
+
+Nenhum stage, commit, push ou código da Task 5 foi executado.
+
+### Implementação
+
+- `src/apps/observer_live_probe.py` fornece defaults `40/4/75/10`, rejeita
+  negativos, mantém imports PySpark dentro de `main`, executa uma ação RDD
+  atrasada e uma ação SQL com shuffle, e verifica resultado determinístico
+  `rowCount=40`, `valueSum=780`, buckets `180/190/200/210`.
+- `build/scripts/run-observer-live-probe.sh` cria `OBSERVER_RUN_ID` único,
+  identifica o Java `SparkSubmit` real dentro de `spark-master`, força
+  `spark.ui.port=4040` e `spark.port.maxRetries=0`, usa timeout explícito,
+  traps `EXIT/TERM/INT`, propaga o exit do submit e mantém temporários sob
+  `/tmp`.
+- `observer-live` é o target primário versionado.
+- O Compose publica somente
+  `127.0.0.1:${SPARK_DRIVER_UI_PORT:-24040}:4040` no `spark-master`.
+- Ao ganhar o mapping, o `observer-runtime-refresh` existente removeu os
+  containers Spark antigos, confirmou `24040` livre antes da recriação e
+  aguardou Master HTTP `200` com um worker `ALIVE`. O harness apenas verifica
+  o mapping persistente e não repete esse preflight.
+
+### RED e GREEN
+
+| Gate | Resultado |
+| --- | --- |
+| Python RED | `9` falhas válidas: módulo, mapping e harness/target ausentes |
+| Compose RED | lookup filtrado terminou `1`; publicação `4040` ausente |
+| Redirect RED | `8 passed, 1 failed`; faltava seguir redirect nativo da raiz |
+| Rota nativa RED | `8 passed, 1 failed`; faltava prova honesta de ausência |
+| Python GREEN final | `9 passed` |
+| Compose GREEN | `host_ip=127.0.0.1`, target `4040`, published `24040`; `port` retorna `127.0.0.1:24040` |
+| Runtime refresh | exit `0`; porta livre, containers recriados, `1` worker `ALIVE` |
+
+Evidências principais: `task-04-python-red.txt`,
+`task-04-compose-red.txt`, `task-04-root-redirect-red.txt`,
+`task-04-native-route-red.txt`, `task-04-python-green.txt`,
+`task-04-compose-green.txt` e `task-04-runtime-refresh.txt`.
+
+### Timeline live e cleanup
+
+| Modo | Run/PID | Leituras live | Resultado | Cleanup |
+| --- | --- | --- | --- | --- |
+| plugin off | `observer-live-20260716T194351Z-272105-13791` / `3528` | `200`, `200`, mesmo PID vivo | exit `0`; `40/780`; jobs `0`–`4` | PID ausente, HTTP indisponível, mapping `127.0.0.1:24040` persiste |
+| plugin on | `observer-live-20260716T194435Z-273727-1865` / `3903` | `200`, `200`, mesmo PID vivo | plugin inicializado; exit `0`; resultado idêntico | PID ausente, HTTP indisponível, mapping persiste |
+| timeout direto | `observer-live-20260716T195336Z-287384-18652` / `5802` | `200`, `200`, mesmo PID vivo | harness retorna `124` | PID ausente, HTTP indisponível, mapping persiste |
+| reutilização | `observer-live-20260716T194814Z-280115-18624` / `4986` | `200`, `200`, mesmo PID vivo | exit `0` após a falha induzida | cleanup completo; mesmo mapping |
+
+Os logs nativos mostram duas ações explícitas: job `0` para `sum` e a ação
+SQL `collect`, que gera jobs `1`–`4` adicionais do Spark/AQE. Também mostram
+`ShuffleMapStage`, múltiplos stages e a execução SQL. Os jobs internos extras
+são esperados.
+
+Transcripts autoritativos: `task-04-plugin-disabled.txt`,
+`task-04-plugin-enabled.txt`, `task-04-direct-timeout-status.txt`,
+`task-04-deliberate-timeout.txt`, `task-04-mapping-reuse.txt` e
+`task-04-mode-comparison.txt`.
+
+### Discrepância observada: `/dataship/` nativo
+
+O plano previa `404`, mas o Spark `4.1.2` redireciona qualquer path UI
+desconhecido para `/jobs/`. Com o Java PID `3137` vivo,
+`task-04-native-route-diagnostic.txt` mostrou comportamento idêntico para:
+
+- `/dataship/`;
+- `/dataship/api/v1/health`;
+- `/observer-random-unknown/`.
+
+Todos retornaram `302 Location: http://127.0.0.1:24040/jobs/` e depois
+`200` final em `/jobs/`. Para não fabricar um `404`, o harness prova ausência
+por equivalência exata entre os dois paths DataShip e um path aleatório
+único. Nenhuma rota, servlet, listener ou UI DataShip foi implementada.
+
+A raiz nativa também passa a responder `302` depois que a UI completa é
+anexada; `task-04-root-redirect-diagnostic.txt` prova `302` sem follow e
+`200` final com follow. Por isso as duas leituras live registram status final
+`200`.
+
+### Evidência visual
+
+`task-04-playwright-capture.txt` prova que o Java PID `5390` continuava vivo
+depois das três capturas, com HTTP `200` nas UIs de driver e Master:
+
+- `spark-driver-jobs-live.png`: UI nativa do driver em `24040`, cinco jobs;
+- `spark-driver-sql-live.png`: SQL/DataFrame, execução ligada aos jobs
+  `1`–`4`;
+- `spark-master-live.png`: UI distinta em `28081`, worker `ALIVE` e a mesma
+  aplicação nomeada em estado `RUNNING`.
+
+O run correlacionado está em `task-04-screenshot-correlation-run.txt` e
+termina com exit `0`, PID ausente, endpoint indisponível e mapping
+persistente.
+
+### Regressões e escopo
+
+Captura direta:
+
+```bash
+script -qefc 'make observer-verify' \
+  docs/spark-observer/evidence/task-04/task-04-regressions.txt
+```
+
+Resultados: Scala `9/9`, Node `1/1`, Python `33/33`, JAR sem classes
+Spark/Scala, `Validation passed` e verifier exit `0`.
+
+- Nenhum caminho protegido do fluxo durável foi alterado.
+- Nenhum source JVM do Spark Observer foi alterado.
+- Nenhum endpoint/listener/tab da Task 5+ foi criado.
+- Relatório detalhado:
+  `docs/spark-observer/evidence/task-04/task-04-report.md`.
+- Risco conhecido: o literal `404` não existe para paths UI desconhecidos no
+  runtime testado; a evidência substituta por equivalência está explicitada.
+- Estado final: `READY`; ainda não `PASS — ACEITO`.
+
+### Correções após review independente
+
+O review encontrou dois problemas importantes no lifecycle do harness e dois
+pontos menores de validação/teste. A correção permaneceu restrita à Task 4:
+
+- quando nenhum Java `SparkSubmit` é descoberto, um submit `0` agora vira
+  falha do harness `1`, pois não houve prova live; um submit não zero continua
+  sendo propagado sem normalização;
+- o cleanup não depende mais de `DRIVER_PID`: ele lê um snapshot
+  `ps pid/ppid/pgid/comm/args` sem passar o run ID ao processo de inspeção,
+  seleciona somente `comm=timeout` com o ID único e Java
+  `org.apache.spark.deploy.SparkSubmit` com o mesmo ID, encerra o grupo do
+  wrapper e verifica a ausência dos dois papéis;
+- a seleção ignora comandos de inspeção que apenas contêm os mesmos tokens,
+  pois exige o `comm` exato;
+- todos os spellings numéricos de zero são rejeitados, incluindo `00`,
+  `0.00` e `000.000`;
+- os testes agora executam o fluxo real do harness sobre uma fronteira
+  Docker/curl fake, em vez de apenas procurar tokens no arquivo.
+
+Novo RED focado:
+
+```bash
+script -qefc 'uv run pytest tests/test_observer_live_probe.py -q' \
+  docs/spark-observer/evidence/task-04/task-04-review-fixes-red.txt
+```
+
+Resultado: exit `1`, cinco falhas comportamentais esperadas. O transcript
+mostra submit `0` retornando `0`, os três spellings adicionais de zero sendo
+aceitos e o wrapper ainda vivo após TERM antes da descoberta do driver. O
+erro inicial de cache uv do sandbox foi sobrescrito e não conta como RED.
+
+GREEN focado e sintaxe:
+
+```bash
+script -qefc \
+  'uv run pytest tests/test_observer_live_probe.py -q &&
+   bash -n build/scripts/run-observer-live-probe.sh' \
+  docs/spark-observer/evidence/task-04/task-04-review-fixes-green.txt
+```
+
+Resultado: `17` testes focados, exit `0`; `bash -n` também retorna `0`.
+
+A prova real de interrupção usa o comando versionado de evidência
+`task-04-early-term-command.sh`. O transcript
+`task-04-early-term-cleanup.txt` registra:
+
+- run `observer-live-20260716T202125Z-313416-24704`;
+- harness congelado durante descoberta, antes de qualquer
+  `spark_driver_pid=`;
+- wrapper `6620` e Java no mesmo PGID `6620`;
+- TERM seguido de exit `143`;
+- marcadores de ausência do wrapper e do Java;
+- nenhuma linha restante do run ID no snapshot de processos;
+- UI indisponível e mapping persistente `127.0.0.1:24040`.
+
+Verificações proporcionais adicionais:
+
+- `task-04-review-fixes-plugin-enabled.txt`: plugin inicializado, submit e
+  harness `0`, Java/wrapper ausentes, UI indisponível e mapping persistente;
+- `task-04-review-fixes-direct-timeout.txt`: submit e harness `124`, mesma
+  prova de cleanup;
+- `task-04-review-fixes-regressions.txt`: Scala `9/9`, Node `1/1`, Python
+  `41/41`, JAR sem classes Spark/Scala, `Validation passed` e verifier `0`.
+
+Nenhum screenshot foi regenerado: a superfície visual, o workload e a
+correlação visual existente não mudaram. O estado continua
+`READY — awaiting user acceptance`.
+
+### Verificação independente do controlador e re-review
+
+O controlador repetiu os dois gates mais sensíveis depois das correções:
+
+- `task-04-controller-early-term.txt`: o harness foi congelado antes de
+  registrar `spark_driver_pid=`, o container mostrou wrapper e Java no PGID
+  `7409`, TERM produziu exit `143`, ambos os processos desapareceram, a UI
+  ficou indisponível e o mapping permaneceu `127.0.0.1:24040`;
+- `task-04-controller-final-regressions.txt`: Scala `9/9`, Node `1/1`,
+  Python `41/41`, JAR sem classes Spark/Scala, `Validation passed`,
+  `observer_verify_exit_code=0` e transcript com exit `0`.
+
+O teste focado também foi repetido diretamente pelo controlador e terminou
+com `17 passed`; os dois scripts shell da task passaram `bash -n` e
+`git diff --check` permaneceu limpo.
+
+A re-review independente final retornou:
+
+- spec compliance: aprovado;
+- Critical: `0`;
+- Important: `0`;
+- Minor: `0`;
+- divergência `/dataship/` → `/jobs/`: aceita como prova honesta de ausência
+  por equivalência com uma rota aleatória desconhecida.
+
+O estado final continua `READY — awaiting user acceptance`. Nenhum stage,
+commit, push ou início da Task 5 foi autorizado ou executado.

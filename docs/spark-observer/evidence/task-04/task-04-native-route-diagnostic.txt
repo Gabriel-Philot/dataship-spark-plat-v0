@@ -1,0 +1,16 @@
+Script started on 2026-07-16 19:41:22+01:00 [COMMAND="set -e; docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master bash -c "kill -0 3137"; printf "spark_driver_pid=3137 alive=true\n"; for path in /dataship/ /dataship/api/v1/health /observer-random-unknown/; do printf "path=%s\n" "$path"; curl --silent --show-error --dump-header - --output /dev/null "http://127.0.0.1:24040${path}" | rg -i "^(HTTP/|location:)"; curl --location --silent --show-error --output /dev/null --write-out "final_status=%{http_code} final_url=%{url_effective}\n" "http://127.0.0.1:24040${path}"; done" <not executed on terminal>]
+spark_driver_pid=3137 alive=true
+path=/dataship/
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:24040/jobs/
+final_status=200 final_url=http://127.0.0.1:24040/jobs/
+path=/dataship/api/v1/health
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:24040/jobs/
+final_status=200 final_url=http://127.0.0.1:24040/jobs/
+path=/observer-random-unknown/
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:24040/jobs/
+final_status=200 final_url=http://127.0.0.1:24040/jobs/
+
+Script done on 2026-07-16 19:41:23+01:00 [COMMAND_EXIT_CODE="0"]

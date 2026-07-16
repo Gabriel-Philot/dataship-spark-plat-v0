@@ -1,0 +1,18 @@
+Script started on 2026-07-16 19:50:29+01:00 [COMMAND="/home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,1000" --wait-for-timeout 1000 http://127.0.0.1:24040/jobs/ docs/spark-observer/evidence/task-04/spark-driver-jobs-live.png && /home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,1000" --wait-for-timeout 1000 http://127.0.0.1:24040/SQL/ docs/spark-observer/evidence/task-04/spark-driver-sql-live.png && /home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,1000" --wait-for-timeout 1000 http://127.0.0.1:28081/ docs/spark-observer/evidence/task-04/spark-master-live.png && docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master bash -c "kill -0 5390" && printf "spark_driver_pid=5390 alive_after_screenshots=true\n" && curl --location --silent --output /dev/null --write-out "driver_jobs_final_status=%{http_code}\n" http://127.0.0.1:24040/jobs/ && curl --silent --output /dev/null --write-out "master_ui_status=%{http_code}\n" http://127.0.0.1:28081/ && sha256sum docs/spark-observer/evidence/task-04/spark-driver-jobs-live.png docs/spark-observer/evidence/task-04/spark-driver-sql-live.png docs/spark-observer/evidence/task-04/spark-master-live.png" <not executed on terminal>]
+Navigating to http://127.0.0.1:24040/jobs/
+Waiting for timeout 1000...
+Capturing screenshot into docs/spark-observer/evidence/task-04/spark-driver-jobs-live.png
+Navigating to http://127.0.0.1:24040/SQL/
+Waiting for timeout 1000...
+Capturing screenshot into docs/spark-observer/evidence/task-04/spark-driver-sql-live.png
+Navigating to http://127.0.0.1:28081/
+Waiting for timeout 1000...
+Capturing screenshot into docs/spark-observer/evidence/task-04/spark-master-live.png
+spark_driver_pid=5390 alive_after_screenshots=true
+driver_jobs_final_status=200
+master_ui_status=200
+116c5dc371b4494c060bafa6a7e198c24c58e2b28870f5c26e0352e07063ce62  docs/spark-observer/evidence/task-04/spark-driver-jobs-live.png
+4e1b2b7c0a9f1863a1c740a3b89582036944969b95042e38316c08dd4065a074  docs/spark-observer/evidence/task-04/spark-driver-sql-live.png
+302a48d14ac2be0fb5f1f64a13c630c73879ac185d82cc71db853fd77627a186  docs/spark-observer/evidence/task-04/spark-master-live.png
+
+Script done on 2026-07-16 19:50:37+01:00 [COMMAND_EXIT_CODE="0"]

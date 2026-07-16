@@ -1,0 +1,91 @@
+Script started on 2026-07-16 20:22:53+01:00 [COMMAND="make observer-verify" <not executed on terminal>]
+commit=f2fa08dc2151fc3058a33d6d23ae05ce39929dfd
+
+$ docker image inspect sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16
+image=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 id=sha256:16b0af1a3fddcd4cbf14731c2695876354f96ee4ca43e6252580c23282166849 repo_digests=["sbtscala/scala-sbt@sha256:16b0af1a3fddcd4cbf14731c2695876354f96ee4ca43e6252580c23282166849"]
+
+$ docker image inspect node:24.13.1-bookworm-slim
+image=node:24.13.1-bookworm-slim id=sha256:a81a03dd965b4052269a57fac857004022b522a4bf06e7a739e25e18bce45af2 repo_digests=["node@sha256:a81a03dd965b4052269a57fac857004022b522a4bf06e7a739e25e18bce45af2"]
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim observer-tests
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] BuildInfoSpec:
+[info] - publishes the plugin version
+[info] - publishes the supported Spark version
+[info] - publishes the Scala binary version
+[info] - publishes the expected artifact name
+[info] PluginBootstrapSpec:
+[info] - creates a fresh DataShip driver plugin
+[info] - does not create an executor plugin
+[info] ObserverConfigSpec:
+[info] - is disabled by default
+[info] - is enabled by the explicit opt-in flag
+[info] - remains disabled when the flag is explicitly false
+[info] Run completed in 810 milliseconds.
+[info] Total number of tests run: 9
+[info] Suites: completed 3, aborted 0
+[info] Tests: succeeded 9, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 16, 2026, 7:22:58 PM
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim observer-ui-tests
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+✔ uses the pinned Node 24 toolchain (0.696098ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.652606
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim observer-jar
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[success] Total time: 1 s, completed Jul 16, 2026, 7:23:05 PM
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ jar tf spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar  # inside sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16
+META-INF/MANIFEST.MF
+io/
+io/dataship/
+io/dataship/spark/
+io/dataship/spark/observer/
+io/dataship/spark/observer/BuildInfo$.class
+io/dataship/spark/observer/BuildInfo.class
+io/dataship/spark/observer/ObserverConfig$.class
+io/dataship/spark/observer/ObserverConfig.class
+io/dataship/spark/observer/SparkDataShipDriverPlugin.class
+io/dataship/spark/observer/SparkDataShipPlugin.class
+PASS: no org/apache/spark/ or scala/ entries
+
+$ wc -c spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+8889 spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+$ sha256sum spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+6cfc48c8943666de90bd134bec0bda4a1f4bb84202472c5c4cc98a1d4a27cefa  spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim tests
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+.........................................                                [100%]
+41 passed in 0.93s
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+$ make SBT_IMAGE=sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16 NODE_IMAGE=node:24.13.1-bookworm-slim validate
+make[1]: Entering directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+Validation passed
+make[1]: Leaving directory '/home/philot/compendium/forge/dataship/spark-plat-v0'
+
+observer_verify_exit_code=0
+
+Script done on 2026-07-16 20:23:09+01:00 [COMMAND_EXIT_CODE="0"]

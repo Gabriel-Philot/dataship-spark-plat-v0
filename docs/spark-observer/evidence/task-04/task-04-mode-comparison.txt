@@ -1,0 +1,5 @@
+Script started on 2026-07-16 19:54:21+01:00 [COMMAND="printf "plugin_disabled_initialization="; if rg -q "DriverPluginContainer: Initialized driver component for plugin io.dataship.spark.observer.SparkDataShipPlugin" docs/spark-observer/evidence/task-04/task-04-plugin-disabled.txt; then printf "unexpected-present\n"; exit 1; else printf "absent\n"; fi; printf "plugin_enabled_initialization="; rg -n "DriverPluginContainer: Initialized driver component for plugin io.dataship.spark.observer.SparkDataShipPlugin" docs/spark-observer/evidence/task-04/task-04-plugin-enabled.txt" <not executed on terminal>]
+plugin_disabled_initialization=absent
+plugin_enabled_initialization=36:26/07/16 18:44:39 INFO DriverPluginContainer: Initialized driver component for plugin io.dataship.spark.observer.SparkDataShipPlugin.
+
+Script done on 2026-07-16 19:54:21+01:00 [COMMAND_EXIT_CODE="0"]

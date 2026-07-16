@@ -1,0 +1,7 @@
+Script started on 2026-07-16 19:37:09+01:00 [COMMAND="docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master bash -c "kill -0 1792" && printf "spark_driver_pid=1792 alive=true\n" && curl --silent --show-error --dump-header - --output /dev/null http://127.0.0.1:24040/ | rg "^(HTTP/|[Ll]ocation:)" && curl --location --silent --show-error --output /dev/null --write-out "root_follow_redirect_final_status=%{http_code}\n" http://127.0.0.1:24040/" <not executed on terminal>]
+spark_driver_pid=1792 alive=true
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:24040/jobs/
+root_follow_redirect_final_status=200
+
+Script done on 2026-07-16 19:37:09+01:00 [COMMAND_EXIT_CODE="0"]
