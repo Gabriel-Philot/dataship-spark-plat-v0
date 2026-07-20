@@ -1,0 +1,26 @@
+Script started on 2026-07-20 22:43:50+01:00 [COMMAND="docker run --rm --user 1000:1000 --env HOME=/tmp --env COURSIER_CACHE=/cache/coursier --env SBT_OPTS="-Dsbt.global.base=/cache/sbt/global -Dsbt.boot.directory=/cache/sbt/boot -Dsbt.ivy.home=/cache/sbt/ivy -Dsbt.supershell=false" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0:/workspace" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/sbt:/cache/sbt" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/coursier:/cache/coursier" --workdir /workspace/spark-observer "sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16" sbt "testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec"" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 3 Scala sources to /workspace/spark-observer/target/scala-2.13/classes ...
+[info] done compiling
+[info] compiling 2 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[info] done compiling
+[info] BoundedEventQueueSpec:
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=489, dropped=711, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 872 milliseconds.
+[info] Total number of tests run: 5
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 5, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 7 s, completed Jul 20, 2026, 9:44:01 PM
+
+Script done on 2026-07-20 22:44:02+01:00 [COMMAND_EXIT_CODE="0"]

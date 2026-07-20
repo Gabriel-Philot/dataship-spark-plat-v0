@@ -1,0 +1,61 @@
+Script started on 2026-07-20 22:39:18+01:00 [COMMAND="docker run --rm --user 1000:1000 --env HOME=/tmp --env COURSIER_CACHE=/cache/coursier --env SBT_OPTS="-Dsbt.global.base=/cache/sbt/global -Dsbt.boot.directory=/cache/sbt/boot -Dsbt.ivy.home=/cache/sbt/ivy -Dsbt.supershell=false" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0:/workspace" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/sbt:/cache/sbt" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/coursier:/cache/coursier" --workdir /workspace/spark-observer "sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16" sbt "testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec"" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 2 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala:12:21: not found: type ObserverState
+[error]     val state = new ObserverState(transitionsCapacity = 4)
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala:13:21: not found: type BoundedEventQueue
+[error]     val queue = new BoundedEventQueue(
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala:70:38: not found: type ObserverEvent
+[error]   private def event(sequence: Long): ObserverEvent =
+[error]                                      ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala:71:5: not found: value ObserverEvent
+[error]     ObserverEvent(
+[error]     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:20:21: not found: type ObserverState
+[error]     val state = new ObserverState(transitionsCapacity = 8)
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:21:21: not found: type BoundedEventQueue
+[error]     val queue = new BoundedEventQueue(capacity = 16, state = state)
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:88:21: not found: type ObserverState
+[error]     val state = new ObserverState(transitionsCapacity = 3)
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:89:21: not found: type BoundedEventQueue
+[error]     val queue = new BoundedEventQueue(capacity = 4, state = state)
+[error]                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:159:38: not found: type ObserverEvent
+[error]   private def event(sequence: Long): ObserverEvent =
+[error]                                      ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:120:26: value transitionsCapacity is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(defaultConfig.transitionsCapacity == 128)
+[error]                          ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:121:20: value transitionsCapacity is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(minimum.transitionsCapacity == 1)
+[error]                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:122:20: value transitionsCapacity is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(maximum.transitionsCapacity == 1024)
+[error]                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:144:29: unknown parameter name: transitionsCapacity
+[error] Error occurred in an application involving default arguments.
+[error]         transitionsCapacity = 2
+[error]                             ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:141:30: too many arguments (found 3, expected 2) for method apply: (enabled: Boolean, queueCapacity: Int): io.dataship.spark.observer.ObserverConfig in object ObserverConfig
+[error] Error occurred in an application involving default arguments.
+[error]       config = ObserverConfig(
+[error]                              ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:148:25: value eventQueue is not a member of io.dataship.spark.observer.ObserverRuntime
+[error]     val queue = runtime.eventQueue.getOrElse(
+[error]                         ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala:160:5: not found: value ObserverEvent
+[error]     ObserverEvent(
+[error]     ^
+[error] 16 errors found
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 4 s, completed Jul 20, 2026, 9:39:27 PM
+
+Script done on 2026-07-20 22:39:28+01:00 [COMMAND_EXIT_CODE="1"]

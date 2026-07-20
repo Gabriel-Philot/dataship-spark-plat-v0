@@ -1,0 +1,857 @@
+Script started on 2026-07-20 22:52:51+01:00 [COMMAND="docker run --rm --user 1000:1000 --env HOME=/tmp --env COURSIER_CACHE=/cache/coursier --env SBT_OPTS="-Dsbt.global.base=/cache/sbt/global -Dsbt.boot.directory=/cache/sbt/boot -Dsbt.ivy.home=/cache/sbt/ivy -Dsbt.supershell=false" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0:/workspace" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/sbt:/cache/sbt" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/coursier:/cache/coursier" --workdir /workspace/spark-observer "sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16" sbt ";testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec;testOnly io.dataship.spark.observer.events.BoundedEventQueueSpec io.dataship.spark.observer.events.ObserverStateSpec"" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=709, dropped=491, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 909 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 2 s, completed Jul 20, 2026, 9:52:58 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=655, dropped=545, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 481 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:52:59 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=272, dropped=928, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 393 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:52:59 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=271, dropped=929, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 395 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:00 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=597, dropped=603, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 391 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:00 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=311, dropped=889, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 397 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:01 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=847, dropped=353, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 478 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:02 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=347, dropped=853, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 431 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:02 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=400, dropped=800, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 406 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:03 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=351, dropped=849, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 393 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:03 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=556, dropped=644, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 401 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:04 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=608, dropped=592, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 380 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:04 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=461, dropped=739, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 382 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:05 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=428, dropped=772, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 410 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:06 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=502, dropped=698, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 378 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:06 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=287, dropped=913, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 383 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:07 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=473, dropped=727, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 384 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:07 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=549, dropped=651, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 376 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:08 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=409, dropped=791, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 401 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:08 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=430, dropped=770, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 456 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:09 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=520, dropped=680, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 374 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:09 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=285, dropped=915, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 374 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:10 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=521, dropped=679, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 386 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:10 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=373, dropped=827, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 380 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:11 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=396, dropped=804, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 377 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:11 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=272, dropped=928, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 419 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:12 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=747, dropped=453, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 384 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:12 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=451, dropped=749, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 383 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:13 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=636, dropped=564, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 375 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:13 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=526, dropped=674, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 371 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:14 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=400, dropped=800, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 415 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:14 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=526, dropped=674, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 375 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:15 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=556, dropped=644, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 357 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:16 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=417, dropped=783, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 360 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:16 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=452, dropped=748, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 358 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:17 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=665, dropped=535, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 362 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:17 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=641, dropped=559, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 369 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:18 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=403, dropped=797, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 357 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:18 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=568, dropped=632, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 385 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:19 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=535, dropped=665, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 349 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:19 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=400, dropped=800, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 352 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:20 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=438, dropped=762, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 357 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:20 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=521, dropped=679, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 356 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:20 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=395, dropped=805, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 354 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:21 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=436, dropped=764, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 384 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 1 s, completed Jul 20, 2026, 9:53:21 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=399, dropped=801, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 356 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:22 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=523, dropped=677, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 367 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:22 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=493, dropped=707, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 362 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:23 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=571, dropped=629, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 368 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:23 PM
+[info] BoundedEventQueueSpec:
+[info] - accounts a null event as a refused offer without breaking the invariant
+[info] - reclassifies queued events as dropped when shutdown stops the worker
+[info] - refuses a third event promptly while one event is in flight and one is queued
+[info]   + full queue: received=3, queued=1, inFlight=1, processed=0, dropped=1, offerMillis=0 
+[info] ObserverStateSpec:
+[info] - keeps every concurrent snapshot consistent
+[info]   + concurrent final: received=1200, processed=516, dropped=684, window=8/8 
+[info] - evicts completed transitions in FIFO order
+[info] - parses the fixed-capacity transition window contract
+[info] - lets an enabled runtime own and repeatedly close its worker
+[info] Run completed in 368 milliseconds.
+[info] Total number of tests run: 7
+[info] Suites: completed 2, aborted 0
+[info] Tests: succeeded 7, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[success] Total time: 0 s, completed Jul 20, 2026, 9:53:24 PM
+
+Script done on 2026-07-20 22:53:25+01:00 [COMMAND_EXIT_CODE="0"]

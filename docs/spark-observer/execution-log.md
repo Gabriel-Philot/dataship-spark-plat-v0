@@ -772,9 +772,9 @@ run reuses the persistent mapping; the no-UI and disabled modes fail open.
 tests`, `make observer-runtime-refresh`, the Task 5 live scenarios, protected
 path guards, and `git diff --check`.
 
-**Status:** `READY WITH REQUIRED WAIVER — review fixes verified; acceptance
-requires an explicit waiver for the missing historical Task-5-specific live
-RED capture`
+**Status:** `PASS — ACCEPTED` — the user explicitly accepted Task 5 on
+2026-07-20 after the missing historical Task-5-specific live RED capture and
+its Task 4 substitute evidence had been disclosed.
 
 ### Start state
 
@@ -958,3 +958,190 @@ substituted evidence. Task 5 cannot be reported as fully compliant or accepted
 unless the user explicitly waives this historical evidence gap.
 
 No commit was created. Task 6 was not started.
+
+### User acceptance (2026-07-20)
+
+- The user explicitly approved Task 5 after reviewing the implementation,
+  automated gates, live evidence, visual evidence, independent review, and
+  the disclosed historical live-RED gap.
+- This acceptance waives the missing Task-5-specific pre-implementation live
+  RED transcript and accepts the Task 4 starting-state route evidence as the
+  truthful substitute. No RED was recreated by removing working code.
+- Final result: `PASS — ACCEPTED`.
+- This acceptance does not authorize Task 6. A new explicit user request is
+  still required before any Task 6 implementation begins.
+
+## Task 6 — bounded internal handoff and consistent state
+
+**Status:** `RUNNING`
+
+**Hypothesis:** the internal handoff never waits for queue capacity,
+deterministically accounts for refused events, and preserves
+`listenerReceived = processed + queued + inFlight + droppedByPlugin` during
+concurrent offers, snapshots, FIFO eviction, and repeated shutdown.
+
+**Minimal change:** add task-owned event, counter, state, and bounded-queue
+types; add the fixed transition-window capacity to configuration; and make the
+runtime own and close the queue. Do not install a Spark listener or expose the
+counters endpoint, which belong to Task 7.
+
+**Focused RED:** run only `BoundedEventQueueSpec` and `ObserverStateSpec` after
+creating them. They must fail to compile because the Task 6 event-state and
+queue types do not exist; a missing runner, image, dependency, or Make target
+is not a valid RED.
+
+**Expected observable result:** with queue capacity `1`, the worker processing
+the first event is held by a latch, the second event remains queued, and the
+third `offer` returns promptly with exactly one plugin drop. Every captured
+snapshot satisfies the invariant, the recent window evicts FIFO, two closes
+are safe, and the worker terminates.
+
+**Regression:** run the two focused specs fifty times, `make observer-tests`,
+`make tests`, `make observer-runtime-refresh`, a host/staged/container JAR
+checksum comparison, and the Task 5 live health probe using the rebuilt JAR.
+Return the Compose stack to down after the live regression.
+
+### Start state (2026-07-20)
+
+- Branch: `exp-dataflint-based-test-jar`.
+- Starting commit: `d8f0e31b6521f856c870e16d1c3e890307e7aae2`.
+- Upstream matched the starting commit.
+- Compose reported no containers and no repository-specific
+  `spark-plat-v0-*` images were present.
+- The only pre-existing working-tree change was this file's accepted Task 5
+  status. It is intentionally preserved. This documented exception avoids an
+  unauthorized standalone commit while keeping the Task 6 code baseline
+  unchanged.
+- Task 6 implementation allowlist: the eight planned Scala source/test paths,
+  this execution log, and `docs/spark-observer/evidence/task-06/`.
+- Frozen durable-path changes at start: none.
+
+### Delegation decision and outcome
+
+- Task 6 was suitable for a bounded implementation subagent because the queue,
+  state, and focused specs were isolated from the live infrastructure.
+- The implementation subagent produced no workspace change or usable report
+  after two status checks, so it was interrupted. The root agent then executed
+  the approved Task 6 scope directly.
+- A separate review subagent inspected the completed diff and initially found
+  two concrete accounting defects: null offers could increment `received`
+  before `ArrayBlockingQueue` rejected the value, and shutdown could leave an
+  accepted queued event permanently counted as queued after the worker exited.
+- Both findings received focused regression tests before their fixes. The same
+  reviewer re-reviewed the corrected implementation and reported no remaining
+  critical, important, or minor finding.
+
+### RED evidence
+
+- Command: focused `testOnly` run for `BoundedEventQueueSpec` and
+  `ObserverStateSpec` in the pinned sbt container.
+- Result: exit `1`, with the test sources compiling far enough to fail on the
+  deliberately absent Task 6 classes, runtime owner, and transition-capacity
+  field. The runner, image, and dependencies were available, so this was a
+  feature-level RED.
+- Evidence: `docs/spark-observer/evidence/task-06/task-06-focused-red.txt`.
+- The two independent-review regressions then produced a second valid RED:
+  five tests passed and two failed for the exact null-offer and shutdown
+  accounting defects described above.
+- Evidence:
+  `docs/spark-observer/evidence/task-06/task-06-review-fixes-red.txt`.
+
+### Minimal implementation
+
+- `ObserverEvent` is the immutable internal handoff item.
+- `ObserverCounters` is an immutable snapshot and computes the accounting
+  invariant from its five counters.
+- `ObserverState` serializes queue and counter transitions under one monitor,
+  takes atomic snapshots, and retains only a fixed FIFO window of completed
+  events.
+- `BoundedEventQueue` uses an `ArrayBlockingQueue`, nonwaiting `offer`, and one
+  daemon worker. Rejected null/closed/full offers remain accounted, and close
+  interrupts and joins the worker with a fixed five-second boundary before
+  atomically reclassifying any remaining queued events as plugin drops.
+- `ObserverConfig` now parses
+  `spark.dataship.observer.transitions.capacity`, default `128`, accepted range
+  `1..1024`.
+- `ObserverRuntime` lazily owns the queue only while enabled and closes that
+  owned resource outside its synchronized lifecycle section.
+- No listener, listener-bus integration, counters endpoint, HTTP response
+  change, or Task 7 behavior was added.
+
+### GREEN evidence
+
+- Initial focused GREEN: `5/5` tests passed.
+- Review-fix GREEN: `7/7` tests passed.
+- Fifty consecutive focused executions passed in one pinned sbt container:
+  `50 × 7 = 350/350` tests, with no flaky failure.
+- Each repetition reported a zero-millisecond refused offer in the deterministic
+  capacity-one fixture.
+- Each concurrency fixture received exactly `1,200` offers from six producers,
+  kept the recent window at or below `8/8`, and ended with processed plus drops
+  equal to received.
+- Observed focused-suite duration range: `349..909 ms`.
+- Evidence:
+  `task-06-focused-green.txt`, `task-06-review-fixes-green.txt`, and
+  `task-06-focused-50-repetitions.txt` under the Task 6 evidence directory.
+
+### Runtime and regression evidence
+
+- `make observer-tests`: `30/30` Scala tests passed.
+- `make tests`: `63/63` Python tests passed.
+- Fresh pre-commit reruns also passed with `30/30` Scala tests and `63/63`
+  Python tests. Their raw transcripts are
+  `task-06-final-observer-tests.txt` and
+  `task-06-final-python-regression.txt`.
+- The first `make observer-runtime-refresh` truthfully failed because the Task
+  5 teardown had removed project-local MinIO images required by the Compose
+  dependency graph. This was an environment prerequisite failure, not a queue
+  failure.
+- The documented fresh-checkout prerequisite `make build` recreated those
+  local images without starting the stack. Re-running the exact runtime refresh
+  then passed with the master ready and one ALIVE worker.
+- Host, staged, master-container, and worker-container JAR SHA-256 all matched:
+  `2c2ec3ea83efef09fdd0f2046a369dd28eb63d19d52f2a57b4757aac4d009ea6`.
+- The rebuilt Task 5 live probe returned two HTTP `200` health responses from
+  the same live driver PID `131`, both `READY`, with Spark `4.1.2`, plugin
+  `0.1.0-SNAPSHOT`, and queue capacity `1024`.
+- `listenerInstalled=false` remains intentional because listener installation
+  belongs exclusively to Task 7. The Task 6 queue is therefore lazy during
+  this health-only compatibility run.
+- The live workload retained row count `40`, value sum `780`, bucket totals
+  `180/190/200/210`, and submit exit `0`. Cleanup removed the driver and wrapper,
+  and the endpoint became unavailable while the persistent mapping remained
+  reusable.
+- Evidence: all `task-06-runtime-*`, `task-06-jar-checksum.txt`,
+  `task-06-live-health-regression.txt`, `task-06-observer-tests.txt`, and
+  `task-06-python-regression.txt` files in the Task 6 evidence directory.
+- `task-06-source-fingerprint.txt` binds the pre-commit evidence to starting
+  HEAD `d8f0e31b6521f856c870e16d1c3e890307e7aae2`, the branch name, and each of
+  the eight Task 6 source/test file hashes without including generated evidence
+  or secret-prone local configuration.
+
+### Visual evidence
+
+- `task-06-queue-report.md` presents the actual deterministic counters,
+  invariant equations, timing, stress results, runtime regression, and source
+  evidence in one acceptance report.
+- `task-06-queue-flow.svg` is the versioned source and
+  `task-06-queue-flow.png` is its Playwright-rendered acceptance view.
+- The visual explicitly distinguishes full-queue refusal, accepted-work
+  completion, and terminal shutdown accounting. It also calls out that Task 7
+  listener and HTTP counters are intentionally absent.
+
+### Final environment state
+
+- `make down` completed successfully.
+- A direct `docker compose ps` verification returned only its empty header: no
+  project service is running.
+- Repository images remain locally built so the next explicitly approved task
+  can reuse the documented prerequisite; image presence is not running
+  infrastructure.
+- Evidence: `task-06-infra-down.txt` and
+  `task-06-infra-down-verification.txt`.
+
+### Task result
+
+- Status: `PASS — AWAITING USER ACCEPTANCE`.
+- No commit was created and nothing was pushed.
+- Task 7 was not started and remains unauthorized until a new explicit user
+  request after Task 6 acceptance.

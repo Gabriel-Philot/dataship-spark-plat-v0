@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title description">
+  <title id="title">Task 6 bounded event handoff verification</title>
+  <desc id="description">Three queue states and the fifty-run concurrency verification for the DataShip Spark Observer bounded event handoff.</desc>
+  <defs>
+    <style>
+      .background { fill: #0b1220; }
+      .panel { fill: #111c2f; stroke: #334155; stroke-width: 2; }
+      .panel-green { fill: #10251d; stroke: #22c55e; stroke-width: 2; }
+      .panel-amber { fill: #2a2010; stroke: #f59e0b; stroke-width: 2; }
+      .title { fill: #f8fafc; font: 700 34px system-ui, sans-serif; }
+      .subtitle { fill: #94a3b8; font: 18px system-ui, sans-serif; }
+      .heading { fill: #f8fafc; font: 700 22px system-ui, sans-serif; }
+      .metric { fill: #dbeafe; font: 18px ui-monospace, monospace; }
+      .label { fill: #cbd5e1; font: 16px system-ui, sans-serif; }
+      .pass { fill: #86efac; font: 700 18px system-ui, sans-serif; }
+      .arrow { stroke: #60a5fa; stroke-width: 4; fill: none; marker-end: url(#arrowhead); }
+      .small { fill: #94a3b8; font: 14px system-ui, sans-serif; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#60a5fa"/>
+    </marker>
+  </defs>
+
+  <rect class="background" width="1400" height="820" rx="24"/>
+  <text class="title" x="70" y="70">Task 6 — bounded handoff remains consistent</text>
+  <text class="subtitle" x="70" y="105">Actual counters from the capacity-1 fixture and 50 consecutive concurrency runs</text>
+  <rect class="panel-green" x="1130" y="42" width="200" height="64" rx="18"/>
+  <text class="pass" x="1172" y="82">350 / 350 PASS</text>
+
+  <rect class="panel-amber" x="60" y="160" width="360" height="270" rx="20"/>
+  <text class="heading" x="90" y="205">1. Queue is full</text>
+  <text class="label" x="90" y="242">Capacity: 1</text>
+  <text class="metric" x="90" y="278">received  = 3</text>
+  <text class="metric" x="90" y="310">processed = 0</text>
+  <text class="metric" x="90" y="342">queued     = 1</text>
+  <text class="metric" x="90" y="374">inFlight   = 1</text>
+  <text class="metric" x="90" y="406">dropped    = 1</text>
+  <text class="pass" x="250" y="242">offer: 0 ms</text>
+
+  <path class="arrow" d="M430 295 L500 295"/>
+
+  <rect class="panel-green" x="510" y="160" width="360" height="270" rx="20"/>
+  <text class="heading" x="540" y="205">2. Accepted work completes</text>
+  <text class="label" x="540" y="242">Latch released</text>
+  <text class="metric" x="540" y="278">received  = 3</text>
+  <text class="metric" x="540" y="310">processed = 2</text>
+  <text class="metric" x="540" y="342">queued     = 0</text>
+  <text class="metric" x="540" y="374">inFlight   = 0</text>
+  <text class="metric" x="540" y="406">dropped    = 1</text>
+  <text class="pass" x="700" y="242">invariant ✓</text>
+
+  <path class="arrow" d="M880 295 L950 295"/>
+
+  <rect class="panel-green" x="960" y="160" width="380" height="270" rx="20"/>
+  <text class="heading" x="990" y="205">3. Shutdown is terminal</text>
+  <text class="label" x="990" y="242">One active + one queued</text>
+  <text class="pass" x="990" y="270">worker stopped · invariant ✓</text>
+  <text class="metric" x="990" y="300">received  = 2</text>
+  <text class="metric" x="990" y="327">processed = 1</text>
+  <text class="metric" x="990" y="354">queued     = 0</text>
+  <text class="metric" x="990" y="381">inFlight   = 0</text>
+  <text class="metric" x="990" y="408">dropped    = 1</text>
+
+  <rect class="panel" x="60" y="485" width="1280" height="265" rx="20"/>
+  <text class="heading" x="90" y="530">Concurrency stress — every snapshot stayed coherent</text>
+  <text class="metric" x="90" y="575">50 runs × 7 tests = 350 passes</text>
+  <text class="metric" x="90" y="610">1,200 offers/run · 6 producers · recent window ≤ 8/8</text>
+  <text class="metric" x="90" y="645">processed range 271..847 · complementary drops 353..929</text>
+  <text class="metric" x="90" y="680">suite duration 349..909 ms · refused offer 0 ms in every run</text>
+  <rect class="panel-green" x="930" y="555" width="350" height="120" rx="18"/>
+  <text class="pass" x="970" y="602">received = processed</text>
+  <text class="pass" x="970" y="633">+ queued + inFlight + dropped</text>
+  <text class="small" x="90" y="725">Task 7 listener and HTTP counters are intentionally absent.</text>
+</svg>

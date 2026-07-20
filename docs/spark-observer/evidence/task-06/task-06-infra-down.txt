@@ -1,0 +1,85 @@
+Script started on 2026-07-20 23:00:31+01:00 [COMMAND="make down" <not executed on terminal>]
+[?25l[0G[+] down 0/1
+ ⠋ Container spv0-spark-worker-1 Stopping                                   0.1s
+[?25h[?25l[2A[0G[+] down 0/1
+ ⠙ Container spv0-spark-worker-1 Stopping                                   0.2s
+[?25h[?25l[2A[0G[+] down 0/1
+ ⠹ Container spv0-spark-worker-1 Stopping                                   0.3s
+[?25h[?25l[2A[0G[+] down 0/1
+ ⠸ Container spv0-spark-worker-1 Stopping                                   0.4s
+[?25h[?25l[2A[0G[+] down 0/1
+ ⠼ Container spv0-spark-worker-1 Stopping                                   0.5s
+[?25h[?25l[2A[0G[+] down 0/1
+ ⠴ Container spv0-spark-worker-1 Stopping                                   0.6s
+[?25h[?25l[2A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠋ Container spv0-spark-master   Stopping                                   0.0s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠙ Container spv0-spark-master   Stopping                                   0.1s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠹ Container spv0-spark-master   Stopping                                   0.2s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠸ Container spv0-spark-master   Stopping                                   0.3s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠼ Container spv0-spark-master   Stopping                                   0.4s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠴ Container spv0-spark-master   Stopping                                   0.5s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠦ Container spv0-spark-master   Stopping                                   0.6s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠧ Container spv0-spark-master   Stopping                                   0.7s
+[?25h[?25l[3A[0G[+] down 1/2
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ⠇ Container spv0-spark-master   Removing                                   0.8s
+[?25h[?25l[3A[0G[+] down 3/4
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ⠋ Container spv0-minio          Stopping                                   0.0s
+[?25h[?25l[5A[0G[+] down 3/4
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ⠙ Container spv0-minio          Stopping                                   0.1s
+[?25h[?25l[5A[0G[+] down 3/4
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ⠹ Container spv0-minio          Stopping                                   0.2s
+[?25h[?25l[5A[0G[+] down 3/4
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ⠸ Container spv0-minio          Stopping                                   0.3s
+[?25h[?25l[5A[0G[+] down 3/4
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ⠼ Container spv0-minio          Removing                                   0.4s
+[?25h[?25l[5A[0G[+] down 4/5
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ✔ Container spv0-minio          Removed                                    0.5s
+ ⠋ Network spark-plat-v0_default Removing                                   0.1s
+[?25h[?25l[6A[0G[+] down 4/5
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ✔ Container spv0-minio          Removed                                    0.5s
+ ⠙ Network spark-plat-v0_default Removing                                   0.2s
+[?25h[?25l[6A[0G[+] down 5/5
+ ✔ Container spv0-spark-worker-1 Removed                                    0.7s
+ ✔ Container spv0-spark-master   Removed                                    0.8s
+ ✔ Container spv0-minio-init     Removed                                    0.0s
+ ✔ Container spv0-minio          Removed                                    0.5s
+ ✔ Network spark-plat-v0_default Removed                                    0.2s
+[?25h
+Script done on 2026-07-20 23:00:34+01:00 [COMMAND_EXIT_CODE="0"]

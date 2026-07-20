@@ -1,0 +1,1479 @@
+Script started on 2026-07-20 22:57:28+01:00 [COMMAND="make build" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[success] Total time: 1 s, completed Jul 20, 2026, 9:57:33 PM
+[1A[1B[0G[?25l
+[?25h[1A[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.1s (1/1)                                          docker:default
+ => [internal] load build definition from Dockerfile.server                0.1s
+ => => transferring dockerfile: 316B                                       0.0s
+[?25h[1A[1A[1A[0G[?25l[+] Building 0.2s (3/4)                                          docker:default
+ => [internal] load build definition from Dockerfile.server                0.1s
+ => => transferring dockerfile: 316B                                       0.0s
+ => [internal] load metadata for quay.io/minio/minio:RELEASE.2025-09-07T1  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 98B                                           0.0s
+ => [1/1] FROM quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1@sha  0.0s
+ => => resolve quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1@sha  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.3s (4/5)                                          docker:default
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 98B                                           0.0s
+ => CACHED [1/1] FROM quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cp  0.1s
+ => => resolve quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1@sha  0.0s
+ => exporting to image                                                     0.1s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:afc6629d3c6c5ade0d5bb2ee75aa079ca9cce312  0.0s
+ => => exporting config sha256:d8cce6f5cf2bf5ebcf78ef10f72bda121e967ff0aa  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.5s (4/5)                                          docker:default
+ => CACHED [1/1] FROM quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cp  0.1s
+ => => resolve quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1@sha  0.0s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:afc6629d3c6c5ade0d5bb2ee75aa079ca9cce312  0.0s
+ => => exporting config sha256:d8cce6f5cf2bf5ebcf78ef10f72bda121e967ff0aa  0.0s
+ => => exporting attestation manifest sha256:4aab8559644256c9f3323f260150  0.1s
+ => => exporting manifest list sha256:26fc0982ee672f1d2ff1c8d6bc657ededbe  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.6s (5/5)                                          docker:default
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:afc6629d3c6c5ade0d5bb2ee75aa079ca9cce312  0.0s
+ => => exporting config sha256:d8cce6f5cf2bf5ebcf78ef10f72bda121e967ff0aa  0.0s
+ => => exporting attestation manifest sha256:4aab8559644256c9f3323f260150  0.1s
+ => => exporting manifest list sha256:26fc0982ee672f1d2ff1c8d6bc657ededbe  0.1s
+ => => naming to docker.io/library/spark-plat-v0-minio:2025-09-07          0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-minio:2025-09-07       0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.8s (5/5)                                          docker:default
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:afc6629d3c6c5ade0d5bb2ee75aa079ca9cce312  0.0s
+ => => exporting config sha256:d8cce6f5cf2bf5ebcf78ef10f72bda121e967ff0aa  0.0s
+ => => exporting attestation manifest sha256:4aab8559644256c9f3323f260150  0.1s
+ => => exporting manifest list sha256:26fc0982ee672f1d2ff1c8d6bc657ededbe  0.1s
+ => => naming to docker.io/library/spark-plat-v0-minio:2025-09-07          0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-minio:2025-09-07       0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.8s (5/5) FINISHED                                 docker:default
+ => [internal] load build definition from Dockerfile.server                0.1s
+ => => transferring dockerfile: 316B                                       0.0s
+ => [internal] load metadata for quay.io/minio/minio:RELEASE.2025-09-07T1  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 98B                                           0.0s
+ => CACHED [1/1] FROM quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cp  0.1s
+ => => resolve quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1@sha  0.0s
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:afc6629d3c6c5ade0d5bb2ee75aa079ca9cce312  0.0s
+ => => exporting config sha256:d8cce6f5cf2bf5ebcf78ef10f72bda121e967ff0aa  0.0s
+ => => exporting attestation manifest sha256:4aab8559644256c9f3323f260150  0.1s
+ => => exporting manifest list sha256:26fc0982ee672f1d2ff1c8d6bc657ededbe  0.1s
+ => => naming to docker.io/library/spark-plat-v0-minio:2025-09-07          0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-minio:2025-09-07       0.0s
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.1s (4/7)                                          docker:default
+ => [internal] load build definition from Dockerfile.client                0.0s
+ => => transferring dockerfile: 301B                                       0.0s
+ => [internal] load metadata for quay.io/minio/mc:RELEASE.2025-08-13T08-3  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 98B                                           0.0s
+ => [internal] load build context                                          0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.2s (7/8)                                          docker:default
+ => [1/3] FROM quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1@sha256  0.0s
+ => => resolve quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1@sha256  0.0s
+ => CACHED [2/3] COPY init-buckets.sh /usr/local/bin/spv0-init-buckets     0.0s
+ => CACHED [3/3] RUN chmod 755 /usr/local/bin/spv0-init-buckets            0.0s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:7e752852ade5e7c418ec6e5c8ffce6b4bdaaf39e  0.0s
+ => => exporting config sha256:27e57540d7f55a4b896a473bb1cf2e911415ec2f06  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.4s (7/8)                                          docker:default
+ => CACHED [2/3] COPY init-buckets.sh /usr/local/bin/spv0-init-buckets     0.0s
+ => CACHED [3/3] RUN chmod 755 /usr/local/bin/spv0-init-buckets            0.0s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:7e752852ade5e7c418ec6e5c8ffce6b4bdaaf39e  0.0s
+ => => exporting config sha256:27e57540d7f55a4b896a473bb1cf2e911415ec2f06  0.0s
+ => => exporting attestation manifest sha256:49f1f335aa891e872354e91eae66  0.1s
+ => => exporting manifest list sha256:483e610dc9afe71d66296e81f0368242ffc  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.5s (7/8)                                          docker:default
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:7e752852ade5e7c418ec6e5c8ffce6b4bdaaf39e  0.0s
+ => => exporting config sha256:27e57540d7f55a4b896a473bb1cf2e911415ec2f06  0.0s
+ => => exporting attestation manifest sha256:49f1f335aa891e872354e91eae66  0.1s
+ => => exporting manifest list sha256:483e610dc9afe71d66296e81f0368242ffc  0.0s
+ => => naming to docker.io/library/spark-plat-v0-minio-mc:2025-08-13       0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-minio-mc:2025-08-13    0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.7s (8/8)                                          docker:default
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:7e752852ade5e7c418ec6e5c8ffce6b4bdaaf39e  0.0s
+ => => exporting config sha256:27e57540d7f55a4b896a473bb1cf2e911415ec2f06  0.0s
+ => => exporting attestation manifest sha256:49f1f335aa891e872354e91eae66  0.1s
+ => => exporting manifest list sha256:483e610dc9afe71d66296e81f0368242ffc  0.0s
+ => => naming to docker.io/library/spark-plat-v0-minio-mc:2025-08-13       0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-minio-mc:2025-08-13    0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.8s (8/8) FINISHED                                 docker:default
+ => [internal] load build definition from Dockerfile.client                0.0s
+ => => transferring dockerfile: 301B                                       0.0s
+ => [internal] load metadata for quay.io/minio/mc:RELEASE.2025-08-13T08-3  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 98B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 37B                                           0.0s
+ => [1/3] FROM quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1@sha256  0.0s
+ => => resolve quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1@sha256  0.0s
+ => CACHED [2/3] COPY init-buckets.sh /usr/local/bin/spv0-init-buckets     0.0s
+ => CACHED [3/3] RUN chmod 755 /usr/local/bin/spv0-init-buckets            0.0s
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:7e752852ade5e7c418ec6e5c8ffce6b4bdaaf39e  0.0s
+ => => exporting config sha256:27e57540d7f55a4b896a473bb1cf2e911415ec2f06  0.0s
+ => => exporting attestation manifest sha256:49f1f335aa891e872354e91eae66  0.1s
+ => => exporting manifest list sha256:483e610dc9afe71d66296e81f0368242ffc  0.0s
+ => => naming to docker.io/library/spark-plat-v0-minio-mc:2025-08-13       0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-minio-mc:2025-08-13    0.1s
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.1s (3/4)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 291B                                       0.0s
+ => [internal] load metadata for docker.io/library/clickhouse:26.5.1-jamm  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 55B                                           0.0s
+ => CACHED [1/1] FROM docker.io/library/clickhouse:26.5.1-jammy@sha256:77  0.0s
+ => => resolve docker.io/library/clickhouse:26.5.1-jammy@sha256:770156c53  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.2s (4/5)                                          docker:default
+ => => resolve docker.io/library/clickhouse:26.5.1-jammy@sha256:770156c53  0.0s
+ => exporting to image                                                     0.1s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:fa6d382d1570fb9ac6c36c0f4e98dccaa77c34aa  0.0s
+ => => exporting config sha256:06d9aae7f270d0e009ea076b69dbf4ccefa7f900e8  0.0s
+ => => exporting attestation manifest sha256:e51b7f19a9ebb8e96c538229f7fe  0.0s
+ => => exporting manifest list sha256:90ddda5a14013b73410838d18229f70dace  0.0s
+ => => naming to docker.io/library/spark-plat-v0-clickhouse:26.5.1         0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.4s (5/5)                                          docker:default
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:fa6d382d1570fb9ac6c36c0f4e98dccaa77c34aa  0.0s
+ => => exporting config sha256:06d9aae7f270d0e009ea076b69dbf4ccefa7f900e8  0.0s
+ => => exporting attestation manifest sha256:e51b7f19a9ebb8e96c538229f7fe  0.0s
+ => => exporting manifest list sha256:90ddda5a14013b73410838d18229f70dace  0.0s
+ => => naming to docker.io/library/spark-plat-v0-clickhouse:26.5.1         0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-clickhouse:26.5.1      0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.5s (5/5) FINISHED                                 docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 291B                                       0.0s
+ => [internal] load metadata for docker.io/library/clickhouse:26.5.1-jamm  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 55B                                           0.0s
+ => CACHED [1/1] FROM docker.io/library/clickhouse:26.5.1-jammy@sha256:77  0.0s
+ => => resolve docker.io/library/clickhouse:26.5.1-jammy@sha256:770156c53  0.0s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:fa6d382d1570fb9ac6c36c0f4e98dccaa77c34aa  0.0s
+ => => exporting config sha256:06d9aae7f270d0e009ea076b69dbf4ccefa7f900e8  0.0s
+ => => exporting attestation manifest sha256:e51b7f19a9ebb8e96c538229f7fe  0.0s
+ => => exporting manifest list sha256:90ddda5a14013b73410838d18229f70dace  0.0s
+ => => naming to docker.io/library/spark-plat-v0-clickhouse:26.5.1         0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-clickhouse:26.5.1      0.0s
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.1s (3/12)                                         docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+[?25h[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.1s
+ => => transferring context: 14.79MB                                       0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.2s
+ => => transferring context: 30.19MB                                       0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.3s
+ => => transferring context: 47.87MB                                       0.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.4s
+ => => transferring context: 69.24MB                                       0.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.6s
+ => => transferring context: 105.34MB                                      0.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.8s
+ => => transferring context: 140.15MB                                      0.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          0.9s
+ => => transferring context: 158.83MB                                      0.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.1s
+ => => transferring context: 192.82MB                                      1.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.2s
+ => => transferring context: 212.58MB                                      1.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.3s
+ => => transferring context: 229.96MB                                      1.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.4s
+ => => transferring context: 246.41MB                                      1.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.5s
+ => => transferring context: 265.13MB                                      1.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.6s
+ => => transferring context: 280.14MB                                      1.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          1.8s
+ => => transferring context: 308.82MB                                      1.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.0s
+ => => transferring context: 344.58MB                                      2.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.2s
+ => => transferring context: 380.20MB                                      2.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.4s
+ => => transferring context: 418.09MB                                      2.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.5s
+ => => transferring context: 434.84MB                                      2.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.6s
+ => => transferring context: 449.13MB                                      2.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 2.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.8s
+ => => transferring context: 473.75MB                                      2.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          2.9s
+ => => transferring context: 481.38MB                                      2.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.0s
+ => => transferring context: 488.63MB                                      3.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.1s
+ => => transferring context: 496.95MB                                      3.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.2s
+ => => transferring context: 506.42MB                                      3.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.3s
+ => => transferring context: 514.62MB                                      3.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.4s
+ => => transferring context: 523.57MB                                      3.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.5s
+ => => transferring context: 531.96MB                                      3.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.6s
+ => => transferring context: 539.17MB                                      3.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.7s
+ => => transferring context: 547.46MB                                      3.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 3.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.8s
+ => => transferring context: 557.52MB                                      3.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          3.9s
+ => => transferring context: 564.44MB                                      3.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.0s
+ => => transferring context: 573.06MB                                      4.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.1s
+ => => transferring context: 582.96MB                                      4.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.2s
+ => => transferring context: 593.87MB                                      4.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.3s
+ => => transferring context: 604.59MB                                      4.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.4s
+ => => transferring context: 614.68MB                                      4.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.5s
+ => => transferring context: 623.47MB                                      4.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.6s
+ => => transferring context: 630.58MB                                      4.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 4.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.7s
+ => => transferring context: 638.35MB                                      4.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          4.9s
+ => => transferring context: 655.72MB                                      4.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.0s
+ => => transferring context: 663.65MB                                      5.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.1s
+ => => transferring context: 670.93MB                                      5.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.2s
+ => => transferring context: 679.88MB                                      5.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.3s
+ => => transferring context: 691.58MB                                      5.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.5s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.4s
+ => => transferring context: 698.46MB                                      5.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.6s
+ => => transferring context: 713.90MB                                      5.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.8s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.7s
+ => => transferring context: 721.63MB                                      5.7s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 5.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          5.8s
+ => => transferring context: 728.91MB                                      5.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.0s
+ => => transferring context: 749.62MB                                      6.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.1s
+ => => transferring context: 757.39MB                                      6.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.3s
+ => => transferring context: 772.73MB                                      6.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.6s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.5s
+ => => transferring context: 772.73MB                                      6.5s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.6s
+ => => transferring context: 772.73MB                                      6.6s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 6.9s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.8s
+ => => transferring context: 772.73MB                                      6.8s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.9s
+ => => transferring context: 772.73MB                                      6.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.0s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          6.9s
+ => => transferring context: 774.01MB                                      6.9s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.1s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.0s
+ => => transferring context: 780.27MB                                      7.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.2s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.1s
+ => => transferring context: 786.92MB                                      7.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.3s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.2s
+ => => transferring context: 793.31MB                                      7.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.4s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.3s
+ => => transferring context: 799.80MB                                      7.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.7s (4/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.6s
+ => => transferring context: 807.48MB                                      7.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.8s (5/12)                                         docker:default
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.7s
+ => => transferring context: 807.48MB                                      7.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 7.9s (12/13)                                        docker:default
+ => CACHED [5/8] COPY requirements.txt /tmp/requirements.txt               0.0s
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.1s (12/13)                                        docker:default
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.2s (12/13)                                        docker:default
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.4s (12/13)                                        docker:default
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.5s (12/13)                                        docker:default
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.6s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.5s (12/13)                                        docker:default
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.7s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.8s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 8.9s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.1s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.2s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.4s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.5s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.7s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 9.8s (13/13)                                        docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.0s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.1s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.3s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.4s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.6s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.7s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 10.9s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.0s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.2s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.3s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.5s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.6s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.8s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 11.9s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.1s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.2s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.4s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.5s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.7s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 12.8s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.0s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.1s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.3s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.4s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.6s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.7s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 13.9s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.0s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.2s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.3s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.5s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.6s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.8s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 14.9s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 15.1s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 15.2s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 15.4s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 15.5s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 15.7s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 15.8s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 16.0s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 16.1s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 16.3s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 16.4s (13/13)                                       docker:default
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 16.5s (13/13) FINISHED                              docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 690B                                       0.0s
+ => [internal] load metadata for docker.io/apache/spark:4.1.2-scala2.13-j  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 95B                                           0.0s
+ => [1/8] FROM docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.1s
+ => => resolve docker.io/apache/spark:4.1.2-scala2.13-java17-python3-ubun  0.0s
+ => [internal] load build context                                          7.7s
+ => => transferring context: 807.48MB                                      7.4s
+ => CACHED [2/8] RUN mkdir -p /opt/spark/apps /opt/spark/metrics     && c  0.0s
+ => CACHED [3/8] COPY context/jars/*.jar /opt/spark/jars/                  0.0s
+ => CACHED [4/8] COPY context/python-wheels /tmp/python-wheels             0.0s
+ => CACHED [5/8] COPY requirements.txt /tmp/requirements.txt               0.0s
+ => CACHED [6/8] RUN python3 -m pip install --no-index --find-links=/tmp/  0.0s
+ => CACHED [7/8] COPY context/conf/spark-defaults.conf /opt/spark/conf/sp  0.0s
+ => CACHED [8/8] COPY context/conf/log4j2.properties /opt/spark/conf/log4  0.0s
+ => exporting to image                                                     0.8s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:8e8409e45dc12f7275a66302016e327e847f781f  0.0s
+ => => exporting config sha256:7bf2078a5bf856e53f534d273fe05d127872187562  0.0s
+ => => exporting attestation manifest sha256:b98637921d0976a2b2b7119891b6  0.3s
+ => => exporting manifest list sha256:0f8048b1c28ce0a95971ae02c49e4766909  0.2s
+ => => naming to docker.io/library/spark-plat-v0-spark:4.1.2               0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark:4.1.2            0.0s
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.1s (4/7)                                          docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 315B                                       0.0s
+ => [internal] load metadata for docker.io/library/spark-plat-v0-spark:4.  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 70B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.2s (5/7)                                          docker:default
+ => => transferring dockerfile: 315B                                       0.0s
+ => [internal] load metadata for docker.io/library/spark-plat-v0-spark:4.  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 70B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.5s (6/7)                                          docker:default
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 70B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.6s (6/7)                                          docker:default
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 70B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.7s (7/7)                                          docker:default
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 70B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.9s (7/8)                                          docker:default
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.4s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.9s (7/8)                                          docker:default
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.4s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.1s (7/8)                                          docker:default
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.4s
+ => exporting to image                                                     0.3s
+ => => exporting layers                                                    0.2s
+ => => exporting manifest sha256:b9ac0f54e44a99667720de3619f0b670b58c28b3  0.0s
+ => => exporting config sha256:f9a76011d3a75a285d6df4f5983f37bbfb89a1d78b  0.0s
+ => => exporting attestation manifest sha256:6812c93ad12e9e1e8f46f31f1dd9  0.1s
+ => => exporting manifest list sha256:b0f0a8fbbe1e80c8354a515d95cd8ec2932  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.2s (7/8)                                          docker:default
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.2s
+ => => exporting manifest sha256:b9ac0f54e44a99667720de3619f0b670b58c28b3  0.0s
+ => => exporting config sha256:f9a76011d3a75a285d6df4f5983f37bbfb89a1d78b  0.0s
+ => => exporting attestation manifest sha256:6812c93ad12e9e1e8f46f31f1dd9  0.1s
+ => => exporting manifest list sha256:b0f0a8fbbe1e80c8354a515d95cd8ec2932  0.0s
+ => => naming to docker.io/library/spark-plat-v0-spark-history:4.1.2       0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark-history:4.1.2    0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.4s (8/8)                                          docker:default
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.2s
+ => => exporting manifest sha256:b9ac0f54e44a99667720de3619f0b670b58c28b3  0.0s
+ => => exporting config sha256:f9a76011d3a75a285d6df4f5983f37bbfb89a1d78b  0.0s
+ => => exporting attestation manifest sha256:6812c93ad12e9e1e8f46f31f1dd9  0.1s
+ => => exporting manifest list sha256:b0f0a8fbbe1e80c8354a515d95cd8ec2932  0.0s
+ => => naming to docker.io/library/spark-plat-v0-spark-history:4.1.2       0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark-history:4.1.2    0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.4s (8/8) FINISHED                                 docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 315B                                       0.0s
+ => [internal] load metadata for docker.io/library/spark-plat-v0-spark:4.  0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 70B                                           0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 34B                                           0.0s
+ => [1/3] FROM docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.2s
+ => => resolve docker.io/library/spark-plat-v0-spark:4.1.2@sha256:0f8048b  0.0s
+ => [2/3] COPY entrypoint.sh /opt/spark/bin/spv0-history-entrypoint.sh     0.1s
+ => [3/3] RUN chmod 755 /opt/spark/bin/spv0-history-entrypoint.sh          0.4s
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.2s
+ => => exporting manifest sha256:b9ac0f54e44a99667720de3619f0b670b58c28b3  0.0s
+ => => exporting config sha256:f9a76011d3a75a285d6df4f5983f37bbfb89a1d78b  0.0s
+ => => exporting attestation manifest sha256:6812c93ad12e9e1e8f46f31f1dd9  0.1s
+ => => exporting manifest list sha256:b0f0a8fbbe1e80c8354a515d95cd8ec2932  0.0s
+ => => naming to docker.io/library/spark-plat-v0-spark-history:4.1.2       0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-spark-history:4.1.2    0.1s
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/1)                                          docker:default
+[?25h[1A[0G[?25l[+] Building 0.1s (3/11)                                         docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 429B                                       0.0s
+ => [internal] load metadata for docker.io/library/golang:1.26-bookworm    0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 100B                                          0.0s
+[?25h[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.3s (4/11)                                         docker:default
+ => => transferring dockerfile: 429B                                       0.0s
+ => [internal] load metadata for docker.io/library/golang:1.26-bookworm    0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 100B                                          0.0s
+ => [build 1/6] FROM docker.io/library/golang:1.26-bookworm@sha256:1ecb7e  0.0s
+ => => resolve docker.io/library/golang:1.26-bookworm@sha256:1ecb7edf62a0  0.0s
+ => [internal] load build context                                          0.1s
+ => => transferring context: 90.72kB                                       0.1s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.4s (11/12)                                        docker:default
+ => CACHED [build 5/6] COPY main.go ./                                     0.0s
+ => CACHED [build 6/6] RUN CGO_ENABLED=0 GOOS=linux /usr/local/go/bin/go   0.0s
+ => CACHED [stage-1 1/1] COPY --from=build /out/spark-eventlog-loader /sp  0.0s
+ => exporting to image                                                     0.0s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:502768047b5b8ace0e907284d8eb2010e1fa3e95  0.0s
+ => => exporting config sha256:9b07a7674f61cd7a7634016905e3e5d02ed979d68f  0.0s
+ => => exporting attestation manifest sha256:f28c34562499e6ef390e87865eff  0.0s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.6s (11/12)                                        docker:default
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:502768047b5b8ace0e907284d8eb2010e1fa3e95  0.0s
+ => => exporting config sha256:9b07a7674f61cd7a7634016905e3e5d02ed979d68f  0.0s
+ => => exporting attestation manifest sha256:f28c34562499e6ef390e87865eff  0.0s
+ => => exporting manifest list sha256:9da809537dce48ef015acfc3591a0de1e02  0.0s
+ => => naming to docker.io/library/spark-plat-v0-eventlog-loader:go1.26    0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-eventlog-loader:go1.2  0.2s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.7s (11/12)                                        docker:default
+ => exporting to image                                                     0.4s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:502768047b5b8ace0e907284d8eb2010e1fa3e95  0.0s
+ => => exporting config sha256:9b07a7674f61cd7a7634016905e3e5d02ed979d68f  0.0s
+ => => exporting attestation manifest sha256:f28c34562499e6ef390e87865eff  0.0s
+ => => exporting manifest list sha256:9da809537dce48ef015acfc3591a0de1e02  0.0s
+ => => naming to docker.io/library/spark-plat-v0-eventlog-loader:go1.26    0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-eventlog-loader:go1.2  0.3s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 0.8s (11/12)                                        docker:default
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:502768047b5b8ace0e907284d8eb2010e1fa3e95  0.0s
+ => => exporting config sha256:9b07a7674f61cd7a7634016905e3e5d02ed979d68f  0.0s
+ => => exporting attestation manifest sha256:f28c34562499e6ef390e87865eff  0.0s
+ => => exporting manifest list sha256:9da809537dce48ef015acfc3591a0de1e02  0.0s
+ => => naming to docker.io/library/spark-plat-v0-eventlog-loader:go1.26    0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-eventlog-loader:go1.2  0.4s
+[?25h[1A[1A[1A[1A[1A[1A[1A[1A[1A[0G[?25l[+] Building 1.0s (12/12) FINISHED                               docker:default
+ => [internal] load build definition from Dockerfile                       0.0s
+ => => transferring dockerfile: 429B                                       0.0s
+ => [internal] load metadata for docker.io/library/golang:1.26-bookworm    0.0s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 100B                                          0.0s
+ => [build 1/6] FROM docker.io/library/golang:1.26-bookworm@sha256:1ecb7e  0.0s
+ => => resolve docker.io/library/golang:1.26-bookworm@sha256:1ecb7edf62a0  0.0s
+ => [internal] load build context                                          0.2s
+ => => transferring context: 110.62kB                                      0.1s
+ => CACHED [build 2/6] WORKDIR /src                                        0.0s
+ => CACHED [build 3/6] COPY go.mod go.sum ./                               0.0s
+ => CACHED [build 4/6] COPY vendor ./vendor                                0.0s
+ => CACHED [build 5/6] COPY main.go ./                                     0.0s
+ => CACHED [build 6/6] RUN CGO_ENABLED=0 GOOS=linux /usr/local/go/bin/go   0.0s
+ => CACHED [stage-1 1/1] COPY --from=build /out/spark-eventlog-loader /sp  0.0s
+ => exporting to image                                                     0.5s
+ => => exporting layers                                                    0.0s
+ => => exporting manifest sha256:502768047b5b8ace0e907284d8eb2010e1fa3e95  0.0s
+ => => exporting config sha256:9b07a7674f61cd7a7634016905e3e5d02ed979d68f  0.0s
+ => => exporting attestation manifest sha256:f28c34562499e6ef390e87865eff  0.0s
+ => => exporting manifest list sha256:9da809537dce48ef015acfc3591a0de1e02  0.0s
+ => => naming to docker.io/library/spark-plat-v0-eventlog-loader:go1.26    0.0s
+ => => unpacking to docker.io/library/spark-plat-v0-eventlog-loader:go1.2  0.4s
+[?25h
+Script done on 2026-07-20 22:57:59+01:00 [COMMAND_EXIT_CODE="0"]

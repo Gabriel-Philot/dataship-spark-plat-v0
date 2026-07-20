@@ -3,6 +3,7 @@ package io.dataship.spark.observer
 import java.time.{Clock, Instant}
 
 import io.dataship.spark.observer.api.HealthResponse
+import io.dataship.spark.observer.events.{BoundedEventQueue, ObserverState}
 
 final class ObserverRuntime(
     val config: ObserverConfig,
@@ -16,6 +17,23 @@ final class ObserverRuntime(
   private var lastErrorCode = initialErrorCode
   private var stopped = false
   private var status = initialStatus()
+  private var ownedEventQueue: Option[BoundedEventQueue] = None
+
+  private[observer] def eventQueue: Option[BoundedEventQueue] = synchronized {
+    if (!config.enabled || stopped) {
+      None
+    } else {
+      if (ownedEventQueue.isEmpty) {
+        ownedEventQueue = Some(
+          new BoundedEventQueue(
+            capacity = config.queueCapacity,
+            state = new ObserverState(config.transitionsCapacity)
+          )
+        )
+      }
+      ownedEventQueue
+    }
+  }
 
   def registerApplication(appId: String): Boolean = synchronized {
     val normalizedAppId = Option(appId).map(_.trim).getOrElse("")
@@ -60,9 +78,13 @@ final class ObserverRuntime(
     }
   }
 
-  def shutdown(): Unit = synchronized {
-    stopped = true
-    status = "STOPPING"
+  def shutdown(): Unit = {
+    val queueToClose = synchronized {
+      stopped = true
+      status = "STOPPING"
+      ownedEventQueue
+    }
+    queueToClose.foreach(_.close())
   }
 
   def isSupportedRuntime: Boolean = supportedRuntime

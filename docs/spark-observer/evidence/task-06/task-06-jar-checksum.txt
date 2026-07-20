@@ -1,0 +1,10 @@
+Script started on 2026-07-20 22:58:56+01:00 [COMMAND="git rev-parse HEAD; docker image inspect --format "runtime_image_id={{.Id}}" spark-plat-v0-spark:4.1.2; docker inspect --format "spark_master_image_id={{.Image}}" spv0-spark-master; docker inspect --format "spark_worker_image_id={{.Image}}" spv0-spark-worker-1; sha256sum spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar build/images/spark/context/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar; docker compose --env-file .env -f build/docker-compose.yml exec -T spark-master sha256sum /opt/spark/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar" <not executed on terminal>]
+d8f0e31b6521f856c870e16d1c3e890307e7aae2
+runtime_image_id=sha256:48311e1874d61f598a29049bc5b3d8fbe41b69497551949f90df30ab061e1969
+spark_master_image_id=sha256:48311e1874d61f598a29049bc5b3d8fbe41b69497551949f90df30ab061e1969
+spark_worker_image_id=sha256:48311e1874d61f598a29049bc5b3d8fbe41b69497551949f90df30ab061e1969
+2c2ec3ea83efef09fdd0f2046a369dd28eb63d19d52f2a57b4757aac4d009ea6  spark-observer/target/scala-2.13/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+2c2ec3ea83efef09fdd0f2046a369dd28eb63d19d52f2a57b4757aac4d009ea6  build/images/spark/context/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+2c2ec3ea83efef09fdd0f2046a369dd28eb63d19d52f2a57b4757aac4d009ea6  /opt/spark/jars/dataship-spark-observer_2.13-0.1.0-SNAPSHOT.jar
+
+Script done on 2026-07-20 22:58:57+01:00 [COMMAND_EXIT_CODE="0"]

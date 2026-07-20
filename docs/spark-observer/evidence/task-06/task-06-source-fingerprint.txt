@@ -1,0 +1,13 @@
+Script started on 2026-07-20 23:12:34+01:00 [COMMAND="git rev-parse HEAD; git branch --show-current; sha256sum spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala" <not executed on terminal>]
+d8f0e31b6521f856c870e16d1c3e890307e7aae2
+exp-dataflint-based-test-jar
+b1366ce569f2cc53c6e9f9b302c56684243e9f503814d1953049f41fc08bbf74  spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala
+2513989f3d6b967c60b94ed764526e7a9d1687267f8d8227f2dcdd0abacbe644  spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala
+57e8acfd7a08be0c5f23da5f8d531095851b10a632fa109cbae0b13f2a3712e0  spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala
+d374c083206eb84d210d17d081c3dcbf486ac7bacb927a5bcd96b90a0c1b765c  spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala
+9601ab5880eb57302cff0b5dbc20bddaa657d2197dd1e8d2aedf85431daa69a9  spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala
+2bfec63f963fbd51740759bb9ba3f964b0ed50739d4bcd5d7c6859b3c372703c  spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala
+49d5d6cb8004e5801d1bc24986251a0fdd63de98a25c574e962d78b136266e76  spark-observer/src/test/scala/io/dataship/spark/observer/events/BoundedEventQueueSpec.scala
+981bce8aeb434f5ec35ec5cf9c9031400c50aae31529342086e217af3e1ee041  spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverStateSpec.scala
+
+Script done on 2026-07-20 23:12:34+01:00 [COMMAND_EXIT_CODE="0"]
