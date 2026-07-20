@@ -927,6 +927,7 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 **Red phase:**
 
 - [ ] Criar testes unitários para cada fronteira de falha e para a guarda que prova que a factory `v412` não é chamada em versão diferente.
+- [ ] Injetar uma exceção inesperada em `process(event)`; confirmar primeiro que o worker atual encerra e que eventos posteriores não são processados.
 - [ ] Criar integração com polling acelerado por intervalo fixo, sem expectativa de `429`.
 - [ ] Criar fixtures com credenciais sentinela para MinIO/ClickHouse sem imprimir valores.
 - [ ] Executar testes e confirmar que os comportamentos ainda não existem.
@@ -934,6 +935,7 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 **Green phase:**
 
 - [ ] Implementar fail-open por fronteira: config, listener, snapshot, servlet e UI.
+- [ ] Tratar exceções inesperadas do processamento sem encerrar o worker; concluir a transição contábil, incrementar `internalFailures`, atualizar `lastErrorCode` e continuar processando eventos posteriores.
 - [ ] Garantir que qualquer erro atualiza `internalFailures` e `lastErrorCode`.
 - [ ] Executar `make observer-runtime-refresh` e validar o checksum antes dos cenários live.
 - [ ] Executar cenário de fila cheia, snapshot falho e polling acelerado.
@@ -948,6 +950,7 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 - Config inválida no runtime suportado é visível em `/health`; versão não suportada não instancia o adapter e é comprovada por código/log estável, não por endpoint.
 - Respostas não expõem credenciais, ambiente, stack trace ou SparkConf completo.
 - Fila cheia continua não bloqueante.
+- Exceção inesperada em `process(event)` não encerra o worker, aparece nos contadores/health e não altera o resultado do workload.
 
 **Evidência visual para aceite:** renderizar a matriz falha → HTTP/status → resultado do job e capturar `/health` ainda disponível depois do `500` induzido no snapshot.
 

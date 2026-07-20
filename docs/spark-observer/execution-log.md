@@ -1141,7 +1141,18 @@ Return the Compose stack to down after the live regression.
 
 ### Task result
 
-- Status: `PASS — AWAITING USER ACCEPTANCE`.
-- No commit was created and nothing was pushed.
-- Task 7 was not started and remains unauthorized until a new explicit user
-  request after Task 6 acceptance.
+- Status: `PASS — ACCEPTED` on 2026-07-20.
+- Task 6 was committed as
+  `12c4f8e4215036ff242b16750af81c6a15b8b540` and pushed to
+  `origin/exp-dataflint-based-test-jar`; local and upstream identities matched
+  after the push.
+- Acceptance carried one nonblocking follow-up for Task 7/11: the worker
+  currently handles `InterruptedException`, while another unexpected exception
+  from `process(event)` could terminate it. This does not invalidate Task 6
+  because its current processor is the no-op default. Before fail-open is
+  considered complete, a future focused test must inject an unexpected
+  processing exception, prove the worker continues serving later events, and
+  prove the failure is exposed through `internalFailures`/`lastErrorCode`
+  without changing the Spark workload result.
+- Task 7 was not started. Acceptance of Task 6 does not authorize it; a new
+  explicit user request is still required.

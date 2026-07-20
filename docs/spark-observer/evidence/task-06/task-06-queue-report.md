@@ -1,6 +1,6 @@
 # Task 6 bounded handoff — visual acceptance report
 
-**Result:** `PASS — awaiting user acceptance`
+**Result:** `PASS — accepted on 2026-07-20`
 
 **Starting HEAD:** `d8f0e31b6521f856c870e16d1c3e890307e7aae2`
 
@@ -76,3 +76,11 @@ worker exits.
   teardown and empty Compose table.
 
 No Task 7 listener or counters endpoint is included in this evidence.
+
+## Accepted follow-up
+
+Task 6 was accepted with one nonblocking future hardening item: once processing
+is no longer the no-op default, an unexpected exception from `process(event)`
+must not terminate the worker silently. Task 7 exposes the failure counters;
+Task 11 owns the fail-open proof and job-result regression. No Task 7 or Task 11
+code was added as part of this acceptance update.
