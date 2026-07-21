@@ -1,13 +1,14 @@
 # Task 7 dedicated listener and live counters — acceptance report
 
-**Result:** `PASS — awaiting user acceptance`
+**Result:** `PASS — ACCEPTED`
 
 **Starting HEAD:** `85efbf4f0b48edd119ce59615bff5b4ff8afef6c`
 
 **Date:** 2026-07-21
 
-**Publication:** commit and push authorized for external validation; final
-user acceptance remains pending.
+**Publication:** commit `5a5626b8b5d7913e615a0acf8b3cf5c30e562e9a`
+was pushed for external validation and explicitly accepted by the user on
+2026-07-21.
 
 ## Live functional proof
 

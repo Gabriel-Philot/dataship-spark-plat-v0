@@ -973,7 +973,7 @@ No commit was created. Task 6 was not started.
 
 ## Task 6 — bounded internal handoff and consistent state
 
-**Status:** `PASS — AWAITING USER ACCEPTANCE`
+**Status:** `PASS — ACCEPTED`
 
 **Hypothesis:** the internal handoff never waits for queue capacity,
 deterministically accounts for refused events, and preserves
@@ -1159,7 +1159,7 @@ Return the Compose stack to down after the live regression.
 
 ## Task 7 — dedicated listener and live counters endpoint
 
-**Status:** `RUNNING`
+**Status:** `PASS — ACCEPTED`
 
 **Hypothesis:** real Spark events enter the dedicated `dataship-observer`
 listener-bus queue, the stable counters endpoint grows between two reads while
@@ -1352,10 +1352,17 @@ Task-owned records are this execution-log section and
 
 ### Task result and acceptance gate
 
-- Result: `PASS — AWAITING USER ACCEPTANCE`.
+- Result: `PASS — ACCEPTED`.
+- The user explicitly accepted Task 7 on 2026-07-21 after an external static
+  audit of commit `5a5626b8b5d7913e615a0acf8b3cf5c30e562e9a`, its fingerprints,
+  transcripts, and Playwright evidence.
 - No Task 8 behavior was implemented.
 - On 2026-07-21, the user explicitly authorized the Task 7 commit and push so
   another model can validate the checkpoint. This publication is a review
-  handoff; final Task 7 acceptance remains pending.
+  handoff that preceded the final acceptance recorded above.
+- Follow-up routing was persisted in the implementation plan: live SQL
+  category proof belongs to Task 9; adapter lifecycle/cleanup, the zero-event
+  `lastEventAt` contract, and unexpected worker failures belong to Task 11;
+  Task 12 must reconfirm those focused gates in the final E2E report.
 - Next task title only: **Task 8 — expose live application, job, and stage
   snapshots**.

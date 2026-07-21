@@ -798,6 +798,9 @@ git commit -m "feat: expose live job and stage snapshots"
 - [ ] Criar specs provando descrição desabilitada por default, `spark.redaction.string.regex`, senha, valor de access key, valor de bearer token, string longa e descrição ausente.
 - [ ] Criar teste do adapter com eventos SQL start/end.
 - [ ] Acrescentar ao harness exigência de execução SQL ativa/final.
+- [ ] Acrescentar ao harness a exigência de
+  `receivedByCategory.sql > 0` enquanto o mesmo driver e a execução SQL estão
+  vivos; classificação unitária isolada não conta como prova live.
 - [ ] Executar e confirmar falhas esperadas.
 
 **Green phase:**
@@ -807,6 +810,8 @@ git commit -m "feat: expose live job and stage snapshots"
 - [ ] Mapear estado sem instrumentar `SparkPlan`, extensions ou AQE.
 - [ ] Executar `make observer-runtime-refresh` e validar o checksum antes dos cenários live.
 - [ ] Executar live com `spark.sql(...)`; capturar a execução ativa e final sem exigir o SQL literal.
+- [ ] Correlacionar a execução SQL capturada com uma resposta live de
+  `/debug/counters` que tenha `receivedByCategory.sql > 0` no mesmo run.
 - [ ] Executar o default e provar `descriptionAvailable=false`.
 - [ ] Executar um fixture sintético que define `spark.job.description`, habilita a descrição e configura redação de string; documentar explicitamente que isso testa redação, não captura universal do SQL.
 - [ ] Executar caminho DataFrame API; provar que nenhum código-fonte é reconstruído.
@@ -817,6 +822,8 @@ git commit -m "feat: expose live job and stage snapshots"
 - Uma execução iniciada por `spark.sql(...)` aparece por id/status, sem promessa de SQL literal.
 - Descrição fica ausente por default; no fixture sintético opt-in, aparece redigida, truncada e rotulada `SPARK_STATUS_STORE`.
 - Uma transição SQL live é observada.
+- A categoria SQL do listener é comprovada em runtime por
+  `receivedByCategory.sql > 0`, no mesmo run da transição SQL.
 - DataFrame API não recebe código-fonte reconstruído.
 - Nenhum plano é envolvido, reescrito ou modificado.
 - Respostas não contêm segredo conhecido do fixture.
@@ -907,12 +914,15 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 **Files:**
 
 - Create: `spark-observer/src/test/scala/io/dataship/spark/observer/FailOpenSpec.scala`
+- Create: `spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412BridgeLifecycleSpec.scala`
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala`
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala`
+- Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala`
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala`
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala`
 - Modify: `spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotServlet.scala`
+- Modify: `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala`
 - Modify: `build/scripts/assert-observer-response.py`
 - Modify: `build/scripts/run-observer-live-probe.sh`
 
@@ -923,11 +933,23 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 - Config inválida em Spark 4.1.2 recebe `DEGRADED` com `INVALID_CONFIG`.
 - Versão não suportada impede a factory do adapter `v412`, registra `UNSUPPORTED_SPARK_VERSION` e não promete rota HTTP.
 - Não existe resposta `429` no contrato v0; proteção HTTP própria só entra em outro design se medições demonstrarem necessidade.
+- Antes do primeiro evento, `lastEventAt` é JSON `null`; depois de
+  `listenerReceived > 0`, ele é um timestamp UTC ISO-8601 válido.
+- O fechamento do adapter tenta remover listener, health handler e counters
+  handler independentemente; uma falha de detach não impede os demais
+  cleanups.
 
 **Red phase:**
 
 - [ ] Criar testes unitários para cada fronteira de falha e para a guarda que prova que a factory `v412` não é chamada em versão diferente.
 - [ ] Injetar uma exceção inesperada em `process(event)`; confirmar primeiro que o worker atual encerra e que eventos posteriores não são processados.
+- [ ] Criar teste do contrato zero-evento: `listenerReceived=0` e
+  `lastEventAt=null`; depois do primeiro evento, exigir timestamp UTC válido.
+- [ ] Criar teste direto do lifecycle do adapter: instalação registra uma vez
+  os dois handlers e o listener na fila `dataship-observer`; fechamento remove
+  o listener e tenta remover ambos os handlers.
+- [ ] Induzir falha no primeiro cleanup do adapter e provar que os recursos
+  restantes ainda recebem tentativa de remoção.
 - [ ] Criar integração com polling acelerado por intervalo fixo, sem expectativa de `429`.
 - [ ] Criar fixtures com credenciais sentinela para MinIO/ClickHouse sem imprimir valores.
 - [ ] Executar testes e confirmar que os comportamentos ainda não existem.
@@ -937,6 +959,12 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 - [ ] Implementar fail-open por fronteira: config, listener, snapshot, servlet e UI.
 - [ ] Tratar exceções inesperadas do processamento sem encerrar o worker; concluir a transição contábil, incrementar `internalFailures`, atualizar `lastErrorCode` e continuar processando eventos posteriores.
 - [ ] Garantir que qualquer erro atualiza `internalFailures` e `lastErrorCode`.
+- [ ] Tornar o cleanup do adapter best-effort e idempotente: tentar cada
+  detach e a remoção do listener mesmo quando uma etapa falhar, preservando a
+  primeira falha e adicionando as posteriores como suprimidas quando cabível.
+- [ ] Serializar `lastEventAt` como `null` antes do primeiro evento e exigir
+  timestamp UTC após o primeiro recebimento; atualizar o validator sem aceitar
+  string vazia.
 - [ ] Executar `make observer-runtime-refresh` e validar o checksum antes dos cenários live.
 - [ ] Executar cenário de fila cheia, snapshot falho e polling acelerado.
 - [ ] Executar scan automatizado das respostas contra valores sentinela.
@@ -951,6 +979,10 @@ git commit -m "feat: add minimal DataShip Spark UI tab"
 - Respostas não expõem credenciais, ambiente, stack trace ou SparkConf completo.
 - Fila cheia continua não bloqueante.
 - Exceção inesperada em `process(event)` não encerra o worker, aparece nos contadores/health e não altera o resultado do workload.
+- O teste direto do adapter comprova instalação e remoção do listener e dos
+  dois handlers, inclusive cleanup restante após uma falha induzida.
+- O contrato de `lastEventAt` é determinístico tanto antes quanto depois do
+  primeiro evento.
 
 **Evidência visual para aceite:** renderizar a matriz falha → HTTP/status → resultado do job e capturar `/health` ainda disponível depois do `500` induzido no snapshot.
 
@@ -996,6 +1028,12 @@ git commit -m "feat: make Spark Observer fail open"
 **Green phase:**
 
 - [ ] Iniciar com `make observer-runtime-refresh`, validar checksum e então orquestrar compose, submit live, health, counters `t1/t2`, snapshots, transição, UI, backpressure, fail-open, plugin off e cleanup.
+- [ ] No mesmo run da transição SQL, exigir
+  `receivedByCategory.sql > 0`; o E2E não pode depender apenas do teste
+  unitário do classificador.
+- [ ] Incluir no relatório os resultados dos testes focados de lifecycle do
+  adapter e do contrato zero-evento de `lastEventAt`, executados por
+  `make observer-tests`.
 - [ ] Confirmar automaticamente processo vivo em cada prova HTTP.
 - [ ] Executar `make validate`, `make tests`, `make observer-tests`, `make smoke` e `make spark-logs`.
 - [ ] Confirmar event logs em `spark-logs/events`, aplicação no History Server e carga existente no ClickHouse.
@@ -1010,6 +1048,8 @@ git commit -m "feat: make Spark Observer fail open"
 - Event log, History, loader e ClickHouse continuam nos caminhos atuais.
 - Nenhum schema ClickHouse, loader Go, bucket ou prefixo muda.
 - Todos os comandos retornam exit code `0`.
+- O relatório E2E registra a prova live da categoria SQL e os gates de
+  lifecycle/cleanup do adapter e `lastEventAt` inicial.
 - Antes do commit, o status contém somente os arquivos da Task 12, `execution-log.md` e `evidence/task-12/`; depois do commit, a árvore fica limpa.
 
 **Evidência visual para aceite:** capturar a aba DataShip live, a aplicação final no History Server e o relatório E2E `PASS`, formando a evidência visual final do caminho live e da regressão durável.
