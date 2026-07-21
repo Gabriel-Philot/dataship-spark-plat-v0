@@ -1,0 +1,6 @@
+Script started on 2026-07-21 16:15:27+01:00 [COMMAND="/home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --channel chrome --viewport-size '1440,1000' --full-page --wait-for-selector 'text=Completed Stages' --timeout 15000 http://127.0.0.1:24040/stages/ docs/spark-observer/evidence/task-08/task-08-spark-ui-stages-completed.png" <not executed on terminal>]
+Navigating to http://127.0.0.1:24040/stages/
+Waiting for selector text=Completed Stages...
+Capturing screenshot into docs/spark-observer/evidence/task-08/task-08-spark-ui-stages-completed.png
+
+Script done on 2026-07-21 16:15:29+01:00 [COMMAND_EXIT_CODE="0"]

@@ -7,7 +7,8 @@ final case class ObserverConfig(
     queueCapacity: Int,
     transitionsCapacity: Int = 128,
     testMode: Boolean = false,
-    testProcessingDelayMs: Int = 0
+    testProcessingDelayMs: Int = 0,
+    snapshotLimit: Int = 50
 )
 
 object ObserverConfig {
@@ -18,6 +19,7 @@ object ObserverConfig {
   private val TestModeKey = "spark.dataship.observer.testMode"
   private val TestProcessingDelayKey =
     "spark.dataship.observer.test.processingDelayMs"
+  private val SnapshotLimitKey = "spark.dataship.observer.snapshot.limit"
   private val DefaultQueueCapacity = 1024
   private val DefaultTransitionsCapacity = 128
   private val MinimumQueueCapacity = 1
@@ -25,6 +27,9 @@ object ObserverConfig {
   private val MinimumTransitionsCapacity = 1
   private val MaximumTransitionsCapacity = 1024
   private val MaximumTestProcessingDelayMs = 1000
+  private val DefaultSnapshotLimit = 50
+  private val MinimumSnapshotLimit = 1
+  private val MaximumSnapshotLimit = 200
 
   private[observer] val Fallback: ObserverConfig =
     ObserverConfig(
@@ -32,7 +37,8 @@ object ObserverConfig {
       queueCapacity = DefaultQueueCapacity,
       transitionsCapacity = DefaultTransitionsCapacity,
       testMode = false,
-      testProcessingDelayMs = 0
+      testProcessingDelayMs = 0,
+      snapshotLimit = DefaultSnapshotLimit
     )
 
   def from(sparkConf: SparkConf): ObserverConfig = {
@@ -81,13 +87,26 @@ object ObserverConfig {
         s"$TestProcessingDelayKey requires testMode=true when non-zero."
       )
     }
+    val snapshotLimit = try {
+      sparkConf.getInt(SnapshotLimitKey, DefaultSnapshotLimit)
+    } catch {
+      case error: NumberFormatException =>
+        throw invalidSnapshotLimit(sparkConf.get(SnapshotLimitKey), error)
+    }
+    if (
+      snapshotLimit < MinimumSnapshotLimit ||
+      snapshotLimit > MaximumSnapshotLimit
+    ) {
+      throw invalidSnapshotLimit(snapshotLimit.toString)
+    }
 
     ObserverConfig(
       enabled = sparkConf.getBoolean(EnabledKey, defaultValue = false),
       queueCapacity = queueCapacity,
       transitionsCapacity = transitionsCapacity,
       testMode = testMode,
-      testProcessingDelayMs = testProcessingDelayMs
+      testProcessingDelayMs = testProcessingDelayMs,
+      snapshotLimit = snapshotLimit
     )
   }
 
@@ -119,6 +138,16 @@ object ObserverConfig {
     new IllegalArgumentException(
       s"$TestProcessingDelayKey must be an integer from 0 to " +
         s"$MaximumTestProcessingDelayMs, but was '$value'.",
+      cause
+    )
+
+  private def invalidSnapshotLimit(
+      value: String,
+      cause: Throwable = null
+  ): IllegalArgumentException =
+    new IllegalArgumentException(
+      s"$SnapshotLimitKey must be an integer from $MinimumSnapshotLimit to " +
+        s"$MaximumSnapshotLimit, but was '$value'.",
       cause
     )
 }

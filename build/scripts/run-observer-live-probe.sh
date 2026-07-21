@@ -25,6 +25,7 @@ OBSERVER_QUEUE_CAPACITY="${OBSERVER_QUEUE_CAPACITY:-1024}"
 OBSERVER_TEST_MODE="${OBSERVER_TEST_MODE:-false}"
 OBSERVER_TEST_PROCESSING_DELAY_MS="${OBSERVER_TEST_PROCESSING_DELAY_MS:-0}"
 OBSERVER_EXPECT_DROPS="${OBSERVER_EXPECT_DROPS:-false}"
+OBSERVER_SNAPSHOT_LIMIT="${OBSERVER_SNAPSHOT_LIMIT:-50}"
 OBSERVER_RUN_ID="$(
   printf 'observer-live-%(%Y%m%dT%H%M%SZ)T-%s-%s' -1 "$$" "$RANDOM"
 )"
@@ -32,6 +33,7 @@ OBSERVER_TMP_DIR="/tmp/dataship-${OBSERVER_RUN_ID}"
 SUBMIT_LOG="${OBSERVER_TMP_DIR}/spark-submit.log"
 HOST_EXEC_PID=""
 DRIVER_PID=""
+SNAPSHOT_LAST_PATH=""
 OBSERVER_FINGERPRINT_INPUTS=(
   ".env.example"
   "Makefile"
@@ -54,18 +56,26 @@ OBSERVER_FINGERPRINT_INPUTS=(
   "spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/LiveSnapshotService.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotModels.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotServlet.scala"
+  "spark-observer/src/main/scala/io/dataship/spark/observer/api/SparkSnapshotSource.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala"
   "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala"
   "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala"
+  "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala"
   "spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala"
   "spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala"
   "spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala"
   "spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala"
+  "spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala"
+  "spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala"
   "spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala"
   "spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala"
+  "spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala"
   "src/apps/observer_live_probe.py"
   "tests/test_observer_live_probe.py"
   "tests/test_observer_response_assertions.py"
@@ -158,6 +168,11 @@ esac
 
 if ! is_integer_in_range "$OBSERVER_QUEUE_CAPACITY" 1 65536; then
   echo "OBSERVER_QUEUE_CAPACITY must be an integer from 1 to 65536." >&2
+  exit 2
+fi
+
+if ! is_integer_in_range "$OBSERVER_SNAPSHOT_LIMIT" 1 200; then
+  echo "OBSERVER_SNAPSHOT_LIMIT must be an integer from 1 to 200." >&2
   exit 2
 fi
 
@@ -320,6 +335,93 @@ read_observer_counters() {
       "$(<"$validation_error")" >&2
   fi
   return 1
+}
+
+read_observer_snapshot() {
+  local read_number="$1"
+  local read_label="$2"
+  local expectation="$3"
+  local previous_snapshot="${4:-}"
+  local expected_limit="$OBSERVER_SNAPSHOT_LIMIT"
+  local deadline
+  local validation_output=""
+  local validation_error="${OBSERVER_TMP_DIR}/${read_label}.error"
+  local output_json="${OBSERVER_TMP_DIR}/${read_label}.json"
+  local -a expectation_args=()
+
+  case "$expectation" in
+    running)
+      expectation_args+=(--require-running)
+      ;;
+    transition)
+      [[ -n "$previous_snapshot" ]] || return 1
+      expectation_args+=(--previous-snapshot "$previous_snapshot")
+      ;;
+    truncated)
+      expected_limit=1
+      expectation_args+=(--require-truncated true)
+      ;;
+    *)
+      echo "Unknown snapshot expectation: $expectation" >&2
+      return 1
+      ;;
+  esac
+
+  deadline="$(
+    awk -v now="$(date +%s.%N)" -v timeout="$OBSERVER_UI_TIMEOUT_SECONDS" \
+      'BEGIN { printf "%.6f", now + timeout }'
+  )"
+  while awk -v now="$(date +%s.%N)" -v read_deadline="$deadline" \
+    'BEGIN { exit !(now < read_deadline) }'; do
+    driver_is_alive "$DRIVER_PID" || return 1
+    if validation_output="$(
+      uv run python build/scripts/assert-observer-response.py \
+        --response-kind snapshot \
+        --url "http://127.0.0.1:${SPARK_DRIVER_UI_PORT}/dataship/api/v1/snapshot?limit=${expected_limit}" \
+        --expected-limit "$expected_limit" \
+        --label "$read_label" \
+        --timeout-seconds 2 \
+        --write-json "$output_json" \
+        "${expectation_args[@]}" \
+        2>"$validation_error"
+    )"; then
+      printf '%s\n' "$validation_output"
+      printf 'snapshot_read_%s_pid=%s alive=true json=%s\n' \
+        "$read_number" "$DRIVER_PID" "$output_json"
+      SNAPSHOT_LAST_PATH="$output_json"
+      return 0
+    fi
+    sleep 0.25
+  done
+  if [[ -s "$validation_error" ]]; then
+    printf 'Last snapshot validation error: %s\n' \
+      "$(<"$validation_error")" >&2
+  fi
+  return 1
+}
+
+verify_snapshot_absent_when_disabled() {
+  local expected_jobs_url="http://127.0.0.1:${SPARK_DRIVER_UI_PORT}/jobs/"
+
+  inspect_native_route disabled_snapshot_route /dataship/api/v1/snapshot
+  if [[ "$ROUTE_HTTP_STATUS" != "302" ]] \
+    || [[ "$ROUTE_LOCATION" != "$expected_jobs_url" ]] \
+    || [[ "$ROUTE_FINAL_STATUS" != "200" ]] \
+    || [[ "$ROUTE_FINAL_URL" != "$expected_jobs_url" ]]; then
+    printf '%s\n' \
+      "Snapshot route did not match Spark's unknown-route redirect while disabled." >&2
+    return 1
+  fi
+  driver_is_alive "$DRIVER_PID"
+  printf '%s_http_status=%s location=%s final_status=%s final_url=%s\n' \
+    disabled_snapshot_route \
+    "$ROUTE_HTTP_STATUS" \
+    "$ROUTE_LOCATION" \
+    "$ROUTE_FINAL_STATUS" \
+    "$ROUTE_FINAL_URL"
+  printf '%s pid=%s alive=true\n' \
+    'snapshot_endpoint_absent_when_disabled=true semantics=native-unknown-redirect' \
+    "$DRIVER_PID"
 }
 
 inspect_native_route() {
@@ -556,6 +658,7 @@ submit_args=(
   --conf "spark.ui.enabled=${OBSERVER_SPARK_UI_ENABLED}"
   --conf "spark.dataship.observer.runId=${OBSERVER_RUN_ID}"
   --conf "spark.dataship.observer.queue.capacity=${OBSERVER_QUEUE_CAPACITY}"
+  --conf "spark.dataship.observer.snapshot.limit=${OBSERVER_SNAPSHOT_LIMIT}"
   --conf "spark.dataship.observer.testMode=${OBSERVER_TEST_MODE}"
   --conf "spark.dataship.observer.test.processingDelayMs=${OBSERVER_TEST_PROCESSING_DELAY_MS}"
   --conf "spark.plugins=${PLUGIN_CLASS}"
@@ -575,6 +678,7 @@ printf 'observer_run_id=%s\n' "$OBSERVER_RUN_ID"
 printf 'observer_enabled=%s\n' "$OBSERVER_ENABLED"
 printf 'observer_spark_ui_enabled=%s\n' "$OBSERVER_SPARK_UI_ENABLED"
 printf 'observer_queue_capacity=%s\n' "$OBSERVER_QUEUE_CAPACITY"
+printf 'observer_snapshot_limit=%s\n' "$OBSERVER_SNAPSHOT_LIMIT"
 printf 'observer_test_mode=%s\n' "$OBSERVER_TEST_MODE"
 printf 'observer_test_processing_delay_ms=%s\n' \
   "$OBSERVER_TEST_PROCESSING_DELAY_MS"
@@ -630,6 +734,16 @@ if [[ "$OBSERVER_SPARK_UI_ENABLED" == "true" ]]; then
       exit 1
     fi
     COUNTERS_T1_RECEIVED="$COUNTERS_LAST_RECEIVED"
+    if ! read_observer_snapshot 1 "snapshot_read_1" running; then
+      echo "Snapshot read 1 did not observe a running job and stage while the driver was alive." >&2
+      set +e
+      wait "$HOST_EXEC_PID"
+      submit_exit=$?
+      set -e
+      [[ "$submit_exit" -ne 0 ]] && exit "$submit_exit"
+      exit 1
+    fi
+    SNAPSHOT_T1_PATH="$SNAPSHOT_LAST_PATH"
   fi
   if ! read_observer_health 1 "health_read_1"; then
     echo "Health read 1 did not return a valid response while the driver was alive." >&2
@@ -663,6 +777,27 @@ if [[ "$OBSERVER_SPARK_UI_ENABLED" == "true" ]]; then
     fi
     printf 'listener_received_growth=true t1=%s t2=%s\n' \
       "$COUNTERS_T1_RECEIVED" "$COUNTERS_LAST_RECEIVED"
+    if ! read_observer_snapshot \
+      2 "snapshot_read_2" transition "$SNAPSHOT_T1_PATH"; then
+      echo "Snapshot read 2 did not observe the same live job and stage transition." >&2
+      set +e
+      wait "$HOST_EXEC_PID"
+      submit_exit=$?
+      set -e
+      [[ "$submit_exit" -ne 0 ]] && exit "$submit_exit"
+      exit 1
+    fi
+    if ! read_observer_snapshot 3 "snapshot_limit_1" truncated; then
+      echo "Snapshot limit=1 did not prove bounded truncation while the driver was alive." >&2
+      set +e
+      wait "$HOST_EXEC_PID"
+      submit_exit=$?
+      set -e
+      [[ "$submit_exit" -ne 0 ]] && exit "$submit_exit"
+      exit 1
+    fi
+  else
+    verify_snapshot_absent_when_disabled
   fi
 
   verify_native_route_absence

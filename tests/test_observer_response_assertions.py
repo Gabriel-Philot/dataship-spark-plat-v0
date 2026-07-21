@@ -85,6 +85,52 @@ def _valid_counters_payload() -> dict[str, object]:
     }
 
 
+def _valid_snapshot_payload() -> dict[str, object]:
+    return {
+        "schemaVersion": "v1",
+        "pluginVersion": "0.1.0-SNAPSHOT",
+        "sparkVersion": "4.1.2",
+        "appId": "app-snapshot-test",
+        "mode": "live",
+        "capturedAt": "2026-07-21T15:00:00Z",
+        "limit": 2,
+        "truncated": False,
+        "application": {
+            "appId": "app-snapshot-test",
+            "name": "snapshot-test",
+            "status": "RUNNING",
+            "startedAt": "2026-07-21T14:58:00Z",
+            "completedAt": None,
+        },
+        "jobs": [
+            {
+                "jobId": 2,
+                "status": "RUNNING",
+                "startedAt": "2026-07-21T14:59:00Z",
+                "completedAt": None,
+                "stageIds": [2],
+            }
+        ],
+        "stages": [
+            {
+                "stageId": 2,
+                "attemptId": 0,
+                "status": "RUNNING",
+                "startedAt": "2026-07-21T14:59:00Z",
+                "completedAt": None,
+                "tasks": {
+                    "total": 4,
+                    "active": 1,
+                    "completed": 3,
+                    "failed": 0,
+                    "killed": 0,
+                    "completedIndices": 3,
+                },
+            }
+        ],
+    }
+
+
 def test_live_harness_uses_the_versioned_health_response_validator():
     harness = HARNESS_PATH.read_text(encoding="utf-8")
 
@@ -96,6 +142,11 @@ def test_live_harness_uses_the_versioned_health_response_validator():
     assert "counters_read_2" in harness
     assert "--listener-received-greater-than" in harness
     assert "--minimum-dropped-by-plugin" in harness
+    assert "/dataship/api/v1/snapshot" in harness
+    assert "snapshot_read_1" in harness
+    assert "snapshot_read_2" in harness
+    assert "--previous-snapshot" in harness
+    assert "snapshot_limit_1" in harness
 
 
 def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity():
@@ -115,10 +166,18 @@ def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identi
         "spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala",
         "spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala",
         "spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala",
+        "spark-observer/src/main/scala/io/dataship/spark/observer/api/LiveSnapshotService.scala",
+        "spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotModels.scala",
+        "spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotServlet.scala",
+        "spark-observer/src/main/scala/io/dataship/spark/observer/api/SparkSnapshotSource.scala",
         "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala",
+        "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala",
+        "spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala",
+        "spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala",
         "spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala",
         "spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala",
         "spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala",
+        "spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala",
         "src/apps/observer_live_probe.py",
         "tests/test_observer_response_assertions.py",
     }.issubset(fingerprint_inputs)
@@ -141,6 +200,19 @@ def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identi
         "observer_input_fingerprints_match=true",
     ):
         assert label in harness
+
+
+def test_spark_412_snapshot_adapter_uses_only_bounded_native_store_views():
+    source = (
+        ROOT_DIR
+        / "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala"
+    ).read_text(encoding="utf-8")
+
+    assert ".reverse()" in source
+    assert ".max(limit.toLong + 1L)" in source
+    assert ".closeableIterator()" in source
+    for prohibited in ("jobsList", "stageList", "activeStages", "taskList"):
+        assert prohibited not in source
 
 
 def test_accepts_the_exact_ready_health_contract():
@@ -186,6 +258,96 @@ def test_accepts_the_exact_live_counters_contract_and_growth_boundary():
     )
 
     assert result == payload
+
+
+def test_accepts_the_exact_bounded_snapshot_contract():
+    helper = _load_helper()
+    payload = _valid_snapshot_payload()
+
+    result = helper.validate_snapshot_response(
+        status_code=200,
+        content_type="application/json;charset=utf-8",
+        body=json.dumps(payload),
+        expected_limit=2,
+        require_truncated=False,
+        require_running=True,
+    )
+
+    assert result == payload
+
+
+def test_accepts_the_same_job_and_stage_attempt_running_to_succeeded_transition():
+    helper = _load_helper()
+    previous = _valid_snapshot_payload()
+    current = _valid_snapshot_payload()
+    current["capturedAt"] = "2026-07-21T15:00:03Z"
+    current["jobs"][0]["status"] = "SUCCEEDED"
+    current["jobs"][0]["completedAt"] = "2026-07-21T15:00:02Z"
+    current["stages"][0]["status"] = "SUCCEEDED"
+    current["stages"][0]["completedAt"] = "2026-07-21T15:00:02Z"
+    current["stages"][0]["tasks"]["active"] = 0
+    current["stages"][0]["tasks"]["completed"] = 4
+    current["stages"][0]["tasks"]["completedIndices"] = 4
+
+    transition = helper.validate_snapshot_transition(previous, current)
+
+    assert transition == {
+        "jobId": 2,
+        "stageId": 2,
+        "stageAttemptId": 0,
+    }
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_message"),
+    (
+        (lambda payload: payload["jobs"].append(payload["jobs"][0]), "limit"),
+        (
+            lambda payload: payload["stages"][0]["tasks"].update(active=-1),
+            "non-negative",
+        ),
+        (
+            lambda payload: payload["stages"][0]["tasks"].update(
+                completedIndices=5
+            ),
+            "completedIndices",
+        ),
+        (
+            lambda payload: payload["stages"][0].update(
+                details="must-not-appear"
+            ),
+            "unexpected fields",
+        ),
+    ),
+)
+def test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots(
+    mutation,
+    expected_message,
+):
+    helper = _load_helper()
+    payload = _valid_snapshot_payload()
+    payload["limit"] = 1
+    mutation(payload)
+
+    with pytest.raises(helper.ResponseValidationError, match=expected_message):
+        helper.validate_snapshot_response(
+            status_code=200,
+            content_type="application/json",
+            body=json.dumps(payload),
+            expected_limit=1,
+            require_truncated=None,
+            require_running=False,
+        )
+
+
+def test_rejects_a_transition_that_changes_identity_or_never_finishes():
+    helper = _load_helper()
+    previous = _valid_snapshot_payload()
+    current = _valid_snapshot_payload()
+    current["jobs"][0]["jobId"] = 99
+
+    with pytest.raises(helper.ResponseValidationError, match="same jobId"):
+        helper.validate_snapshot_transition(previous, current)
 
 
 @pytest.mark.parametrize(
@@ -297,3 +459,30 @@ def test_rejects_an_invalid_captured_at_timestamp():
             body=json.dumps(payload),
             expected_status="READY",
         )
+
+
+def test_cli_validation_error_names_the_selected_response_kind(monkeypatch, capsys):
+    helper = _load_helper()
+    monkeypatch.setattr(
+        helper,
+        "fetch_response",
+        lambda _url, _timeout: (200, "text/html", "not-json"),
+    )
+
+    exit_code = helper.main(
+        [
+            "--url",
+            "http://observer.invalid/snapshot",
+            "--response-kind",
+            "snapshot",
+            "--expected-limit",
+            "1",
+            "--label",
+            "invalid_snapshot",
+        ]
+    )
+
+    stderr = capsys.readouterr().err
+    assert exit_code == 1
+    assert "Snapshot response validation failed" in stderr
+    assert "Health response validation failed" not in stderr

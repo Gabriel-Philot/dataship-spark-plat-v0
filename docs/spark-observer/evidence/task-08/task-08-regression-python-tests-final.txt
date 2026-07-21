@@ -1,0 +1,6 @@
+Script started on 2026-07-21 16:17:47+01:00 [COMMAND="make tests" <not executed on terminal>]
+........................................................................ [ 82%]
+...............                                                          [100%]
+87 passed in 1.91s
+
+Script done on 2026-07-21 16:17:49+01:00 [COMMAND_EXIT_CODE="0"]

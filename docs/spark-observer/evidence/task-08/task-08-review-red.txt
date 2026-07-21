@@ -1,0 +1,82 @@
+Script started on 2026-07-21 16:09:57+01:00 [COMMAND="uv run pytest tests/test_observer_response_assertions.py tests/test_observer_live_probe.py -q" <not executed on terminal>]
+.....................................F........F................          [100%]
+=================================== FAILURES ===================================
+__________ test_cli_validation_error_names_the_selected_response_kind __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f72703a1940>
+capsys = <_pytest.capture.CaptureFixture object at 0x7f72705fe660>
+
+    def test_cli_validation_error_names_the_selected_response_kind(monkeypatch, capsys):
+        helper = _load_helper()
+        monkeypatch.setattr(
+            helper,
+            "fetch_response",
+            lambda _url, _timeout: (200, "text/html", "not-json"),
+        )
+    
+        exit_code = helper.main(
+            [
+                "--url",
+                "http://observer.invalid/snapshot",
+                "--response-kind",
+                "snapshot",
+                "--expected-limit",
+                "1",
+                "--label",
+                "invalid_snapshot",
+            ]
+        )
+    
+        stderr = capsys.readouterr().err
+        assert exit_code == 1
+>       assert "Snapshot response validation failed" in stderr
+E       assert 'Snapshot response validation failed' in "Health response validation failed: Expected Content-Type application/json, received 'text/html'.\n"
+
+tests/test_observer_response_assertions.py:487: AssertionError
+____________ test_versioned_live_harness_is_the_primary_make_target ____________
+
+    def test_versioned_live_harness_is_the_primary_make_target():
+        makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+        harness_path = ROOT_DIR / "build/scripts/run-observer-live-probe.sh"
+    
+        assert harness_path.is_file()
+        harness = harness_path.read_text(encoding="utf-8")
+    
+        assert re.search(r"^observer-live:\s*$", makefile, re.MULTILINE)
+        assert "build/scripts/run-observer-live-probe.sh" in makefile
+        assert ".superpowers/" not in harness
+        assert "OBSERVER_ENABLED" in harness
+        assert "OBSERVER_RUN_ID" in harness
+        assert "/tmp/" in harness
+        assert "trap cleanup EXIT" in harness
+        assert "trap 'exit 143' TERM" in harness
+        assert "trap 'exit 130' INT" in harness
+        assert "timeout" in harness
+        assert "--location" in harness
+        assert "native_dataship_route_absent=true" in harness
+        assert "native_unknown_route" in harness
+        assert "%s_http_status=%s" in harness
+        assert "%{url_effective}" in harness
+        assert "spark.ui.port=4040" in harness
+        assert "spark.port.maxRetries=0" in harness
+        assert "ps -eo" in harness
+        assert "spark-master" in harness
+        assert "OBSERVER_QUEUE_CAPACITY" in harness
+        assert "OBSERVER_TEST_MODE" in harness
+        assert "OBSERVER_TEST_PROCESSING_DELAY_MS" in harness
+        assert "OBSERVER_EXPECT_DROPS" in harness
+        assert "OBSERVER_SNAPSHOT_LIMIT" in harness
+        assert "spark.dataship.observer.snapshot.limit" in harness
+        assert "/dataship/api/v1/snapshot" in harness
+        assert "snapshot_read_1" in harness
+        assert "snapshot_read_2" in harness
+        assert "snapshot_limit_1" in harness
+>       assert "inspect_native_route disabled_snapshot_route" in harness
+E       assert 'inspect_native_route disabled_snapshot_route' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...during the live run." >&2\n  exit 1\nfi\nprintf \'observer_input_fingerprints_match=true\\n\'\n\nexit "$submit_exit"\n'
+
+tests/test_observer_live_probe.py:248: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_response_assertions.py::test_cli_validation_error_names_the_selected_response_kind
+FAILED tests/test_observer_live_probe.py::test_versioned_live_harness_is_the_primary_make_target
+
+Script done on 2026-07-21 16:09:59+01:00 [COMMAND_EXIT_CODE="1"]

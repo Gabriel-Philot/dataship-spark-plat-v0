@@ -1366,3 +1366,181 @@ Task-owned records are this execution-log section and
   Task 12 must reconfirm those focused gates in the final E2E report.
 - Next task title only: **Task 8 — expose live application, job, and stage
   snapshots**.
+
+## Task 8 — live application, job, and stage snapshots
+
+**Date:** 2026-07-21
+**Branch:** `exp-dataflint-based-test-jar`
+**Starting HEAD:** `3b4f7c0629bd755f96fb0cf0b6cc0404512b6b7a`
+**Status:** `PASS — AWAITING USER ACCEPTANCE`
+
+**Hypothesis:** the versioned snapshot endpoint reads the native Spark stores
+with bounded queries and exposes a real `RUNNING -> SUCCEEDED` job/stage
+transition while the same driver remains alive, without retaining a second
+copy of jobs, stages, or tasks.
+
+**Minimal change:** add Observer-owned snapshot DTOs, a source interface,
+service and servlet; implement the Spark 4.1.2 source only in the versioned
+adapter; extend the existing live harness to validate bounded application,
+job, and stage snapshots. Do not implement SQL snapshots, SQL descriptions,
+the DataShip UI tab, or Task 9 behavior.
+
+**Focused RED:** create the service and servlet specs plus the harness/response
+contract first. The Scala specs must fail because the Task 8 production API is
+absent, and the rebuilt pre-implementation runtime must return the existing
+non-JSON fallback for `/dataship/api/v1/snapshot` rather than a valid snapshot.
+
+**Expected observable result:** two validated HTTP reads from the same live
+driver show a real job or stage transition from `RUNNING` to `SUCCEEDED`, task
+aggregates are non-negative and coherent, collections never exceed the
+requested limit, and `limit=1` reports truncation when an additional retained
+record exists.
+
+**Regression:** Task 7 health/counter behavior, deterministic workload result,
+plugin-disabled execution, project tests, validation, cleanup, and all frozen
+durable-path guards remain green.
+
+**Execution decision:** the primary agent owns implementation and runtime
+verification because the service, Spark-internal adapter, servlet, and harness
+share one contract and one driver lifecycle. One read-only subagent is auditing
+Spark 4.1.2 API assumptions in parallel and is not authorized to edit files or
+change runtime state.
+
+**Task allowlist:** the nine files listed by Task 8, the smallest existing
+runtime/JSON/config/validator tests required to wire the new endpoint, this
+execution log, and `docs/spark-observer/evidence/task-08/`. Any additional file
+must be justified here before it is changed.
+
+The planned file list omits existing files required by its own fixed contract:
+`ObserverConfig.scala`/`ObserverConfigSpec.scala` must parse and test
+`spark.dataship.observer.snapshot.limit`; `JsonRenderer.scala` must serialize
+the new allowlisted DTO; `assert-observer-response.py` and its Python tests must
+validate the live snapshot; and `tests/test_observer_live_probe.py` must pin the
+new harness behavior and fingerprint inputs. `ObserverRuntime.scala` may be
+changed only if the snapshot service needs stable envelope access not already
+provided by `healthResponse`. A focused adapter spec may be added under
+`org/apache/spark/dataship/v412` to prove the direct `KVStore.max(limit + 1)`
+boundary without relying on a source-code substring assertion.
+
+### Task 8 result
+
+The implementation uses Observer-owned DTOs and Java collections at the JSON
+boundary. `Spark412SnapshotSource` is the only production class that imports
+the Spark status wrappers. Its job and stage reads use the native `KVStore`
+with `.reverse().max(limit + 1).closeableIterator()` and close the iterator in
+a `finally` block. The endpoint is attached to the driver's existing Spark UI
+only when the Observer is enabled.
+
+**Exact implementation and test files changed:**
+
+- `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/LiveSnapshotService.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotModels.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotServlet.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/SparkSnapshotSource.scala`
+- `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala`
+- `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala`
+- `spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala`
+- `spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala`
+- `spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala`
+- `spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala`
+- `build/scripts/assert-observer-response.py`
+- `build/scripts/run-observer-live-probe.sh`
+- `tests/test_observer_live_probe.py`
+- `tests/test_observer_response_assertions.py`
+
+The implementation-plan evidence wording was also corrected: Spark 4.1.2
+redirects an unknown UI path instead of returning a literal 404, JSON remains
+machine evidence, and the visual gate now captures the real Jobs and Stages UI.
+
+### RED
+
+| Gate | Command | Result |
+| --- | --- | --- |
+| Scala contract | `make observer-tests` after adding the focused specs, before production classes | Exit `2`; 44 missing Task 8 API/config compile errors |
+| Python contract | `uv run pytest tests/test_observer_response_assertions.py tests/test_observer_live_probe.py -q` before helper/harness implementation | Exit `1`; 13 expected focused failures |
+| Live endpoint | `OBSERVER_ENABLED=true OBSERVER_PROBE_ARGS='--delay-ms 200 --hold-seconds 10' make observer-live` after the pre-implementation runtime refresh | The workload returned `40/780` and Spark stopped with exit `0`; the harness failed because `/snapshot` never became valid |
+
+The pre-implementation JAR SHA-256 matched on host, staging, and driver:
+`267774b7886c43f46ec089b6e5d29b747328039841a27481afec35f548758ca1`.
+
+### GREEN and live proof
+
+The canonical live run is
+`observer-live-20260721T155451Z-29960-5309`, application
+`app-20260721145456-0000`, driver PID `132`.
+
+| Observation | Result while PID `132` was alive |
+| --- | --- |
+| Snapshot t1 | HTTP `200`; job `0` and stage `0/0` were `RUNNING`; tasks completed `0/4` |
+| Snapshot t2 | HTTP `200`; the same job and stage were `SUCCEEDED`; tasks completed `4/4` |
+| Listener growth | `listenerReceived` changed from `1` to `6` |
+| Bound | `limit=1` returned one job and one stage with `truncated=true` |
+| Workload | 40 rows, sum 780, buckets `180/190/200/210` |
+| Shutdown | Spark/harness exit `0`; driver and wrapper absent; endpoint unavailable; mapping persisted |
+
+The canonical GREEN JAR SHA-256 matched on host, staging, and driver:
+`110c558a10648ca5b552baeb9b1db1ed6f63324ce49aba2f92d0301ce6b04d63`.
+
+The opt-out run
+`observer-live-20260721T161133Z-54952-23755`, application
+`app-20260721151137-0005`, proved the stronger native unknown-route contract
+while PID `2641` was alive: `/snapshot` returned `302` to `/jobs/` and the
+redirect target returned `200`. It then completed the same `40/780` workload
+with Spark/harness exit `0`.
+
+### Visual evidence correction
+
+Raw JSON screenshots were rejected because they duplicated the transcript and
+did not make the Spark execution easier to inspect. They were removed. The
+accepted evidence candidates are direct Playwright captures of the real driver
+UI from run `observer-live-20260721T161421Z-59245-19538`, application
+`app-20260721151425-0007`, PID `3360`:
+
+- `task-08-spark-ui-jobs-active.png`
+- `task-08-spark-ui-stages-active.png`
+- `task-08-spark-ui-jobs-completed.png`
+- `task-08-spark-ui-stages-completed.png`
+
+The active pages show job/stage `0`, the `sum` operation from
+`observer_live_probe.py`, and `2/4 (2 running)` tasks. The completed pages show
+all five jobs and stages, `4/4` tasks for job/stage `0`, and real shuffle
+read/write values. `task-08-playwright-provenance-live.txt` ties the run ID,
+application ID, PID, snapshot transition, workload result, and shutdown
+together. Four `task-08-playwright-*.txt` transcripts preserve the direct
+commands, URLs, selectors, output paths, timestamps, and exit codes;
+`task-08-playwright-sha256.txt` preserves the PNG hashes.
+
+The native Spark UI does not display listener-bus queue names;
+`dataship-observer` remains proven through the Scala queue-name test and live
+counter growth. Its visual surface belongs to the later DataShip UI task.
+
+### Regression results
+
+| Command | Result |
+| --- | --- |
+| `make observer-tests` | 48/48 passed |
+| focused Python review suite | 63/63 passed |
+| `make tests` | 87/87 passed |
+| `make observer-ui-tests` | 1/1 passed on pinned Node 24 |
+| `make validate` | Passed |
+
+No frozen MinIO event-log, History/loader, ClickHouse, or
+`spark-defaults.conf` path changed. No Task 9 implementation was started.
+
+A final read-only review found no remaining Critical or Important issue after
+checking the genuine active/completed Spark UI captures, direct Playwright
+provenance, matching PNG hashes, stronger disabled-route proof, final test
+counts, frozen paths, and Task 9 scope boundary.
+
+`make down` completed successfully, and a subsequent Compose `ps --all`
+returned only the empty table header. Evidence is preserved in
+`task-08-infra-down.txt` and `task-08-infra-down-verification.txt`; images were
+not removed.
+
+**Remaining risk:** job and stage collections are queried independently, so
+the endpoint does not claim a cross-list atomic snapshot. The exact Spark
+internal API remains version-specific and isolated in `v412`.
+
+**Next task title only:** **Task 9 — add safe live SQL execution snapshots.**

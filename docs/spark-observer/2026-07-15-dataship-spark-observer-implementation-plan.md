@@ -733,7 +733,9 @@ git commit -m "feat: expose live listener counters"
 - [ ] Criar fake `SparkSnapshotSource` com job/stage ativo e completo.
 - [ ] Testar limit, ordenação recente, agregados e resposta `400` fora da faixa.
 - [ ] Executar specs e confirmar falha de compilação.
-- [ ] Acrescentar ao harness polling de `/snapshot`; confirmar `404`.
+- [ ] Acrescentar ao harness polling de `/snapshot`; confirmar que o runtime
+  pré-implementação devolve o fallback nativo não JSON de uma rota desconhecida,
+  e não uma resposta snapshot válida.
 
 **Green phase:**
 
@@ -754,9 +756,16 @@ git commit -m "feat: expose live listener counters"
 - Nenhum objeto Spark é serializado diretamente.
 - Falta temporária da store retorna `409`, não falha o driver.
 
-**Evidência visual para aceite:** capturar `/snapshot` em `t1` e `t2` e apresentar lado a lado o job/stage `RUNNING -> SUCCEEDED`, incluindo o caso `limit=1`.
+**Evidência visual para aceite:** capturar com Playwright a Spark UI real do
+mesmo driver em Jobs e Stages, mostrando o workload, progresso de tasks e a
+transição de ativo para concluído. Os JSONs `/snapshot` de `t1`, `t2` e
+`limit=1` permanecem como evidência automática no transcript, pois uma captura
+do JSON apenas duplicaria a saída do teste. A fila do listener não é uma
+entidade visual da UI nativa; sua prova continua nos counters até a aba
+DataShip ser implementada na Task 10.
 
-**User gate:** apresentar snapshots `t1`/`t2`, comparação visual, limite e transição; parar.
+**User gate:** apresentar a Spark UI real, os snapshots validados `t1`/`t2`,
+limite e transição; parar.
 
 **Commit checkpoint after `ACEITO`:**
 

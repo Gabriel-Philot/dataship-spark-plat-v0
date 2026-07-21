@@ -1,0 +1,4 @@
+Script started on 2026-07-21 16:05:00+01:00 [COMMAND="make validate" <not executed on terminal>]
+Validation passed
+
+Script done on 2026-07-21 16:05:02+01:00 [COMMAND_EXIT_CODE="0"]

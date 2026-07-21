@@ -239,6 +239,17 @@ def test_versioned_live_harness_is_the_primary_make_target():
     assert "OBSERVER_TEST_MODE" in harness
     assert "OBSERVER_TEST_PROCESSING_DELAY_MS" in harness
     assert "OBSERVER_EXPECT_DROPS" in harness
+    assert "OBSERVER_SNAPSHOT_LIMIT" in harness
+    assert "spark.dataship.observer.snapshot.limit" in harness
+    assert "/dataship/api/v1/snapshot" in harness
+    assert "snapshot_read_1" in harness
+    assert "snapshot_read_2" in harness
+    assert "snapshot_limit_1" in harness
+    assert "inspect_native_route disabled_snapshot_route" in harness
+    assert (
+        "snapshot_endpoint_absent_when_disabled=true "
+        "semantics=native-unknown-redirect"
+    ) in harness
 
 
 @pytest.mark.parametrize(
@@ -256,6 +267,8 @@ def test_versioned_live_harness_is_the_primary_make_target():
             "requires OBSERVER_TEST_MODE=true",
         ),
         ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ({"OBSERVER_SNAPSHOT_LIMIT": "0"}, "OBSERVER_SNAPSHOT_LIMIT"),
+        ({"OBSERVER_SNAPSHOT_LIMIT": "201"}, "OBSERVER_SNAPSHOT_LIMIT"),
     ),
 )
 def test_invalid_task_7_observer_controls_fail_before_startup(

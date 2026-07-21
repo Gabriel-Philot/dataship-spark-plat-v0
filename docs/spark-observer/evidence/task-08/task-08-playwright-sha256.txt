@@ -1,0 +1,7 @@
+Script started on 2026-07-21 16:17:02+01:00 [COMMAND="sha256sum docs/spark-observer/evidence/task-08/task-08-spark-ui-jobs-active.png docs/spark-observer/evidence/task-08/task-08-spark-ui-stages-active.png docs/spark-observer/evidence/task-08/task-08-spark-ui-jobs-completed.png docs/spark-observer/evidence/task-08/task-08-spark-ui-stages-completed.png" <not executed on terminal>]
+6c350cc82a6f08367c54b8256affcd91ce535751c31b5f60b9b6e1930117c00d  docs/spark-observer/evidence/task-08/task-08-spark-ui-jobs-active.png
+d96e82895a14608389f0cf1ba06de367ff534b9b7726d37c27eee1497c378425  docs/spark-observer/evidence/task-08/task-08-spark-ui-stages-active.png
+95dd546ed8c4f7444a81501b8809561103afb8f5d1c61701b3580bb67707b042  docs/spark-observer/evidence/task-08/task-08-spark-ui-jobs-completed.png
+3e9b12fd002a1a1fdabf784fc7f322846cbb3a0e25823dd69ec28fd4c3273dd6  docs/spark-observer/evidence/task-08/task-08-spark-ui-stages-completed.png
+
+Script done on 2026-07-21 16:17:02+01:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,499 @@
+Script started on 2026-07-21 15:38:14+01:00 [COMMAND="uv run pytest tests/test_observer_response_assertions.py tests/test_observer_live_probe.py -q" <not executed on terminal>]
+FFF...FFFFFFF................................F......FF........           [100%]
+=================================== FAILURES ===================================
+________ test_live_harness_uses_the_versioned_health_response_validator ________
+
+    def test_live_harness_uses_the_versioned_health_response_validator():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+    
+        assert "assert-observer-response.py" in harness
+        assert "health_read_1" in harness
+        assert "health_read_2" in harness
+        assert "/dataship/api/v1/debug/counters" in harness
+        assert "counters_read_1" in harness
+        assert "counters_read_2" in harness
+        assert "--listener-received-greater-than" in harness
+        assert "--minimum-dropped-by-plugin" in harness
+>       assert "/dataship/api/v1/snapshot" in harness
+E       assert '/dataship/api/v1/snapshot' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...during the live run." >&2\n  exit 1\nfi\nprintf \'observer_input_fingerprints_match=true\\n\'\n\nexit "$submit_exit"\n'
+
+tests/test_observer_response_assertions.py:145: AssertionError
+_ test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity _
+
+    def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+        allowlist_match = re.search(
+            r"OBSERVER_FINGERPRINT_INPUTS=\(\n(?P<inputs>.*?)\n\)",
+            harness,
+            re.DOTALL,
+        )
+    
+        assert allowlist_match is not None
+        fingerprint_inputs = re.findall(r'"([^"]+)"', allowlist_match.group("inputs"))
+>       assert {
+            "build/docker-compose.yml",
+            "build/scripts/assert-observer-response.py",
+            "build/scripts/run-observer-live-probe.sh",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/LiveSnapshotService.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotModels.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/SnapshotServlet.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/SparkSnapshotSource.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala",
+            "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala",
+            "spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala",
+            "src/apps/observer_live_probe.py",
+            "tests/test_observer_response_assertions.py",
+        }.issubset(fingerprint_inputs)
+E       AssertionError: assert False
+E        +  where False = <built-in method issubset of set object at 0x7a2368520820>(['.env.example', 'Makefile', 'build/docker-compose.yml', 'build/images/spark/Dockerfile', 'build/images/spark/requirements.txt', 'build/scripts/assert-observer-response.py', ...])
+E        +    where <built-in method issubset of set object at 0x7a2368520820> = {'build/docker-compose.yml', 'build/scripts/assert-observer-response.py', 'build/scripts/run-observer-live-probe.sh', ...api/CountersResponse.scala', 'spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala', ...}.issubset
+
+tests/test_observer_response_assertions.py:162: AssertionError
+_____ test_spark_412_snapshot_adapter_uses_only_bounded_native_store_views _____
+
+    def test_spark_412_snapshot_adapter_uses_only_bounded_native_store_views():
+        source = (
+            ROOT_DIR
+            / "spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala"
+>       ).read_text(encoding="utf-8")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_observer_response_assertions.py:209: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:546: in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_abc.py:632: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/home/philot/compendium/forge/dataship/spark-plat-v0/spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/home/philot/compendium/forge/dataship/spark-plat-v0/spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412SnapshotSource.scala'
+
+../../../../.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/pathlib/_local.py:537: FileNotFoundError
+_______________ test_accepts_the_exact_bounded_snapshot_contract _______________
+
+    def test_accepts_the_exact_bounded_snapshot_contract():
+        helper = _load_helper()
+        payload = _valid_snapshot_payload()
+    
+>       result = helper.validate_snapshot_response(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            status_code=200,
+            content_type="application/json;charset=utf-8",
+            body=json.dumps(payload),
+            expected_limit=2,
+            require_truncated=False,
+            require_running=True,
+        )
+E       AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_response'. Did you mean: 'validate_counters_response'?
+
+tests/test_observer_response_assertions.py:267: AttributeError
+_ test_accepts_the_same_job_and_stage_attempt_running_to_succeeded_transition __
+
+    def test_accepts_the_same_job_and_stage_attempt_running_to_succeeded_transition():
+        helper = _load_helper()
+        previous = _valid_snapshot_payload()
+        current = _valid_snapshot_payload()
+        current["capturedAt"] = "2026-07-21T15:00:03Z"
+        current["jobs"][0]["status"] = "SUCCEEDED"
+        current["jobs"][0]["completedAt"] = "2026-07-21T15:00:02Z"
+        current["stages"][0]["status"] = "SUCCEEDED"
+        current["stages"][0]["completedAt"] = "2026-07-21T15:00:02Z"
+        current["stages"][0]["tasks"]["active"] = 0
+        current["stages"][0]["tasks"]["completed"] = 4
+        current["stages"][0]["tasks"]["completedIndices"] = 4
+    
+>       transition = helper.validate_snapshot_transition(previous, current)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_transition'
+
+tests/test_observer_response_assertions.py:292: AttributeError
+_ test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-limit] _
+
+mutation = <function <lambda> at 0x7a23686e0680>, expected_message = 'limit'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload["jobs"].append(payload["jobs"][0]), "limit"),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(active=-1),
+                "non-negative",
+            ),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(
+                    completedIndices=5
+                ),
+                "completedIndices",
+            ),
+            (
+                lambda payload: payload["stages"][0].update(
+                    details="must-not-appear"
+                ),
+                "unexpected fields",
+            ),
+        ),
+    )
+    def test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots(
+        mutation,
+        expected_message,
+    ):
+        helper = _load_helper()
+        payload = _valid_snapshot_payload()
+        payload["limit"] = 1
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_snapshot_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_limit=1,
+                require_truncated=None,
+                require_running=False,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_response'. Did you mean: 'validate_counters_response'?
+
+tests/test_observer_response_assertions.py:333: AttributeError
+_ test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-non-negative] _
+
+mutation = <function <lambda> at 0x7a23686e0720>
+expected_message = 'non-negative'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload["jobs"].append(payload["jobs"][0]), "limit"),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(active=-1),
+                "non-negative",
+            ),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(
+                    completedIndices=5
+                ),
+                "completedIndices",
+            ),
+            (
+                lambda payload: payload["stages"][0].update(
+                    details="must-not-appear"
+                ),
+                "unexpected fields",
+            ),
+        ),
+    )
+    def test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots(
+        mutation,
+        expected_message,
+    ):
+        helper = _load_helper()
+        payload = _valid_snapshot_payload()
+        payload["limit"] = 1
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_snapshot_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_limit=1,
+                require_truncated=None,
+                require_running=False,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_response'. Did you mean: 'validate_counters_response'?
+
+tests/test_observer_response_assertions.py:333: AttributeError
+_ test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-completedIndices] _
+
+mutation = <function <lambda> at 0x7a23686e07c0>
+expected_message = 'completedIndices'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload["jobs"].append(payload["jobs"][0]), "limit"),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(active=-1),
+                "non-negative",
+            ),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(
+                    completedIndices=5
+                ),
+                "completedIndices",
+            ),
+            (
+                lambda payload: payload["stages"][0].update(
+                    details="must-not-appear"
+                ),
+                "unexpected fields",
+            ),
+        ),
+    )
+    def test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots(
+        mutation,
+        expected_message,
+    ):
+        helper = _load_helper()
+        payload = _valid_snapshot_payload()
+        payload["limit"] = 1
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_snapshot_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_limit=1,
+                require_truncated=None,
+                require_running=False,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_response'. Did you mean: 'validate_counters_response'?
+
+tests/test_observer_response_assertions.py:333: AttributeError
+_ test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-unexpected fields] _
+
+mutation = <function <lambda> at 0x7a23686e0860>
+expected_message = 'unexpected fields'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload["jobs"].append(payload["jobs"][0]), "limit"),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(active=-1),
+                "non-negative",
+            ),
+            (
+                lambda payload: payload["stages"][0]["tasks"].update(
+                    completedIndices=5
+                ),
+                "completedIndices",
+            ),
+            (
+                lambda payload: payload["stages"][0].update(
+                    details="must-not-appear"
+                ),
+                "unexpected fields",
+            ),
+        ),
+    )
+    def test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots(
+        mutation,
+        expected_message,
+    ):
+        helper = _load_helper()
+        payload = _valid_snapshot_payload()
+        payload["limit"] = 1
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_snapshot_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                expected_limit=1,
+                require_truncated=None,
+                require_running=False,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_response'. Did you mean: 'validate_counters_response'?
+
+tests/test_observer_response_assertions.py:333: AttributeError
+______ test_rejects_a_transition_that_changes_identity_or_never_finishes _______
+
+    def test_rejects_a_transition_that_changes_identity_or_never_finishes():
+        helper = _load_helper()
+        previous = _valid_snapshot_payload()
+        current = _valid_snapshot_payload()
+        current["jobs"][0]["jobId"] = 99
+    
+        with pytest.raises(helper.ResponseValidationError, match="same jobId"):
+>           helper.validate_snapshot_transition(previous, current)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_snapshot_transition'
+
+tests/test_observer_response_assertions.py:350: AttributeError
+____________ test_versioned_live_harness_is_the_primary_make_target ____________
+
+    def test_versioned_live_harness_is_the_primary_make_target():
+        makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+        harness_path = ROOT_DIR / "build/scripts/run-observer-live-probe.sh"
+    
+        assert harness_path.is_file()
+        harness = harness_path.read_text(encoding="utf-8")
+    
+        assert re.search(r"^observer-live:\s*$", makefile, re.MULTILINE)
+        assert "build/scripts/run-observer-live-probe.sh" in makefile
+        assert ".superpowers/" not in harness
+        assert "OBSERVER_ENABLED" in harness
+        assert "OBSERVER_RUN_ID" in harness
+        assert "/tmp/" in harness
+        assert "trap cleanup EXIT" in harness
+        assert "trap 'exit 143' TERM" in harness
+        assert "trap 'exit 130' INT" in harness
+        assert "timeout" in harness
+        assert "--location" in harness
+        assert "native_dataship_route_absent=true" in harness
+        assert "native_unknown_route" in harness
+        assert "%s_http_status=%s" in harness
+        assert "%{url_effective}" in harness
+        assert "spark.ui.port=4040" in harness
+        assert "spark.port.maxRetries=0" in harness
+        assert "ps -eo" in harness
+        assert "spark-master" in harness
+        assert "OBSERVER_QUEUE_CAPACITY" in harness
+        assert "OBSERVER_TEST_MODE" in harness
+        assert "OBSERVER_TEST_PROCESSING_DELAY_MS" in harness
+        assert "OBSERVER_EXPECT_DROPS" in harness
+>       assert "OBSERVER_SNAPSHOT_LIMIT" in harness
+E       assert 'OBSERVER_SNAPSHOT_LIMIT' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...during the live run." >&2\n  exit 1\nfi\nprintf \'observer_input_fingerprints_match=true\\n\'\n\nexit "$submit_exit"\n'
+
+tests/test_observer_live_probe.py:242: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates6-OBSERVER_SNAPSHOT_LIMIT] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-1/test_invalid_task_7_observer_c6')
+updates = {'OBSERVER_SNAPSHOT_LIMIT': '0'}
+expected_message = 'OBSERVER_SNAPSHOT_LIMIT'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+            ({"OBSERVER_SNAPSHOT_LIMIT": "0"}, "OBSERVER_SNAPSHOT_LIMIT"),
+            ({"OBSERVER_SNAPSHOT_LIMIT": "201"}, "OBSERVER_SNAPSHOT_LIMIT"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: observer_git_head=3b4f7c0629bd755f96fb0cf0b6cc0404512b6b7a
+E         observer_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         observer_input_fingerprint_start=52c1b1e38a39a1460fcffc4f645570f2c752b57f55733258dcd9ba9e2928a78f
+E         observer_run_id=observer-live-20260721T153815Z-12918-562
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         observer_queue_capacity=1024
+E         observer_test_mode=false
+E         observer_test_processing_delay_ms=0
+E         observer_expect_drops=false
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=12968
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T153815Z-12918-562.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'... not identify exactly one Spark driver PID for observer-live-20260721T153815Z-12918-562.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:276: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates7-OBSERVER_SNAPSHOT_LIMIT] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-1/test_invalid_task_7_observer_c7')
+updates = {'OBSERVER_SNAPSHOT_LIMIT': '201'}
+expected_message = 'OBSERVER_SNAPSHOT_LIMIT'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+            ({"OBSERVER_SNAPSHOT_LIMIT": "0"}, "OBSERVER_SNAPSHOT_LIMIT"),
+            ({"OBSERVER_SNAPSHOT_LIMIT": "201"}, "OBSERVER_SNAPSHOT_LIMIT"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: observer_git_head=3b4f7c0629bd755f96fb0cf0b6cc0404512b6b7a
+E         observer_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         observer_input_fingerprint_start=52c1b1e38a39a1460fcffc4f645570f2c752b57f55733258dcd9ba9e2928a78f
+E         observer_run_id=observer-live-20260721T153816Z-12980-24138
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         observer_queue_capacity=1024
+E         observer_test_mode=false
+E         observer_test_processing_delay_ms=0
+E         observer_expect_drops=false
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=13030
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T153816Z-12980-24138.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260721T153816Z-12980-24138.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:276: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_response_assertions.py::test_live_harness_uses_the_versioned_health_response_validator
+FAILED tests/test_observer_response_assertions.py::test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity
+FAILED tests/test_observer_response_assertions.py::test_spark_412_snapshot_adapter_uses_only_bounded_native_store_views
+FAILED tests/test_observer_response_assertions.py::test_accepts_the_exact_bounded_snapshot_contract
+FAILED tests/test_observer_response_assertions.py::test_accepts_the_same_job_and_stage_attempt_running_to_succeeded_transition
+FAILED tests/test_observer_response_assertions.py::test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-limit]
+FAILED tests/test_observer_response_assertions.py::test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-non-negative]
+FAILED tests/test_observer_response_assertions.py::test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-completedIndices]
+FAILED tests/test_observer_response_assertions.py::test_rejects_unbounded_incoherent_or_non_allowlisted_snapshots[<lambda>-unexpected fields]
+FAILED tests/test_observer_response_assertions.py::test_rejects_a_transition_that_changes_identity_or_never_finishes
+FAILED tests/test_observer_live_probe.py::test_versioned_live_harness_is_the_primary_make_target
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates6-OBSERVER_SNAPSHOT_LIMIT]
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates7-OBSERVER_SNAPSHOT_LIMIT]
+
+Script done on 2026-07-21 15:38:17+01:00 [COMMAND_EXIT_CODE="1"]

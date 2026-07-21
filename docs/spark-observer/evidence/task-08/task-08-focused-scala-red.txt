@@ -1,0 +1,145 @@
+Script started on 2026-07-21 15:34:57+01:00 [COMMAND="make observer-tests" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 4 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:12:19: value snapshotLimit is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(config.snapshotLimit == 50)
+[error]                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:25:20: value snapshotLimit is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(minimum.snapshotLimit == 1)
+[error]                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:26:20: value snapshotLimit is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(maximum.snapshotLimit == 200)
+[error]                    ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:131:13: not found: type SparkSnapshotSource
+[error]   ) extends SparkSnapshotSource {
+[error]             ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:129:25: not found: type JobView
+[error]       jobsToReturn: Seq[JobView] = Vector.empty,
+[error]                         ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:130:27: not found: type StageView
+[error]       stagesToReturn: Seq[StageView] = Vector.empty
+[error]                           ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:17:23: not found: type LiveSnapshotService
+[error]     val service = new LiveSnapshotService(
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:38:25: not found: type LiveSnapshotService
+[error]       val service = new LiveSnapshotService(runtime(), source)
+[error]                         ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:54:23: not found: type LiveSnapshotService
+[error]     val service = new LiveSnapshotService(runtime(), new RecordingSnapshotSource())
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:57:29: not found: type InvalidSnapshotLimitException
+[error]       val error = intercept[InvalidSnapshotLimitException] {
+[error]                             ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:69:24: not found: type LiveSnapshotService
+[error]     val response = new LiveSnapshotService(runtime(), source).snapshot(Some(1))
+[error]                        ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:71:33: value objectMapper in object JsonRenderer cannot be accessed as a member of object io.dataship.spark.observer.api.JsonRenderer from class LiveSnapshotServiceSpec in package api
+[error]     val document = JsonRenderer.objectMapper.readTree(JsonRenderer.render(response))
+[error]                                 ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:95:23: unknown parameter name: snapshotLimit
+[error] Error occurred in an application involving default arguments.
+[error]         snapshotLimit = snapshotLimit
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:104:29: not found: type JobView
+[error]   private def job(id: Int): JobView = JobView(
+[error]                             ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:104:39: not found: value JobView
+[error]   private def job(id: Int): JobView = JobView(
+[error]                                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:112:31: not found: type StageView
+[error]   private def stage(id: Int): StageView = StageView(
+[error]                               ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:112:43: not found: value StageView
+[error]   private def stage(id: Int): StageView = StageView(
+[error]                                           ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:118:13: not found: value TaskAggregateView
+[error]     tasks = TaskAggregateView(
+[error]             ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:135:33: not found: type ApplicationView
+[error]     override def application(): ApplicationView = ApplicationView(
+[error]                                 ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:135:51: not found: value ApplicationView
+[error]     override def application(): ApplicationView = ApplicationView(
+[error]                                                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:143:40: not found: type JobView
+[error]     override def jobs(limit: Int): Seq[JobView] = {
+[error]                                        ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:148:42: not found: type StageView
+[error]     override def stages(limit: Int): Seq[StageView] = {
+[error]                                          ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/LiveSnapshotServiceSpec.scala:153:49: not found: type SqlExecutionView
+[error]     override def sqlExecutions(limit: Int): Seq[SqlExecutionView] = Vector.empty
+[error]                                                 ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:13:23: not found: type SnapshotServlet
+[error]     val servlet = new SnapshotServlet(service(new EmptySource))
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:62:53: not found: type LiveSnapshotService
+[error]   private def service(source: SparkSnapshotSource): LiveSnapshotService = {
+[error]                                                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:62:31: not found: type SparkSnapshotSource
+[error]   private def service(source: SparkSnapshotSource): LiveSnapshotService = {
+[error]                               ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:75:37: not found: type SparkSnapshotSource
+[error]   private class EmptySource extends SparkSnapshotSource {
+[error]                                     ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:25:23: not found: type SnapshotServlet
+[error]     val servlet = new SnapshotServlet(service(new EmptySource))
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:37:35: not found: type ApplicationView
+[error]       override def application(): ApplicationView =
+[error]                                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:76:33: not found: type ApplicationView
+[error]     override def application(): ApplicationView = ApplicationView(
+[error]                                 ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:38:19: not found: type SnapshotStoreNotReadyException
+[error]         throw new SnapshotStoreNotReadyException("store is starting")
+[error]                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:41:22: not found: type SnapshotServlet
+[error]     val result = new SnapshotServlet(service(source)).responseFor(None)
+[error]                      ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:50:35: not found: type ApplicationView
+[error]       override def application(): ApplicationView =
+[error]                                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:54:22: not found: type SnapshotServlet
+[error]     val result = new SnapshotServlet(service(source)).responseFor(None)
+[error]                      ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:72:9: not found: type LiveSnapshotService
+[error]     new LiveSnapshotService(runtime, source)
+[error]         ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:76:51: not found: value ApplicationView
+[error]     override def application(): ApplicationView = ApplicationView(
+[error]                                                   ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:83:40: not found: type JobView
+[error]     override def jobs(limit: Int): Seq[JobView] = Vector.empty
+[error]                                        ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:84:42: not found: type StageView
+[error]     override def stages(limit: Int): Seq[StageView] = Vector.empty
+[error]                                          ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/SnapshotServletSpec.scala:85:49: not found: type SqlExecutionView
+[error]     override def sqlExecutions(limit: Int): Seq[SqlExecutionView] = Vector.empty
+[error]                                                 ^
+[error] /workspace/spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala:6:39: object SnapshotStoreNotReadyException is not a member of package io.dataship.spark.observer.api
+[error] import io.dataship.spark.observer.api.SnapshotStoreNotReadyException
+[error]                                       ^
+[error] /workspace/spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala:15:22: not found: type Spark412SnapshotSource
+[error]     val source = new Spark412SnapshotSource(
+[error]                      ^
+[error] /workspace/spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala:33:22: not found: type Spark412SnapshotSource
+[error]     val source = new Spark412SnapshotSource(
+[error]                      ^
+[error] /workspace/spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala:45:22: not found: type Spark412SnapshotSource
+[error]     val source = new Spark412SnapshotSource(
+[error]                      ^
+[error] /workspace/spark-observer/src/test/scala/org/apache/spark/dataship/v412/Spark412SnapshotSourceSpec.scala:49:15: not found: type SnapshotStoreNotReadyException
+[error]     intercept[SnapshotStoreNotReadyException](source.application())
+[error]               ^
+[error] 44 errors found
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 4 s, completed Jul 21, 2026, 2:35:05 PM
+make: *** [Makefile:101: observer-tests] Error 1
+
+Script done on 2026-07-21 15:35:05+01:00 [COMMAND_EXIT_CODE="2"]

@@ -1,0 +1,4 @@
+Script started on 2026-07-21 16:24:03+01:00 [COMMAND="docker compose --env-file .env -f build/docker-compose.yml ps --all" <not executed on terminal>]
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+Script done on 2026-07-21 16:24:04+01:00 [COMMAND_EXIT_CODE="0"]

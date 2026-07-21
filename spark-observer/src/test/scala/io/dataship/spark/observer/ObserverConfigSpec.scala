@@ -9,6 +9,34 @@ final class ObserverConfigSpec extends AnyFunSuite {
 
     assert(!config.enabled)
     assert(config.queueCapacity == 1024)
+    assert(config.snapshotLimit == 50)
+  }
+
+  test("accepts snapshot limits at the supported boundaries") {
+    val minimum = ObserverConfig.from(
+      new SparkConf(false)
+        .set("spark.dataship.observer.snapshot.limit", "1")
+    )
+    val maximum = ObserverConfig.from(
+      new SparkConf(false)
+        .set("spark.dataship.observer.snapshot.limit", "200")
+    )
+
+    assert(minimum.snapshotLimit == 1)
+    assert(maximum.snapshotLimit == 200)
+  }
+
+  test("rejects snapshot limits outside the supported range") {
+    Seq("0", "201", "not-an-integer").foreach { value =>
+      val error = intercept[IllegalArgumentException] {
+        ObserverConfig.from(
+          new SparkConf(false)
+            .set("spark.dataship.observer.snapshot.limit", value)
+        )
+      }
+
+      assert(error.getMessage.contains("spark.dataship.observer.snapshot.limit"))
+    }
   }
 
   test("is enabled by the explicit opt-in flag") {

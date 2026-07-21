@@ -1,0 +1,4 @@
+Script started on 2026-07-21 15:45:55+01:00 [COMMAND="uv run pytest tests/test_observer_response_assertions.py tests/test_observer_live_probe.py -q" <not executed on terminal>]
+..............................................................           [100%]
+
+Script done on 2026-07-21 15:45:57+01:00 [COMMAND_EXIT_CODE="0"]
