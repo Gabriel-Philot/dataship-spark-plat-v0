@@ -55,4 +55,38 @@ final class ObserverConfigSpec extends AnyFunSuite {
       assert(error.getMessage.contains("spark.dataship.observer.queue.capacity"))
     }
   }
+
+  test("allows deterministic processing delay only in explicit test mode") {
+    val configured = ObserverConfig.from(
+      new SparkConf(false)
+        .set("spark.dataship.observer.testMode", "true")
+        .set("spark.dataship.observer.test.processingDelayMs", "1000")
+    )
+
+    assert(configured.testMode)
+    assert(configured.testProcessingDelayMs == 1000)
+
+    Seq("-1", "1001", "not-an-integer").foreach { value =>
+      val error = intercept[IllegalArgumentException] {
+        ObserverConfig.from(
+          new SparkConf(false)
+            .set("spark.dataship.observer.testMode", "true")
+            .set("spark.dataship.observer.test.processingDelayMs", value)
+        )
+      }
+      assert(
+        error.getMessage.contains(
+          "spark.dataship.observer.test.processingDelayMs"
+        )
+      )
+    }
+
+    val disabledModeError = intercept[IllegalArgumentException] {
+      ObserverConfig.from(
+        new SparkConf(false)
+          .set("spark.dataship.observer.test.processingDelayMs", "1")
+      )
+    }
+    assert(disabledModeError.getMessage.contains("requires testMode=true"))
+  }
 }

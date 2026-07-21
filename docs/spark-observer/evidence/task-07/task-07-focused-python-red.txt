@@ -1,0 +1,556 @@
+Script started on 2026-07-21 00:20:26+01:00 [COMMAND="uv run pytest tests/test_observer_response_assertions.py tests/test_observer_live_probe.py" <not executed on terminal>]
+FF.FFFFFFF...........................FFFFFFF........                     [100%]
+=================================== FAILURES ===================================
+________ test_live_harness_uses_the_versioned_health_response_validator ________
+
+    def test_live_harness_uses_the_versioned_health_response_validator():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+    
+        assert "assert-observer-response.py" in harness
+        assert "health_read_1" in harness
+        assert "health_read_2" in harness
+>       assert "/dataship/api/v1/debug/counters" in harness
+E       assert '/dataship/api/v1/debug/counters' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...ed during the live run." >&2\n  exit 1\nfi\nprintf \'task5_input_fingerprints_match=true\\n\'\n\nexit "$submit_exit"\n'
+
+tests/test_observer_response_assertions.py:94: AssertionError
+_ test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity _
+
+    def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+        allowlist_match = re.search(
+            r"OBSERVER_FINGERPRINT_INPUTS=\(\n(?P<inputs>.*?)\n\)",
+            harness,
+            re.DOTALL,
+        )
+    
+>       assert allowlist_match is not None
+E       assert None is not None
+
+tests/test_observer_response_assertions.py:109: AssertionError
+________ test_accepts_listener_installed_for_the_task_7_health_contract ________
+
+    def test_accepts_listener_installed_for_the_task_7_health_contract():
+        helper = _load_helper()
+        payload = _valid_payload()
+        payload["listenerInstalled"] = True
+    
+>       result = helper.validate_response(
+            status_code=200,
+            content_type="application/json",
+            body=json.dumps(payload),
+            expected_status="READY",
+            expected_listener_installed=True,
+        )
+E       TypeError: validate_response() got an unexpected keyword argument 'expected_listener_installed'
+
+tests/test_observer_response_assertions.py:165: TypeError
+______ test_accepts_the_exact_live_counters_contract_and_growth_boundary _______
+
+    def test_accepts_the_exact_live_counters_contract_and_growth_boundary():
+        helper = _load_helper()
+        payload = _valid_counters_payload()
+    
+>       result = helper.validate_counters_response(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            status_code=200,
+            content_type="application/json;charset=utf-8",
+            body=json.dumps(payload),
+            listener_received_greater_than=11,
+            minimum_dropped_by_plugin=2,
+        )
+E       AttributeError: module 'assert_observer_response' has no attribute 'validate_counters_response'
+
+tests/test_observer_response_assertions.py:180: AttributeError
+__ test_rejects_inconsistent_live_counter_documents[<lambda>-category total] ___
+
+mutation = <function <lambda> at 0x76547c6b3e20>
+expected_message = 'category total'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload.update(listenerReceived=13), "category total"),
+            (lambda payload: payload.update(processed=9), "accounting invariant"),
+            (lambda payload: payload.update(depth=2), "depth"),
+            (lambda payload: payload.update(invariantHolds=False), "invariantHolds"),
+            (lambda payload: payload.update(lastEventAt="not-a-time"), "lastEventAt"),
+        ),
+    )
+    def test_rejects_inconsistent_live_counter_documents(mutation, expected_message):
+        helper = _load_helper()
+        payload = _valid_counters_payload()
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_counters_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                listener_received_greater_than=0,
+                minimum_dropped_by_plugin=0,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_counters_response'
+
+tests/test_observer_response_assertions.py:207: AttributeError
+_ test_rejects_inconsistent_live_counter_documents[<lambda>-accounting invariant] _
+
+mutation = <function <lambda> at 0x76547c6b3ec0>
+expected_message = 'accounting invariant'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload.update(listenerReceived=13), "category total"),
+            (lambda payload: payload.update(processed=9), "accounting invariant"),
+            (lambda payload: payload.update(depth=2), "depth"),
+            (lambda payload: payload.update(invariantHolds=False), "invariantHolds"),
+            (lambda payload: payload.update(lastEventAt="not-a-time"), "lastEventAt"),
+        ),
+    )
+    def test_rejects_inconsistent_live_counter_documents(mutation, expected_message):
+        helper = _load_helper()
+        payload = _valid_counters_payload()
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_counters_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                listener_received_greater_than=0,
+                minimum_dropped_by_plugin=0,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_counters_response'
+
+tests/test_observer_response_assertions.py:207: AttributeError
+_______ test_rejects_inconsistent_live_counter_documents[<lambda>-depth] _______
+
+mutation = <function <lambda> at 0x76547c6b3f60>, expected_message = 'depth'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload.update(listenerReceived=13), "category total"),
+            (lambda payload: payload.update(processed=9), "accounting invariant"),
+            (lambda payload: payload.update(depth=2), "depth"),
+            (lambda payload: payload.update(invariantHolds=False), "invariantHolds"),
+            (lambda payload: payload.update(lastEventAt="not-a-time"), "lastEventAt"),
+        ),
+    )
+    def test_rejects_inconsistent_live_counter_documents(mutation, expected_message):
+        helper = _load_helper()
+        payload = _valid_counters_payload()
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_counters_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                listener_received_greater_than=0,
+                minimum_dropped_by_plugin=0,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_counters_response'
+
+tests/test_observer_response_assertions.py:207: AttributeError
+__ test_rejects_inconsistent_live_counter_documents[<lambda>-invariantHolds] ___
+
+mutation = <function <lambda> at 0x76547c5b0040>
+expected_message = 'invariantHolds'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload.update(listenerReceived=13), "category total"),
+            (lambda payload: payload.update(processed=9), "accounting invariant"),
+            (lambda payload: payload.update(depth=2), "depth"),
+            (lambda payload: payload.update(invariantHolds=False), "invariantHolds"),
+            (lambda payload: payload.update(lastEventAt="not-a-time"), "lastEventAt"),
+        ),
+    )
+    def test_rejects_inconsistent_live_counter_documents(mutation, expected_message):
+        helper = _load_helper()
+        payload = _valid_counters_payload()
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_counters_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                listener_received_greater_than=0,
+                minimum_dropped_by_plugin=0,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_counters_response'
+
+tests/test_observer_response_assertions.py:207: AttributeError
+____ test_rejects_inconsistent_live_counter_documents[<lambda>-lastEventAt] ____
+
+mutation = <function <lambda> at 0x76547c5b00e0>
+expected_message = 'lastEventAt'
+
+    @pytest.mark.parametrize(
+        ("mutation", "expected_message"),
+        (
+            (lambda payload: payload.update(listenerReceived=13), "category total"),
+            (lambda payload: payload.update(processed=9), "accounting invariant"),
+            (lambda payload: payload.update(depth=2), "depth"),
+            (lambda payload: payload.update(invariantHolds=False), "invariantHolds"),
+            (lambda payload: payload.update(lastEventAt="not-a-time"), "lastEventAt"),
+        ),
+    )
+    def test_rejects_inconsistent_live_counter_documents(mutation, expected_message):
+        helper = _load_helper()
+        payload = _valid_counters_payload()
+        mutation(payload)
+    
+        with pytest.raises(helper.ResponseValidationError, match=expected_message):
+>           helper.validate_counters_response(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                status_code=200,
+                content_type="application/json",
+                body=json.dumps(payload),
+                listener_received_greater_than=0,
+                minimum_dropped_by_plugin=0,
+            )
+E           AttributeError: module 'assert_observer_response' has no attribute 'validate_counters_response'
+
+tests/test_observer_response_assertions.py:207: AttributeError
+____________ test_versioned_live_harness_is_the_primary_make_target ____________
+
+    def test_versioned_live_harness_is_the_primary_make_target():
+        makefile = (ROOT_DIR / "Makefile").read_text(encoding="utf-8")
+        harness_path = ROOT_DIR / "build/scripts/run-observer-live-probe.sh"
+    
+        assert harness_path.is_file()
+        harness = harness_path.read_text(encoding="utf-8")
+    
+        assert re.search(r"^observer-live:\s*$", makefile, re.MULTILINE)
+        assert "build/scripts/run-observer-live-probe.sh" in makefile
+        assert ".superpowers/" not in harness
+        assert "OBSERVER_ENABLED" in harness
+        assert "OBSERVER_RUN_ID" in harness
+        assert "/tmp/" in harness
+        assert "trap cleanup EXIT" in harness
+        assert "trap 'exit 143' TERM" in harness
+        assert "trap 'exit 130' INT" in harness
+        assert "timeout" in harness
+        assert "--location" in harness
+        assert "native_dataship_route_absent=true" in harness
+        assert "native_unknown_route" in harness
+        assert "%s_http_status=%s" in harness
+        assert "%{url_effective}" in harness
+        assert "spark.ui.port=4040" in harness
+        assert "spark.port.maxRetries=0" in harness
+        assert "ps -eo" in harness
+        assert "spark-master" in harness
+>       assert "OBSERVER_QUEUE_CAPACITY" in harness
+E       assert 'OBSERVER_QUEUE_CAPACITY' in '#!/usr/bin/env bash\nset -euo pipefail\n\nROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"\ncd "$ROOT_D...ed during the live run." >&2\n  exit 1\nfi\nprintf \'task5_input_fingerprints_match=true\\n\'\n\nexit "$submit_exit"\n'
+
+tests/test_observer_live_probe.py:238: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates0-OBSERVER_QUEUE_CAPACITY] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-4/test_invalid_task_7_observer_c0')
+updates = {'OBSERVER_QUEUE_CAPACITY': '0'}
+expected_message = 'OBSERVER_QUEUE_CAPACITY'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: task5_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+E         task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         task5_input_fingerprint_start=5f6556faf11982b4b20ddc9f6f54dde1f9c59814205e4f75bec610f0b11abcc7
+E         observer_run_id=observer-live-20260721T002027Z-28921-5046
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=28994
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T002027Z-28921-5046.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...not identify exactly one Spark driver PID for observer-live-20260721T002027Z-28921-5046.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:268: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates1-OBSERVER_QUEUE_CAPACITY] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-4/test_invalid_task_7_observer_c1')
+updates = {'OBSERVER_QUEUE_CAPACITY': '65537'}
+expected_message = 'OBSERVER_QUEUE_CAPACITY'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: task5_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+E         task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         task5_input_fingerprint_start=5f6556faf11982b4b20ddc9f6f54dde1f9c59814205e4f75bec610f0b11abcc7
+E         observer_run_id=observer-live-20260721T002027Z-29006-28627
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=29101
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T002027Z-29006-28627.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260721T002027Z-29006-28627.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:268: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates2-OBSERVER_TEST_MODE] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-4/test_invalid_task_7_observer_c2')
+updates = {'OBSERVER_TEST_MODE': 'maybe'}
+expected_message = 'OBSERVER_TEST_MODE'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: task5_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+E         task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         task5_input_fingerprint_start=5f6556faf11982b4b20ddc9f6f54dde1f9c59814205e4f75bec610f0b11abcc7
+E         observer_run_id=observer-live-20260721T002027Z-29113-32361
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=29254
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T002027Z-29113-32361.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260721T002027Z-29113-32361.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:268: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates3-OBSERVER_TEST_PROCESSING_DELAY_MS] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-4/test_invalid_task_7_observer_c3')
+updates = {'OBSERVER_TEST_PROCESSING_DELAY_MS': '1001'}
+expected_message = 'OBSERVER_TEST_PROCESSING_DELAY_MS'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: task5_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+E         task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         task5_input_fingerprint_start=5f6556faf11982b4b20ddc9f6f54dde1f9c59814205e4f75bec610f0b11abcc7
+E         observer_run_id=observer-live-20260721T002027Z-29282-18923
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=29344
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T002027Z-29282-18923.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260721T002027Z-29282-18923.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:268: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates4-requires OBSERVER_TEST_MODE=true] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-4/test_invalid_task_7_observer_c4')
+updates = {'OBSERVER_TEST_PROCESSING_DELAY_MS': '1'}
+expected_message = 'requires OBSERVER_TEST_MODE=true'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: task5_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+E         task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         task5_input_fingerprint_start=5f6556faf11982b4b20ddc9f6f54dde1f9c59814205e4f75bec610f0b11abcc7
+E         observer_run_id=observer-live-20260721T002028Z-29370-13922
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=29413
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T002028Z-29370-13922.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260721T002028Z-29370-13922.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:268: AssertionError
+_ test_invalid_task_7_observer_controls_fail_before_startup[updates5-OBSERVER_EXPECT_DROPS] _
+
+tmp_path = PosixPath('/tmp/pytest-of-philot/pytest-4/test_invalid_task_7_observer_c5')
+updates = {'OBSERVER_EXPECT_DROPS': 'maybe'}
+expected_message = 'OBSERVER_EXPECT_DROPS'
+
+    @pytest.mark.parametrize(
+        ("updates", "expected_message"),
+        (
+            ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+            ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+                "OBSERVER_TEST_PROCESSING_DELAY_MS",
+            ),
+            (
+                {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+                "requires OBSERVER_TEST_MODE=true",
+            ),
+            ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+        ),
+    )
+    def test_invalid_task_7_observer_controls_fail_before_startup(
+        tmp_path,
+        updates,
+        expected_message,
+    ):
+        result = _run_fake_harness(tmp_path, **updates)
+    
+>       assert result.returncode == 2, result.stdout
+E       AssertionError: task5_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+E         task5_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+E         task5_input_fingerprint_start=5f6556faf11982b4b20ddc9f6f54dde1f9c59814205e4f75bec610f0b11abcc7
+E         observer_run_id=observer-live-20260721T002028Z-29425-12532
+E         observer_enabled=false
+E         observer_spark_ui_enabled=true
+E         spark_master_4040_mapping=127.0.0.1:24040
+E         initial_driver_ui_http_exit=7 status=000
+E         host_compose_exec_pid=29468
+E         Could not identify exactly one Spark driver PID for observer-live-20260721T002028Z-29425-12532.
+E         observer_live_exit_code=1
+E         
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/philot/compendium/forge/dataship/spark-plat-v0/build/scripts/run-observer-live-probe.sh'...ot identify exactly one Spark driver PID for observer-live-20260721T002028Z-29425-12532.\nobserver_live_exit_code=1\n').returncode
+
+tests/test_observer_live_probe.py:268: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_response_assertions.py::test_live_harness_uses_the_versioned_health_response_validator
+FAILED tests/test_observer_response_assertions.py::test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity
+FAILED tests/test_observer_response_assertions.py::test_accepts_listener_installed_for_the_task_7_health_contract
+FAILED tests/test_observer_response_assertions.py::test_accepts_the_exact_live_counters_contract_and_growth_boundary
+FAILED tests/test_observer_response_assertions.py::test_rejects_inconsistent_live_counter_documents[<lambda>-category total]
+FAILED tests/test_observer_response_assertions.py::test_rejects_inconsistent_live_counter_documents[<lambda>-accounting invariant]
+FAILED tests/test_observer_response_assertions.py::test_rejects_inconsistent_live_counter_documents[<lambda>-depth]
+FAILED tests/test_observer_response_assertions.py::test_rejects_inconsistent_live_counter_documents[<lambda>-invariantHolds]
+FAILED tests/test_observer_response_assertions.py::test_rejects_inconsistent_live_counter_documents[<lambda>-lastEventAt]
+FAILED tests/test_observer_live_probe.py::test_versioned_live_harness_is_the_primary_make_target
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates0-OBSERVER_QUEUE_CAPACITY]
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates1-OBSERVER_QUEUE_CAPACITY]
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates2-OBSERVER_TEST_MODE]
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates3-OBSERVER_TEST_PROCESSING_DELAY_MS]
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates4-requires OBSERVER_TEST_MODE=true]
+FAILED tests/test_observer_live_probe.py::test_invalid_task_7_observer_controls_fail_before_startup[updates5-OBSERVER_EXPECT_DROPS]
+16 failed, 36 passed in 3.16s
+
+Script done on 2026-07-21 00:20:30+01:00 [COMMAND_EXIT_CODE="1"]

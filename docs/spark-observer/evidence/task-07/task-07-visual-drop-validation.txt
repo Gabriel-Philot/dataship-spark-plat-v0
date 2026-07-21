@@ -1,0 +1,6 @@
+Script started on 2026-07-21 00:42:05+01:00 [COMMAND="UV_CACHE_DIR=/tmp/uv-cache uv run python build/scripts/assert-observer-response.py --response-kind counters --url http://127.0.0.1:24040/dataship/api/v1/debug/counters --label visual_drop --timeout-seconds 20 --minimum-dropped-by-plugin 1" <not executed on terminal>]
+visual_drop_http_status=200 content_type=application/json
+visual_drop_listener_received=4 dropped_by_plugin=1
+visual_drop_json={"appId":"app-20260720234200-0004","capacity":1,"capturedAt":"2026-07-20T23:42:06.036686816Z","depth":1,"droppedByPlugin":1,"inFlight":1,"internalFailures":0,"invariantHolds":true,"lastEventAt":"2026-07-20T23:42:05.691741349Z","listenerReceived":4,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","processed":1,"queued":1,"receivedByCategory":{"application":0,"executor":1,"job":1,"other":0,"sql":0,"stage":1,"task":1},"schemaVersion":"v1","sparkVersion":"4.1.2"}
+
+Script done on 2026-07-21 00:42:06+01:00 [COMMAND_EXIT_CODE="0"]

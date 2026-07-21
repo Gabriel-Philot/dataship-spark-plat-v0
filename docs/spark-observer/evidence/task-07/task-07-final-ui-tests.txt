@@ -1,0 +1,12 @@
+Script started on 2026-07-21 00:44:48+01:00 [COMMAND="make observer-ui-tests" <not executed on terminal>]
+✔ uses the pinned Node 24 toolchain (1.509965ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.256651
+
+Script done on 2026-07-21 00:44:49+01:00 [COMMAND_EXIT_CODE="0"]

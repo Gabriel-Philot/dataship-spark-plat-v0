@@ -1,0 +1,36 @@
+Script started on 2026-07-21 00:48:17+01:00 [COMMAND="set -eu; echo task_07_final_guard_start; printf "branch="; git branch --show-current; printf "head="; git rev-parse HEAD; git diff --check; echo diff_check=PASS; bash -n build/scripts/run-observer-live-probe.sh; echo shell_syntax=PASS; PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile build/scripts/assert-observer-response.py tests/test_observer_live_probe.py tests/test_observer_response_assertions.py; echo python_compile=PASS; git diff --quiet 85efbf4f0b48edd119ce59615bff5b4ff8afef6c -- build/clickhouse build/images/eventlog-loader build/images/minio/init-buckets.sh build/config/spark/spark-defaults.conf; echo frozen_paths=UNCHANGED; if git diff --cached --quiet; then echo staged_index=EMPTY; else echo staged_index=NOT_EMPTY; exit 1; fi; if git status --short | rg -q "SnapshotModels|SparkSnapshotSource|LiveSnapshotService|SnapshotServlet"; then echo task_08_files=FOUND; exit 1; else echo task_08_files=ABSENT; fi; sha256sum docs/spark-observer/evidence/task-07/task-07-counters-wide-t1.png docs/spark-observer/evidence/task-07/task-07-counters-wide-t2.png docs/spark-observer/evidence/task-07/task-07-counters-drop.png; git status --short; echo task_07_final_guard=PASS" <not executed on terminal>]
+task_07_final_guard_start
+branch=exp-dataflint-based-test-jar
+head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+diff_check=PASS
+shell_syntax=PASS
+python_compile=PASS
+frozen_paths=UNCHANGED
+staged_index=EMPTY
+task_08_files=ABSENT
+b89b6a729963fc1e9b766dd46e71f7783c87dc792206e9fab5fea7a1752bbd02  docs/spark-observer/evidence/task-07/task-07-counters-wide-t1.png
+707a660b34b643fe02a760090459b79b1d947fda1c774e131df0624f324012e5  docs/spark-observer/evidence/task-07/task-07-counters-wide-t2.png
+0207823f4b5274ebed2d04d95f3a7268095400495489cf29b5e04d4d5f6dab50  docs/spark-observer/evidence/task-07/task-07-counters-drop.png
+ M build/scripts/assert-observer-response.py
+ M build/scripts/run-observer-live-probe.sh
+ M docs/spark-observer/execution-log.md
+ M spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala
+ M spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala
+ M spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala
+ M spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala
+ M spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala
+ M spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala
+ M spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala
+ M spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala
+ M spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala
+ M tests/test_observer_live_probe.py
+ M tests/test_observer_response_assertions.py
+?? docs/spark-observer/evidence/task-07/
+?? spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala
+?? spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala
+?? spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala
+?? spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala
+?? spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala
+task_07_final_guard=PASS
+
+Script done on 2026-07-21 00:48:18+01:00 [COMMAND_EXIT_CODE="0"]

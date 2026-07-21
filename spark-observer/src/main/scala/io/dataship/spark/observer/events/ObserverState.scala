@@ -13,12 +13,17 @@ final class ObserverState(val transitionsCapacity: Int) {
   private var queued = 0L
   private var inFlight = 0L
   private var droppedByPlugin = 0L
+  private val receivedByCategory = mutable.LinkedHashMap.from(
+    ObserverEvent.Categories.map(_ -> 0L)
+  )
+  private var internalFailures = 0L
+  private var lastEventAt: Option[java.time.Instant] = None
 
   private[events] def offer(
       queue: ArrayBlockingQueue[ObserverEvent],
       event: ObserverEvent
   ): Boolean = synchronized {
-    listenerReceived += 1L
+    recordReceived(event)
     if (queue.offer(event)) {
       queued += 1L
       true
@@ -28,8 +33,8 @@ final class ObserverState(val transitionsCapacity: Int) {
     }
   }
 
-  private[events] def reject(): Boolean = synchronized {
-    listenerReceived += 1L
+  private[events] def reject(event: ObserverEvent): Boolean = synchronized {
+    recordReceived(event)
     droppedByPlugin += 1L
     false
   }
@@ -73,7 +78,19 @@ final class ObserverState(val transitionsCapacity: Int) {
       queued = queued,
       inFlight = inFlight,
       droppedByPlugin = droppedByPlugin,
+      receivedByCategory = receivedByCategory.toMap,
+      internalFailures = internalFailures,
+      lastEventAt = lastEventAt,
       recentEvents = recentEvents.toVector
     )
+  }
+
+  private def recordReceived(event: ObserverEvent): Unit = {
+    val category = ObserverEvent.normalizedCategory(
+      Option(event).map(_.category).getOrElse("other")
+    )
+    listenerReceived += 1L
+    receivedByCategory.update(category, receivedByCategory(category) + 1L)
+    Option(event).foreach(next => lastEventAt = Some(next.observedAt))
   }
 }

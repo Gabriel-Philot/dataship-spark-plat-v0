@@ -1,0 +1,6 @@
+Script started on 2026-07-21 00:42:17+01:00 [COMMAND="/home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,900" --wait-for-timeout 300 http://127.0.0.1:24040/dataship/api/v1/debug/counters docs/spark-observer/evidence/task-07/task-07-counters-drop.png" <not executed on terminal>]
+Navigating to http://127.0.0.1:24040/dataship/api/v1/debug/counters
+Waiting for timeout 300...
+Capturing screenshot into docs/spark-observer/evidence/task-07/task-07-counters-drop.png
+
+Script done on 2026-07-21 00:42:19+01:00 [COMMAND_EXIT_CODE="0"]

@@ -5,7 +5,9 @@ import org.apache.spark.SparkConf
 final case class ObserverConfig(
     enabled: Boolean,
     queueCapacity: Int,
-    transitionsCapacity: Int = 128
+    transitionsCapacity: Int = 128,
+    testMode: Boolean = false,
+    testProcessingDelayMs: Int = 0
 )
 
 object ObserverConfig {
@@ -13,18 +15,24 @@ object ObserverConfig {
   private val QueueCapacityKey = "spark.dataship.observer.queue.capacity"
   private val TransitionsCapacityKey =
     "spark.dataship.observer.transitions.capacity"
+  private val TestModeKey = "spark.dataship.observer.testMode"
+  private val TestProcessingDelayKey =
+    "spark.dataship.observer.test.processingDelayMs"
   private val DefaultQueueCapacity = 1024
   private val DefaultTransitionsCapacity = 128
   private val MinimumQueueCapacity = 1
   private val MaximumQueueCapacity = 65536
   private val MinimumTransitionsCapacity = 1
   private val MaximumTransitionsCapacity = 1024
+  private val MaximumTestProcessingDelayMs = 1000
 
   private[observer] val Fallback: ObserverConfig =
     ObserverConfig(
       enabled = false,
       queueCapacity = DefaultQueueCapacity,
-      transitionsCapacity = DefaultTransitionsCapacity
+      transitionsCapacity = DefaultTransitionsCapacity,
+      testMode = false,
+      testProcessingDelayMs = 0
     )
 
   def from(sparkConf: SparkConf): ObserverConfig = {
@@ -52,11 +60,34 @@ object ObserverConfig {
     ) {
       throw invalidTransitionsCapacity(transitionsCapacity.toString)
     }
+    val testMode = sparkConf.getBoolean(TestModeKey, defaultValue = false)
+    val testProcessingDelayMs = try {
+      sparkConf.getInt(TestProcessingDelayKey, 0)
+    } catch {
+      case error: NumberFormatException =>
+        throw invalidTestProcessingDelay(
+          sparkConf.get(TestProcessingDelayKey),
+          error
+        )
+    }
+    if (
+      testProcessingDelayMs < 0 ||
+      testProcessingDelayMs > MaximumTestProcessingDelayMs
+    ) {
+      throw invalidTestProcessingDelay(testProcessingDelayMs.toString)
+    }
+    if (!testMode && testProcessingDelayMs != 0) {
+      throw new IllegalArgumentException(
+        s"$TestProcessingDelayKey requires testMode=true when non-zero."
+      )
+    }
 
     ObserverConfig(
       enabled = sparkConf.getBoolean(EnabledKey, defaultValue = false),
       queueCapacity = queueCapacity,
-      transitionsCapacity = transitionsCapacity
+      transitionsCapacity = transitionsCapacity,
+      testMode = testMode,
+      testProcessingDelayMs = testProcessingDelayMs
     )
   }
 
@@ -78,6 +109,16 @@ object ObserverConfig {
       s"$TransitionsCapacityKey must be an integer from " +
         s"$MinimumTransitionsCapacity to $MaximumTransitionsCapacity, " +
         s"but was '$value'.",
+      cause
+    )
+
+  private def invalidTestProcessingDelay(
+      value: String,
+      cause: Throwable = null
+  ): IllegalArgumentException =
+    new IllegalArgumentException(
+      s"$TestProcessingDelayKey must be an integer from 0 to " +
+        s"$MaximumTestProcessingDelayMs, but was '$value'.",
       cause
     )
 }

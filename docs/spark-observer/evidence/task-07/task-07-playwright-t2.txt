@@ -1,0 +1,8 @@
+Script started on 2026-07-21 00:39:37+01:00 [COMMAND="/home/philot/.npm/_npx/e41f203b7505f1fb/node_modules/.bin/playwright screenshot --browser chromium --full-page --viewport-size "1440,900" --wait-for-timeout 300 http://127.0.0.1:24040/dataship/api/v1/debug/counters docs/spark-observer/evidence/task-07/task-07-counters-t2.png" <not executed on terminal>]
+Navigating to http://127.0.0.1:24040/dataship/api/v1/debug/counters
+Error: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:24040/dataship/api/v1/debug/counters
+Call log:
+[2m  - navigating to "http://127.0.0.1:24040/dataship/api/v1/debug/counters", waiting until "load"[22m
+
+
+Script done on 2026-07-21 00:39:38+01:00 [COMMAND_EXIT_CODE="1"]

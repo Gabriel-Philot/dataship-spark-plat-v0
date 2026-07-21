@@ -235,6 +235,38 @@ def test_versioned_live_harness_is_the_primary_make_target():
     assert "spark.port.maxRetries=0" in harness
     assert "ps -eo" in harness
     assert "spark-master" in harness
+    assert "OBSERVER_QUEUE_CAPACITY" in harness
+    assert "OBSERVER_TEST_MODE" in harness
+    assert "OBSERVER_TEST_PROCESSING_DELAY_MS" in harness
+    assert "OBSERVER_EXPECT_DROPS" in harness
+
+
+@pytest.mark.parametrize(
+    ("updates", "expected_message"),
+    (
+        ({"OBSERVER_QUEUE_CAPACITY": "0"}, "OBSERVER_QUEUE_CAPACITY"),
+        ({"OBSERVER_QUEUE_CAPACITY": "65537"}, "OBSERVER_QUEUE_CAPACITY"),
+        ({"OBSERVER_TEST_MODE": "maybe"}, "OBSERVER_TEST_MODE"),
+        (
+            {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1001"},
+            "OBSERVER_TEST_PROCESSING_DELAY_MS",
+        ),
+        (
+            {"OBSERVER_TEST_PROCESSING_DELAY_MS": "1"},
+            "requires OBSERVER_TEST_MODE=true",
+        ),
+        ({"OBSERVER_EXPECT_DROPS": "maybe"}, "OBSERVER_EXPECT_DROPS"),
+    ),
+)
+def test_invalid_task_7_observer_controls_fail_before_startup(
+    tmp_path,
+    updates,
+    expected_message,
+):
+    result = _run_fake_harness(tmp_path, **updates)
+
+    assert result.returncode == 2, result.stdout
+    assert expected_message in result.stdout
 
 
 @pytest.mark.parametrize(

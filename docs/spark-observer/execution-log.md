@@ -973,7 +973,7 @@ No commit was created. Task 6 was not started.
 
 ## Task 6 — bounded internal handoff and consistent state
 
-**Status:** `RUNNING`
+**Status:** `PASS — AWAITING USER ACCEPTANCE`
 
 **Hypothesis:** the internal handoff never waits for queue capacity,
 deterministically accounts for refused events, and preserves
@@ -1156,3 +1156,206 @@ Return the Compose stack to down after the live regression.
   without changing the Spark workload result.
 - Task 7 was not started. Acceptance of Task 6 does not authorize it; a new
   explicit user request is still required.
+
+## Task 7 — dedicated listener and live counters endpoint
+
+**Status:** `RUNNING`
+
+**Hypothesis:** real Spark events enter the dedicated `dataship-observer`
+listener-bus queue, the stable counters endpoint grows between two reads while
+the same driver is alive, and deliberately induced plugin backpressure records
+drops without changing the deterministic workload result.
+
+**Minimal change:** add event classification, fixed per-category counters, the
+versioned `/dataship/api/v1/debug/counters` response, listener installation in
+the Spark 4.1.2 adapter, and live-probe assertions for growth and induced drop.
+Do not add snapshot-store reads, SQL descriptions, a UI tab, or Task 8 work.
+
+**Focused RED:** create `ObserverListenerSpec` and `CountersResponseSpec`, then
+run only those specs and confirm they fail because the Task 7 classes and
+runtime contract are absent. Extend the versioned live harness first and prove
+the current rebuilt JAR cannot satisfy the counters route; a missing tool,
+image, dependency, or target is not a valid RED.
+
+**Expected observable result:** `t1` and `t2` come from the same live driver;
+`listenerReceived(t2) > listenerReceived(t1)`, both snapshots satisfy the Task
+6 invariant, and the capacity-one test-mode run has
+`droppedByPlugin > 0`. Both normal and drop runs must finish with the same
+deterministic result and Spark submit exit code `0`.
+
+### Start state (2026-07-21)
+
+- Branch: `exp-dataflint-based-test-jar`.
+- Starting commit:
+  `85efbf4f0b48edd119ce59615bff5b4ff8afef6c`.
+- The branch was one local documentation commit ahead of upstream because the
+  user requested add/commit but did not request push.
+- Working tree was clean before Task 7 evidence was created.
+- Compose reported an empty service table; the platform was down.
+- Baseline `make observer-tests`: `30/30` passed.
+- Baseline `make tests`: `63/63` passed.
+- Baseline evidence:
+  `docs/spark-observer/evidence/task-07/task-07-baseline-observer-tests.txt`
+  and `task-07-baseline-python-tests.txt`.
+
+### Execution decision and allowlist clarification
+
+- Task 7 is being executed directly because listener installation, runtime
+  ownership, response serialization, and the live harness form one dependent
+  sequence with shared files and runtime state.
+- The planned file list omitted three implementation necessities already
+  implied by the Task 7 gates: parsing `testMode/processingDelayMs` for the
+  deterministic drop scenario, extending the versioned response validator for
+  the counters contract, and testing those changes. The Task 7 allowlist is
+  therefore the planned source/test/harness files plus:
+  `ObserverConfig.scala`, `ObserverConfigSpec.scala`, `JsonRenderer.scala`,
+  `HealthResponseSpec.scala`, `assert-observer-response.py`,
+  `tests/test_observer_response_assertions.py`, and
+  `tests/test_observer_live_probe.py`.
+- The per-category totals and `listenerReceived` must come from the same atomic
+  snapshot. Keeping category counters only in `ObserverListener` would create a
+  race between two independent snapshots, so the allowlist also includes the
+  Task 6 state DTOs (`ObserverEvent.scala`, `ObserverCounters.scala`,
+  `ObserverState.scala`) and their existing focused tests. Queue capacity and
+  nonblocking behavior remain unchanged.
+- Task-owned documentation is this execution log and
+  `docs/spark-observer/evidence/task-07/`.
+- Frozen durable-path changes at start: none.
+
+### RED evidence
+
+- The focused Scala RED failed compilation only on the absent Task 7
+  contracts: `ObserverListener`, the counters response/runtime methods, and
+  the deterministic test-mode configuration. Evidence:
+  `task-07-focused-scala-red.txt`.
+- The focused Python RED recorded 16 expected contract/harness failures and 36
+  passes before the implementation existed. Evidence:
+  `task-07-focused-python-red.txt`.
+- After the versioned validator and harness were in place, the only remaining
+  harness test failure was the intentional absence of the three production
+  Task 7 files from the source fingerprint. Evidence:
+  `task-07-harness-pre-live-red.txt`.
+- The rebuilt pre-implementation JAR could not satisfy the counters contract:
+  the requested path returned `text/html;charset=utf-8` instead of the
+  required JSON endpoint. The driver was alive and the deterministic workload
+  itself still completed correctly. Evidence:
+  `task-07-live-endpoint-red.txt`.
+
+### Focused GREEN and lifecycle correction
+
+- The first GREEN compile exposed invalid Scala placeholder inference in the
+  listener factory; it was corrected to an explicitly typed queue lambda.
+- The next run exposed listener registration before checking `sc.ui`. The
+  adapter now installs both listener and HTTP handlers only inside the
+  existing Spark UI lifecycle branch, preserving the `NO_SPARK_UI` contract.
+- Final focused/full Scala result at this stage: `35/35` passed. Targeted
+  Python response/harness result: `52/52` passed. Evidence:
+  `task-07-focused-scala-green.txt` and
+  `task-07-focused-python-green.txt`.
+
+### Runtime identity and live proof
+
+- `make observer-runtime-refresh` rebuilt and staged the JAR, rebuilt the Spark
+  image, recreated master/worker, observed Spark Master HTTP 200, and observed
+  one ALIVE worker. Evidence: `task-07-runtime-refresh-green.txt`.
+- Host, staged context, and active master-container JARs all matched SHA-256
+  `f65f49c56ec005d50e322325dcca025553ec998b79c6982920f1cdb4e6d53825`.
+  Evidence: `task-07-jar-checksum.txt`.
+- Normal live run: application `app-20260720233715-0000`, PID `132`, counters
+  grew from 1 to 6, both responses reported `invariantHolds=true`, and plugin
+  drops stayed 0. The workload returned 40 rows and sum 780 with submit exit
+  0. Cleanup proved driver/wrapper absence and endpoint unavailability.
+  Evidence: `task-07-live-normal-green.txt`.
+- Backpressure live run: application `app-20260720233757-0001`, PID `486`,
+  capacity 1 and an explicit 1-second test delay produced two plugin drops at
+  t2 with one item queued and one in flight. The invariant remained true, and
+  the same 40-row/sum-780 workload still exited 0. Evidence:
+  `task-07-live-drop-green.txt`.
+
+### Real browser evidence
+
+- Playwright captured the real counters endpoint twice for application
+  `app-20260720234004-0003`: the screenshots show `listenerReceived` 42 at t1
+  and 98 at t2, `droppedByPlugin=0`, and `invariantHolds=true` in both.
+- Playwright captured the real capacity-one endpoint for application
+  `app-20260720234200-0004`: 48 received, 14 processed, 1 queued, 1 in flight,
+  32 plugin drops, and a true invariant. Its 80-row/sum-3160 visual workload
+  completed with submit exit 0 and clean shutdown.
+- The first t2 browser attempt truthfully failed with `ERR_EMPTY_RESPONSE`
+  because that driver completed between the parsed response and browser
+  navigation. The successful wider same-driver screenshots replaced it as
+  visual evidence. The wider visual-only run later hit its original 90-second
+  harness timeout and cleaned up with exit 124; canonical functional PASS is
+  provided by the two exit-0 live runs above.
+- Human-readable report: `task-07-counters-report.md`. Direct screenshots:
+  `task-07-counters-wide-t1.png`, `task-07-counters-wide-t2.png`, and
+  `task-07-counters-drop.png`.
+
+### Deferred accepted follow-up
+
+- Task 7 exposes `internalFailures`, but unexpected exceptions from
+  `process(event)` remain the already-recorded Task 11 fail-open hardening
+  item. No claim is made that this field is exercised by Task 7.
+- A final read-only code review found no Critical or Important issue and
+  assessed Task 7 as ready for user acceptance. Three Minor findings remain
+  for later lifecycle/fail-open hardening: best-effort cleanup must attempt
+  handler detachment and listener removal independently, an adapter-level
+  regression should verify listener installation/removal rather than only the
+  queue-name constant, and the zero-event `lastEventAt` representation must be
+  defined and tested explicitly. None invalidates the Task 7 live proof.
+
+### Final regression and shutdown
+
+- `make observer-tests`: `35/35` passed. Evidence:
+  `task-07-final-observer-tests.txt`.
+- `make tests`: `76/76` passed. Evidence:
+  `task-07-final-python-tests.txt`.
+- `make observer-ui-tests`: `1/1` passed with the pinned Node 24 image.
+  Evidence: `task-07-final-ui-tests.txt`.
+- `make validate`: `Validation passed`. Evidence:
+  `task-07-final-validate.txt`.
+- Final source/document guard: `git diff --check`, shell syntax, Python
+  compilation, frozen-path comparison, empty staged index, absence of Task 8
+  files, and screenshot hashes all passed. Evidence:
+  `task-07-final-guards.txt`.
+- A fresh combined acceptance command repeated Scala `35/35`, Python `76/76`,
+  Node `1/1`, `make validate`, and `git diff --check`, finishing with
+  `task_07_acceptance_verification=PASS`. Evidence:
+  `task-07-final-acceptance-verification.txt`.
+- `make down` completed successfully and a subsequent Compose service listing
+  was empty. Evidence: `task-07-infra-down.txt` and
+  `task-07-infra-down-verification.txt`.
+
+### Exact Task 7 implementation files
+
+- `build/scripts/assert-observer-response.py`
+- `build/scripts/run-observer-live-probe.sh`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala`
+- `spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala`
+- `spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala`
+- `spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala`
+- `spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala`
+- `spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala`
+- `tests/test_observer_live_probe.py`
+- `tests/test_observer_response_assertions.py`
+
+Task-owned records are this execution-log section and
+`docs/spark-observer/evidence/task-07/`.
+
+### Task result and acceptance gate
+
+- Result: `PASS — AWAITING USER ACCEPTANCE`.
+- No Task 8 behavior was implemented.
+- On 2026-07-21, the user explicitly authorized the Task 7 commit and push so
+  another model can validate the checkpoint. This publication is a review
+  handoff; final Task 7 acceptance remains pending.
+- Next task title only: **Task 8 — expose live application, job, and stage
+  snapshots**.

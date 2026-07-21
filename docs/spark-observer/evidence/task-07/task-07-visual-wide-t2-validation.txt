@@ -1,0 +1,6 @@
+Script started on 2026-07-21 00:40:36+01:00 [COMMAND="UV_CACHE_DIR=/tmp/uv-cache uv run python build/scripts/assert-observer-response.py --response-kind counters --url http://127.0.0.1:24040/dataship/api/v1/debug/counters --label visual_wide_t2 --timeout-seconds 5 --listener-received-greater-than 4" <not executed on terminal>]
+visual_wide_t2_http_status=200 content_type=application/json
+visual_wide_t2_listener_received=72 dropped_by_plugin=0
+visual_wide_t2_json={"appId":"app-20260720234004-0003","capacity":1024,"capturedAt":"2026-07-20T23:40:36.280993483Z","depth":0,"droppedByPlugin":0,"inFlight":0,"internalFailures":0,"invariantHolds":true,"lastEventAt":"2026-07-20T23:40:36.099557321Z","listenerReceived":72,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","processed":72,"queued":0,"receivedByCategory":{"application":0,"executor":1,"job":1,"other":0,"sql":0,"stage":1,"task":69},"schemaVersion":"v1","sparkVersion":"4.1.2"}
+
+Script done on 2026-07-21 00:40:36+01:00 [COMMAND_EXIT_CODE="0"]

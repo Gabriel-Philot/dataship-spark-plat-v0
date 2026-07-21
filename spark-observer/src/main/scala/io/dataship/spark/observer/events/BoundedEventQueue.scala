@@ -24,7 +24,7 @@ final class BoundedEventQueue(
 
   def offer(event: ObserverEvent): Boolean = lifecycleLock.synchronized {
     if (event == null || closed.get()) {
-      state.reject()
+      state.reject(event)
     } else {
       val accepted = state.offer(events, event)
       if (accepted) {

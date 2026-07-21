@@ -1,0 +1,426 @@
+Script started on 2026-07-21 00:41:55+01:00 [COMMAND="OBSERVER_ENABLED=true OBSERVER_QUEUE_CAPACITY=1 OBSERVER_TEST_MODE=true OBSERVER_TEST_PROCESSING_DELAY_MS=1000 OBSERVER_EXPECT_DROPS=true OBSERVER_UI_TIMEOUT_SECONDS=20 OBSERVER_PROBE_TIMEOUT_SECONDS=120 OBSERVER_PROBE_ARGS="--rows 80 --partitions 40 --delay-ms 200 --hold-seconds 10" make observer-live" TERM="dumb" TTY="/dev/pts/2" COLUMNS="80" LINES="24"]
+observer_git_head=85efbf4f0b48edd119ce59615bff5b4ff8afef6c
+observer_fingerprint_inputs=.env.example,Makefile,build/docker-compose.yml,build/images/spark/Dockerfile,build/images/spark/requirements.txt,build/scripts/assert-observer-response.py,build/scripts/prepare-image-contexts.sh,build/scripts/run-observer-live-probe.sh,pyproject.toml,spark-observer/build.sbt,spark-observer/project/build.properties,spark-observer/src/main/scala/io/dataship/spark/observer/BuildInfo.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverConfig.scala,spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipDriverPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/SparkDataShipPlugin.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthResponse.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/HealthServlet.scala,spark-observer/src/main/scala/io/dataship/spark/observer/api/JsonRenderer.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/BoundedEventQueue.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverCounters.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverEvent.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala,spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverState.scala,spark-observer/src/main/scala/org/apache/spark/dataship/v412/Spark412Bridge.scala,spark-observer/src/test/scala/io/dataship/spark/observer/BuildInfoSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/PluginBootstrapSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala,spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala,src/apps/observer_live_probe.py,tests/test_observer_live_probe.py,tests/test_observer_response_assertions.py,uv.lock
+observer_input_fingerprint_start=2cd213c0d8e422e916dfc54d7b45c504b9ed7d4f7dc14a8f3fa4ba9e35aef9cf
+observer_run_id=observer-live-20260721T004155Z-51152-383
+observer_enabled=true
+observer_spark_ui_enabled=true
+observer_queue_capacity=1
+observer_test_mode=true
+observer_test_processing_delay_ms=1000
+observer_expect_drops=true
+spark_master_4040_mapping=127.0.0.1:24040
+initial_driver_ui_http_exit=56 status=000
+host_compose_exec_pid=51250
+WARNING: Using incubator modules: jdk.incubator.vector
+spark_driver_pid=1635
+spark_master_image_id=sha256:54821ad87ac4462514fd70a8547304d17c9503ee0189bc3ba148d9978054b8d5
+spark_worker_image_id=sha256:54821ad87ac4462514fd70a8547304d17c9503ee0189bc3ba148d9978054b8d5
+26/07/20 23:41:58 INFO SparkContext: Running Spark version 4.1.2
+26/07/20 23:41:58 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/07/20 23:41:58 INFO SparkContext: Java version 17.0.19+10
+26/07/20 23:41:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/20 23:41:59 INFO ResourceUtils: ==============================================================
+26/07/20 23:41:59 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/20 23:41:59 INFO ResourceUtils: ==============================================================
+26/07/20 23:41:59 INFO SparkContext: Submitted application: dataship-observer-live-probe-observer-live-20260721T004155Z-51152-383
+26/07/20 23:41:59 INFO SecurityManager: Changing view acls to: spark
+26/07/20 23:41:59 INFO SecurityManager: Changing modify acls to: spark
+26/07/20 23:41:59 INFO SecurityManager: Changing view acls groups to: spark
+26/07/20 23:41:59 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/20 23:41:59 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/20 23:41:59 INFO Utils: Successfully started service 'sparkDriver' on port 40149.
+26/07/20 23:41:59 INFO SparkEnv: Registering MapOutputTracker
+26/07/20 23:41:59 INFO SparkEnv: Registering BlockManagerMaster
+26/07/20 23:41:59 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/20 23:41:59 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/20 23:41:59 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/20 23:41:59 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-63d76b96-b1f8-4520-8628-ab3c72d10f20
+26/07/20 23:41:59 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/20 23:41:59 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/20 23:41:59 INFO Server: jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 17.0.19+10
+26/07/20 23:41:59 INFO Server: Started Server@dad96d3{STARTING}[11.0.26,sto=30000] @3730ms
+26/07/20 23:41:59 INFO AbstractConnector: Started ServerConnector@38d7e26b{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/20 23:41:59 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/20 23:41:59 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1518ea45{/,null,AVAILABLE,@Spark}
+26/07/20 23:41:59 INFO DriverPluginContainer: Initialized driver component for plugin io.dataship.spark.observer.SparkDataShipPlugin.
+26/07/20 23:41:59 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/20 23:41:59 INFO ResourceProfile: Limiting resource is cpu
+26/07/20 23:41:59 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/20 23:41:59 INFO SecurityManager: Changing view acls to: spark
+26/07/20 23:41:59 INFO SecurityManager: Changing modify acls to: spark
+26/07/20 23:41:59 INFO SecurityManager: Changing view acls groups to: spark
+26/07/20 23:41:59 INFO SecurityManager: Changing modify acls groups to: spark
+26/07/20 23:41:59 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/07/20 23:42:00 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/07/20 23:42:00 INFO TransportClientFactory: Successfully created connection to spark-master/172.19.0.3:7077 after 30 ms (0 ms spent in bootstraps)
+26/07/20 23:42:00 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20260720234200-0004
+26/07/20 23:42:00 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20260720234200-0004/0 on worker-20260720233622-172.19.0.4-42893 (172.19.0.4:42893) with 1 core(s)
+26/07/20 23:42:00 INFO StandaloneSchedulerBackend: Granted executor ID app-20260720234200-0004/0 on hostPort 172.19.0.4:42893 with 1 core(s), 1024.0 MiB RAM
+26/07/20 23:42:00 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 46581.
+26/07/20 23:42:00 INFO NettyBlockTransferService: Server created on 27f1eef43b8b:46581
+26/07/20 23:42:00 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/20 23:42:00 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 27f1eef43b8b, 46581, None)
+26/07/20 23:42:00 INFO BlockManagerMasterEndpoint: Registering block manager 27f1eef43b8b:46581 with 434.4 MiB RAM, BlockManagerId(driver, 27f1eef43b8b, 46581, None)
+26/07/20 23:42:00 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 27f1eef43b8b, 46581, None)
+26/07/20 23:42:00 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 27f1eef43b8b, 46581, None)
+26/07/20 23:42:00 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20260720234200-0004/0 is now RUNNING
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+26/07/20 23:42:02 INFO RollingEventLogFilesWriter: Logging events to s3a://spark-logs/events/eventlog_v2_app-20260720234200-0004/events_1_app-20260720234200-0004.zstd
+26/07/20 23:42:02 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@1518ea45{/,null,STOPPED,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@31a47b5{/jobs,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@fc25658{/jobs/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6440fc82{/jobs/job,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3dd9ea1{/jobs/job/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@710d8f59{/stages,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@8d12d60{/stages/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4f7712db{/stages/stage,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@12294858{/stages/stage/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@17833aac{/stages/pool,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4aff11f5{/stages/pool/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@c1799cf{/stages/taskThreadDump,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4bef0148{/stages/taskThreadDump/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@51cc7d0{/storage,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2149bad7{/storage/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@58ad8a3d{/storage/rdd,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5ecf05c3{/storage/rdd/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3671ea15{/environment,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@462e54df{/environment/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@36e62b23{/executors,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2f3e07a4{/executors/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@5549b797{/executors/threadDump,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@180d7a{/executors/threadDump/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@43d1ea26{/executors/heapHistogram,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@7d48b5ff{/executors/heapHistogram/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@a5dc962{/static,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@21d2991a{/,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@214b89c9{/api,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@54a362cb{/metrics,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@680b3393{/jobs/job/kill,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3ead7117{/stages/stage/kill,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@1e1ce78b{/metrics/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@3fa15178{/dataship/api/v1/health,null,AVAILABLE,@Spark}
+26/07/20 23:42:02 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@47c62410{/dataship/api/v1/debug/counters,null,AVAILABLE,@Spark}
+26/07/20 23:42:03 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.19.0.4:50264) with ID 0, ResourceProfileId 0
+26/07/20 23:42:03 INFO BlockManagerMasterEndpoint: Registering block manager 172.19.0.4:43011 with 434.4 MiB RAM, BlockManagerId(0, 172.19.0.4, 43011, None)
+counters_read_1_http_status=200 content_type=application/json
+counters_read_1_listener_received=1 dropped_by_plugin=0
+counters_read_1_json={"appId":"app-20260720234200-0004","capacity":1,"capturedAt":"2026-07-20T23:42:04.165983104Z","depth":0,"droppedByPlugin":0,"inFlight":1,"internalFailures":0,"invariantHolds":true,"lastEventAt":"2026-07-20T23:42:03.474307402Z","listenerReceived":1,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","processed":0,"queued":0,"receivedByCategory":{"application":0,"executor":1,"job":0,"other":0,"sql":0,"stage":0,"task":0},"schemaVersion":"v1","sparkVersion":"4.1.2"}
+counters_read_1_pid=1635 alive=true
+health_read_1_http_status=200 content_type=application/json
+health_read_1_json={"appId":"app-20260720234200-0004","capturedAt":"2026-07-20T23:42:04.645077188Z","lastErrorCode":"","listenerInstalled":true,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","queueCapacity":1,"schemaVersion":"v1","sparkVersion":"4.1.2","status":"READY","supportedRuntime":true,"uiAttached":true}
+health_read_1_pid=1635 alive=true
+26/07/20 23:42:05 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+26/07/20 23:42:05 INFO SharedState: Warehouse path is 'file:/opt/spark/work-dir/spark-warehouse'.
+26/07/20 23:42:05 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@20d17a0d{/SQL,null,AVAILABLE,@Spark}
+26/07/20 23:42:05 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@4ce9f41f{/SQL/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:05 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@566b65b1{/SQL/execution,null,AVAILABLE,@Spark}
+26/07/20 23:42:05 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@6b3f3d89{/SQL/execution/json,null,AVAILABLE,@Spark}
+26/07/20 23:42:05 INFO ContextHandler: Started o.s.j.s.ServletContextHandler@2d1bde9c{/static/sql,null,AVAILABLE,@Spark}
+26/07/20 23:42:05 INFO SparkContext: Starting job: sum at /opt/spark/src/apps/observer_live_probe.py:107
+26/07/20 23:42:05 INFO DAGScheduler: Got job 0 (sum at /opt/spark/src/apps/observer_live_probe.py:107) with 40 output partitions
+26/07/20 23:42:05 INFO DAGScheduler: Final stage: ResultStage 0 (sum at /opt/spark/src/apps/observer_live_probe.py:107)
+26/07/20 23:42:05 INFO DAGScheduler: Parents of final stage: List()
+26/07/20 23:42:05 INFO DAGScheduler: Missing parents: List()
+26/07/20 23:42:05 INFO DAGScheduler: Missing parents found for ResultStage 0: List()
+26/07/20 23:42:05 INFO DAGScheduler: Submitting ResultStage 0 (PythonRDD[1] at sum at /opt/spark/src/apps/observer_live_probe.py:107), which has no missing parents
+26/07/20 23:42:05 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/07/20 23:42:05 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 8.9 KiB, free 434.4 MiB)
+26/07/20 23:42:05 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 5.3 KiB, free 434.4 MiB)
+26/07/20 23:42:05 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:1686
+26/07/20 23:42:05 INFO DAGScheduler: Submitting 40 missing tasks from ResultStage 0 (PythonRDD[1] at sum at /opt/spark/src/apps/observer_live_probe.py:107) (first 15 tasks are for partitions Vector(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+26/07/20 23:42:05 INFO TaskSchedulerImpl: Adding task set 0.0 with 40 tasks resource profile 0
+26/07/20 23:42:05 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0) (172.19.0.4,executor 0, partition 0, PROCESS_LOCAL, 9679 bytes) 
+health_read_2_http_status=200 content_type=application/json
+health_read_2_json={"appId":"app-20260720234200-0004","capturedAt":"2026-07-20T23:42:07.124945462Z","lastErrorCode":"","listenerInstalled":true,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","queueCapacity":1,"schemaVersion":"v1","sparkVersion":"4.1.2","status":"READY","supportedRuntime":true,"uiAttached":true}
+health_read_2_pid=1635 alive=true
+26/07/20 23:42:07 INFO TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1) (172.19.0.4,executor 0, partition 1, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:07 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 1844 ms on 172.19.0.4 (executor 0) (1/40)
+26/07/20 23:42:07 INFO PythonAccumulatorV2: Connected to AccumulatorServer at host: 127.0.0.1 port: 49119
+counters_read_2_http_status=200 content_type=application/json
+counters_read_2_listener_received=6 dropped_by_plugin=2
+counters_read_2_json={"appId":"app-20260720234200-0004","capacity":1,"capturedAt":"2026-07-20T23:42:07.562471667Z","depth":0,"droppedByPlugin":2,"inFlight":1,"internalFailures":0,"invariantHolds":true,"lastEventAt":"2026-07-20T23:42:07.528624078Z","listenerReceived":6,"mode":"live","pluginVersion":"0.1.0-SNAPSHOT","processed":3,"queued":0,"receivedByCategory":{"application":0,"executor":1,"job":1,"other":0,"sql":0,"stage":1,"task":3},"schemaVersion":"v1","sparkVersion":"4.1.2"}
+counters_read_2_pid=1635 alive=true
+listener_received_growth=true t1=1 t2=6
+26/07/20 23:42:08 INFO TaskSetManager: Starting task 2.0 in stage 0.0 (TID 2) (172.19.0.4,executor 0, partition 2, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:08 INFO TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 543 ms on 172.19.0.4 (executor 0) (2/40)
+native_dataship_route_http_status=302 location=http://127.0.0.1:24040/jobs/ final_status=200 final_url=http://127.0.0.1:24040/jobs/
+native_unknown_route_http_status=302 location=http://127.0.0.1:24040/jobs/ final_status=200 final_url=http://127.0.0.1:24040/jobs/
+native_dataship_route_absent=true semantics=native-unknown-redirect
+26/07/20 23:42:08 INFO TaskSetManager: Starting task 3.0 in stage 0.0 (TID 3) (172.19.0.4,executor 0, partition 3, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:08 INFO TaskSetManager: Finished task 2.0 in stage 0.0 (TID 2) in 543 ms on 172.19.0.4 (executor 0) (3/40)
+26/07/20 23:42:09 INFO TaskSetManager: Starting task 4.0 in stage 0.0 (TID 4) (172.19.0.4,executor 0, partition 4, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:09 INFO TaskSetManager: Finished task 3.0 in stage 0.0 (TID 3) in 527 ms on 172.19.0.4 (executor 0) (4/40)
+26/07/20 23:42:09 INFO TaskSetManager: Starting task 5.0 in stage 0.0 (TID 5) (172.19.0.4,executor 0, partition 5, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:09 INFO TaskSetManager: Finished task 4.0 in stage 0.0 (TID 4) in 530 ms on 172.19.0.4 (executor 0) (5/40)
+26/07/20 23:42:10 INFO TaskSetManager: Starting task 6.0 in stage 0.0 (TID 6) (172.19.0.4,executor 0, partition 6, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:10 INFO TaskSetManager: Finished task 5.0 in stage 0.0 (TID 5) in 538 ms on 172.19.0.4 (executor 0) (6/40)
+26/07/20 23:42:10 INFO TaskSetManager: Starting task 7.0 in stage 0.0 (TID 7) (172.19.0.4,executor 0, partition 7, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:10 INFO TaskSetManager: Finished task 6.0 in stage 0.0 (TID 6) in 536 ms on 172.19.0.4 (executor 0) (7/40)
+26/07/20 23:42:11 INFO TaskSetManager: Starting task 8.0 in stage 0.0 (TID 8) (172.19.0.4,executor 0, partition 8, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:11 INFO TaskSetManager: Finished task 7.0 in stage 0.0 (TID 7) in 541 ms on 172.19.0.4 (executor 0) (8/40)
+26/07/20 23:42:11 INFO TaskSetManager: Starting task 9.0 in stage 0.0 (TID 9) (172.19.0.4,executor 0, partition 9, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:11 INFO TaskSetManager: Finished task 8.0 in stage 0.0 (TID 8) in 530 ms on 172.19.0.4 (executor 0) (9/40)
+26/07/20 23:42:12 INFO TaskSetManager: Starting task 10.0 in stage 0.0 (TID 10) (172.19.0.4,executor 0, partition 10, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:12 INFO TaskSetManager: Finished task 9.0 in stage 0.0 (TID 9) in 565 ms on 172.19.0.4 (executor 0) (10/40)
+26/07/20 23:42:12 INFO TaskSetManager: Starting task 11.0 in stage 0.0 (TID 11) (172.19.0.4,executor 0, partition 11, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:12 INFO TaskSetManager: Finished task 10.0 in stage 0.0 (TID 10) in 556 ms on 172.19.0.4 (executor 0) (11/40)
+26/07/20 23:42:13 INFO TaskSetManager: Starting task 12.0 in stage 0.0 (TID 12) (172.19.0.4,executor 0, partition 12, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:13 INFO TaskSetManager: Finished task 11.0 in stage 0.0 (TID 11) in 541 ms on 172.19.0.4 (executor 0) (12/40)
+26/07/20 23:42:13 INFO TaskSetManager: Starting task 13.0 in stage 0.0 (TID 13) (172.19.0.4,executor 0, partition 13, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:13 INFO TaskSetManager: Finished task 12.0 in stage 0.0 (TID 12) in 542 ms on 172.19.0.4 (executor 0) (13/40)
+26/07/20 23:42:14 INFO TaskSetManager: Starting task 14.0 in stage 0.0 (TID 14) (172.19.0.4,executor 0, partition 14, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:14 INFO TaskSetManager: Finished task 13.0 in stage 0.0 (TID 13) in 538 ms on 172.19.0.4 (executor 0) (14/40)
+26/07/20 23:42:15 INFO TaskSetManager: Starting task 15.0 in stage 0.0 (TID 15) (172.19.0.4,executor 0, partition 15, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:15 INFO TaskSetManager: Finished task 14.0 in stage 0.0 (TID 14) in 587 ms on 172.19.0.4 (executor 0) (15/40)
+26/07/20 23:42:15 INFO TaskSetManager: Starting task 16.0 in stage 0.0 (TID 16) (172.19.0.4,executor 0, partition 16, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:15 INFO TaskSetManager: Finished task 15.0 in stage 0.0 (TID 15) in 597 ms on 172.19.0.4 (executor 0) (16/40)
+26/07/20 23:42:16 INFO TaskSetManager: Starting task 17.0 in stage 0.0 (TID 17) (172.19.0.4,executor 0, partition 17, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:16 INFO TaskSetManager: Finished task 16.0 in stage 0.0 (TID 16) in 541 ms on 172.19.0.4 (executor 0) (17/40)
+26/07/20 23:42:16 INFO TaskSetManager: Starting task 18.0 in stage 0.0 (TID 18) (172.19.0.4,executor 0, partition 18, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:16 INFO TaskSetManager: Finished task 17.0 in stage 0.0 (TID 17) in 527 ms on 172.19.0.4 (executor 0) (18/40)
+26/07/20 23:42:17 INFO TaskSetManager: Starting task 19.0 in stage 0.0 (TID 19) (172.19.0.4,executor 0, partition 19, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:17 INFO TaskSetManager: Finished task 18.0 in stage 0.0 (TID 18) in 533 ms on 172.19.0.4 (executor 0) (19/40)
+26/07/20 23:42:17 INFO TaskSetManager: Starting task 20.0 in stage 0.0 (TID 20) (172.19.0.4,executor 0, partition 20, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:17 INFO TaskSetManager: Finished task 19.0 in stage 0.0 (TID 19) in 534 ms on 172.19.0.4 (executor 0) (20/40)
+26/07/20 23:42:18 INFO TaskSetManager: Starting task 21.0 in stage 0.0 (TID 21) (172.19.0.4,executor 0, partition 21, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:18 INFO TaskSetManager: Finished task 20.0 in stage 0.0 (TID 20) in 535 ms on 172.19.0.4 (executor 0) (21/40)
+26/07/20 23:42:18 INFO TaskSetManager: Starting task 22.0 in stage 0.0 (TID 22) (172.19.0.4,executor 0, partition 22, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:18 INFO TaskSetManager: Finished task 21.0 in stage 0.0 (TID 21) in 535 ms on 172.19.0.4 (executor 0) (22/40)
+26/07/20 23:42:19 INFO TaskSetManager: Starting task 23.0 in stage 0.0 (TID 23) (172.19.0.4,executor 0, partition 23, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:19 INFO TaskSetManager: Finished task 22.0 in stage 0.0 (TID 22) in 561 ms on 172.19.0.4 (executor 0) (23/40)
+26/07/20 23:42:20 INFO TaskSetManager: Starting task 24.0 in stage 0.0 (TID 24) (172.19.0.4,executor 0, partition 24, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:20 INFO TaskSetManager: Finished task 23.0 in stage 0.0 (TID 23) in 549 ms on 172.19.0.4 (executor 0) (24/40)
+26/07/20 23:42:20 INFO TaskSetManager: Starting task 25.0 in stage 0.0 (TID 25) (172.19.0.4,executor 0, partition 25, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:20 INFO TaskSetManager: Finished task 24.0 in stage 0.0 (TID 24) in 537 ms on 172.19.0.4 (executor 0) (25/40)
+26/07/20 23:42:21 INFO TaskSetManager: Starting task 26.0 in stage 0.0 (TID 26) (172.19.0.4,executor 0, partition 26, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:21 INFO TaskSetManager: Finished task 25.0 in stage 0.0 (TID 25) in 568 ms on 172.19.0.4 (executor 0) (26/40)
+26/07/20 23:42:21 INFO TaskSetManager: Starting task 27.0 in stage 0.0 (TID 27) (172.19.0.4,executor 0, partition 27, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:21 INFO TaskSetManager: Finished task 26.0 in stage 0.0 (TID 26) in 531 ms on 172.19.0.4 (executor 0) (27/40)
+26/07/20 23:42:22 INFO TaskSetManager: Starting task 28.0 in stage 0.0 (TID 28) (172.19.0.4,executor 0, partition 28, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:22 INFO TaskSetManager: Finished task 27.0 in stage 0.0 (TID 27) in 547 ms on 172.19.0.4 (executor 0) (28/40)
+26/07/20 23:42:22 INFO TaskSetManager: Starting task 29.0 in stage 0.0 (TID 29) (172.19.0.4,executor 0, partition 29, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:22 INFO TaskSetManager: Finished task 28.0 in stage 0.0 (TID 28) in 555 ms on 172.19.0.4 (executor 0) (29/40)
+26/07/20 23:42:23 INFO TaskSetManager: Starting task 30.0 in stage 0.0 (TID 30) (172.19.0.4,executor 0, partition 30, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:23 INFO TaskSetManager: Finished task 29.0 in stage 0.0 (TID 29) in 548 ms on 172.19.0.4 (executor 0) (30/40)
+26/07/20 23:42:23 INFO TaskSetManager: Starting task 31.0 in stage 0.0 (TID 31) (172.19.0.4,executor 0, partition 31, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:23 INFO TaskSetManager: Finished task 30.0 in stage 0.0 (TID 30) in 546 ms on 172.19.0.4 (executor 0) (31/40)
+26/07/20 23:42:24 INFO TaskSetManager: Starting task 32.0 in stage 0.0 (TID 32) (172.19.0.4,executor 0, partition 32, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:24 INFO TaskSetManager: Finished task 31.0 in stage 0.0 (TID 31) in 535 ms on 172.19.0.4 (executor 0) (32/40)
+26/07/20 23:42:24 INFO TaskSetManager: Starting task 33.0 in stage 0.0 (TID 33) (172.19.0.4,executor 0, partition 33, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:24 INFO TaskSetManager: Finished task 32.0 in stage 0.0 (TID 32) in 531 ms on 172.19.0.4 (executor 0) (33/40)
+26/07/20 23:42:25 INFO TaskSetManager: Starting task 34.0 in stage 0.0 (TID 34) (172.19.0.4,executor 0, partition 34, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:25 INFO TaskSetManager: Finished task 33.0 in stage 0.0 (TID 33) in 525 ms on 172.19.0.4 (executor 0) (34/40)
+26/07/20 23:42:25 INFO TaskSetManager: Starting task 35.0 in stage 0.0 (TID 35) (172.19.0.4,executor 0, partition 35, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:25 INFO TaskSetManager: Finished task 34.0 in stage 0.0 (TID 34) in 528 ms on 172.19.0.4 (executor 0) (35/40)
+26/07/20 23:42:26 INFO TaskSetManager: Starting task 36.0 in stage 0.0 (TID 36) (172.19.0.4,executor 0, partition 36, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:26 INFO TaskSetManager: Finished task 35.0 in stage 0.0 (TID 35) in 535 ms on 172.19.0.4 (executor 0) (36/40)
+26/07/20 23:42:27 INFO TaskSetManager: Starting task 37.0 in stage 0.0 (TID 37) (172.19.0.4,executor 0, partition 37, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:27 INFO TaskSetManager: Finished task 36.0 in stage 0.0 (TID 36) in 539 ms on 172.19.0.4 (executor 0) (37/40)
+26/07/20 23:42:27 INFO TaskSetManager: Starting task 38.0 in stage 0.0 (TID 38) (172.19.0.4,executor 0, partition 38, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:27 INFO TaskSetManager: Finished task 37.0 in stage 0.0 (TID 37) in 532 ms on 172.19.0.4 (executor 0) (38/40)
+26/07/20 23:42:28 INFO TaskSetManager: Starting task 39.0 in stage 0.0 (TID 39) (172.19.0.4,executor 0, partition 39, PROCESS_LOCAL, 9679 bytes) 
+26/07/20 23:42:28 INFO TaskSetManager: Finished task 38.0 in stage 0.0 (TID 38) in 528 ms on 172.19.0.4 (executor 0) (39/40)
+26/07/20 23:42:28 INFO TaskSetManager: Finished task 39.0 in stage 0.0 (TID 39) in 533 ms on 172.19.0.4 (executor 0) (40/40)
+26/07/20 23:42:28 INFO TaskSchedulerImpl: Removed TaskSet 0.0 whose tasks have all completed, from pool 
+26/07/20 23:42:28 INFO DAGScheduler: ResultStage 0 (sum at /opt/spark/src/apps/observer_live_probe.py:107) finished in 23058 ms
+26/07/20 23:42:28 INFO DAGScheduler: Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/20 23:42:28 INFO TaskSchedulerImpl: Canceling stage 0
+26/07/20 23:42:28 INFO TaskSchedulerImpl: Killing all running tasks in stage 0: Stage finished
+26/07/20 23:42:28 INFO DAGScheduler: Job 0 finished: sum at /opt/spark/src/apps/observer_live_probe.py:107, took 23102.243554 ms
+26/07/20 23:42:30 INFO CodeGenerator: Code generated in 304.537489 ms
+26/07/20 23:42:30 INFO DAGScheduler: Registering RDD 5 (collect at /opt/spark/src/apps/observer_live_probe.py:126) as input to shuffle 0
+26/07/20 23:42:30 INFO DAGScheduler: Got map stage job 1 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 40 output partitions
+26/07/20 23:42:30 INFO DAGScheduler: Final stage: ShuffleMapStage 1 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/20 23:42:30 INFO DAGScheduler: Parents of final stage: List()
+26/07/20 23:42:30 INFO DAGScheduler: Missing parents: List()
+26/07/20 23:42:30 INFO DAGScheduler: Missing parents found for ShuffleMapStage 1: List()
+26/07/20 23:42:30 INFO DAGScheduler: Submitting ShuffleMapStage 1 (MapPartitionsRDD[5] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/20 23:42:30 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 35.2 KiB, free 434.4 MiB)
+26/07/20 23:42:30 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 15.7 KiB, free 434.4 MiB)
+26/07/20 23:42:30 INFO SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1686
+26/07/20 23:42:30 INFO DAGScheduler: Submitting 40 missing tasks from ShuffleMapStage 1 (MapPartitionsRDD[5] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+26/07/20 23:42:30 INFO TaskSchedulerImpl: Adding task set 1.0 with 40 tasks resource profile 0
+26/07/20 23:42:30 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 40) (172.19.0.4,executor 0, partition 0, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 1.0 in stage 1.0 (TID 41) (172.19.0.4,executor 0, partition 1, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 40) in 906 ms on 172.19.0.4 (executor 0) (1/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 2.0 in stage 1.0 (TID 42) (172.19.0.4,executor 0, partition 2, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 1.0 in stage 1.0 (TID 41) in 52 ms on 172.19.0.4 (executor 0) (2/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 3.0 in stage 1.0 (TID 43) (172.19.0.4,executor 0, partition 3, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 2.0 in stage 1.0 (TID 42) in 45 ms on 172.19.0.4 (executor 0) (3/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 4.0 in stage 1.0 (TID 44) (172.19.0.4,executor 0, partition 4, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 3.0 in stage 1.0 (TID 43) in 40 ms on 172.19.0.4 (executor 0) (4/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 5.0 in stage 1.0 (TID 45) (172.19.0.4,executor 0, partition 5, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 4.0 in stage 1.0 (TID 44) in 32 ms on 172.19.0.4 (executor 0) (5/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 6.0 in stage 1.0 (TID 46) (172.19.0.4,executor 0, partition 6, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 5.0 in stage 1.0 (TID 45) in 36 ms on 172.19.0.4 (executor 0) (6/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 7.0 in stage 1.0 (TID 47) (172.19.0.4,executor 0, partition 7, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 6.0 in stage 1.0 (TID 46) in 30 ms on 172.19.0.4 (executor 0) (7/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 8.0 in stage 1.0 (TID 48) (172.19.0.4,executor 0, partition 8, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 7.0 in stage 1.0 (TID 47) in 30 ms on 172.19.0.4 (executor 0) (8/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 9.0 in stage 1.0 (TID 49) (172.19.0.4,executor 0, partition 9, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 8.0 in stage 1.0 (TID 48) in 34 ms on 172.19.0.4 (executor 0) (9/40)
+26/07/20 23:42:31 INFO TaskSetManager: Starting task 10.0 in stage 1.0 (TID 50) (172.19.0.4,executor 0, partition 10, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:31 INFO TaskSetManager: Finished task 9.0 in stage 1.0 (TID 49) in 24 ms on 172.19.0.4 (executor 0) (10/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 11.0 in stage 1.0 (TID 51) (172.19.0.4,executor 0, partition 11, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 10.0 in stage 1.0 (TID 50) in 27 ms on 172.19.0.4 (executor 0) (11/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 12.0 in stage 1.0 (TID 52) (172.19.0.4,executor 0, partition 12, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 11.0 in stage 1.0 (TID 51) in 29 ms on 172.19.0.4 (executor 0) (12/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 13.0 in stage 1.0 (TID 53) (172.19.0.4,executor 0, partition 13, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 12.0 in stage 1.0 (TID 52) in 20 ms on 172.19.0.4 (executor 0) (13/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 14.0 in stage 1.0 (TID 54) (172.19.0.4,executor 0, partition 14, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 13.0 in stage 1.0 (TID 53) in 26 ms on 172.19.0.4 (executor 0) (14/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 15.0 in stage 1.0 (TID 55) (172.19.0.4,executor 0, partition 15, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 14.0 in stage 1.0 (TID 54) in 19 ms on 172.19.0.4 (executor 0) (15/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 16.0 in stage 1.0 (TID 56) (172.19.0.4,executor 0, partition 16, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 15.0 in stage 1.0 (TID 55) in 23 ms on 172.19.0.4 (executor 0) (16/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 17.0 in stage 1.0 (TID 57) (172.19.0.4,executor 0, partition 17, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 16.0 in stage 1.0 (TID 56) in 34 ms on 172.19.0.4 (executor 0) (17/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 18.0 in stage 1.0 (TID 58) (172.19.0.4,executor 0, partition 18, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 17.0 in stage 1.0 (TID 57) in 21 ms on 172.19.0.4 (executor 0) (18/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 19.0 in stage 1.0 (TID 59) (172.19.0.4,executor 0, partition 19, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 18.0 in stage 1.0 (TID 58) in 26 ms on 172.19.0.4 (executor 0) (19/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 20.0 in stage 1.0 (TID 60) (172.19.0.4,executor 0, partition 20, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 19.0 in stage 1.0 (TID 59) in 24 ms on 172.19.0.4 (executor 0) (20/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 21.0 in stage 1.0 (TID 61) (172.19.0.4,executor 0, partition 21, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 20.0 in stage 1.0 (TID 60) in 23 ms on 172.19.0.4 (executor 0) (21/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 22.0 in stage 1.0 (TID 62) (172.19.0.4,executor 0, partition 22, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 21.0 in stage 1.0 (TID 61) in 25 ms on 172.19.0.4 (executor 0) (22/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 23.0 in stage 1.0 (TID 63) (172.19.0.4,executor 0, partition 23, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 22.0 in stage 1.0 (TID 62) in 22 ms on 172.19.0.4 (executor 0) (23/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 24.0 in stage 1.0 (TID 64) (172.19.0.4,executor 0, partition 24, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 23.0 in stage 1.0 (TID 63) in 22 ms on 172.19.0.4 (executor 0) (24/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 25.0 in stage 1.0 (TID 65) (172.19.0.4,executor 0, partition 25, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 24.0 in stage 1.0 (TID 64) in 26 ms on 172.19.0.4 (executor 0) (25/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 26.0 in stage 1.0 (TID 66) (172.19.0.4,executor 0, partition 26, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 25.0 in stage 1.0 (TID 65) in 22 ms on 172.19.0.4 (executor 0) (26/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 27.0 in stage 1.0 (TID 67) (172.19.0.4,executor 0, partition 27, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 26.0 in stage 1.0 (TID 66) in 22 ms on 172.19.0.4 (executor 0) (27/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 28.0 in stage 1.0 (TID 68) (172.19.0.4,executor 0, partition 28, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 27.0 in stage 1.0 (TID 67) in 26 ms on 172.19.0.4 (executor 0) (28/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 29.0 in stage 1.0 (TID 69) (172.19.0.4,executor 0, partition 29, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 28.0 in stage 1.0 (TID 68) in 23 ms on 172.19.0.4 (executor 0) (29/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 30.0 in stage 1.0 (TID 70) (172.19.0.4,executor 0, partition 30, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 29.0 in stage 1.0 (TID 69) in 26 ms on 172.19.0.4 (executor 0) (30/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 31.0 in stage 1.0 (TID 71) (172.19.0.4,executor 0, partition 31, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 30.0 in stage 1.0 (TID 70) in 25 ms on 172.19.0.4 (executor 0) (31/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 32.0 in stage 1.0 (TID 72) (172.19.0.4,executor 0, partition 32, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 31.0 in stage 1.0 (TID 71) in 22 ms on 172.19.0.4 (executor 0) (32/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 33.0 in stage 1.0 (TID 73) (172.19.0.4,executor 0, partition 33, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 32.0 in stage 1.0 (TID 72) in 20 ms on 172.19.0.4 (executor 0) (33/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 34.0 in stage 1.0 (TID 74) (172.19.0.4,executor 0, partition 34, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 33.0 in stage 1.0 (TID 73) in 24 ms on 172.19.0.4 (executor 0) (34/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 35.0 in stage 1.0 (TID 75) (172.19.0.4,executor 0, partition 35, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 34.0 in stage 1.0 (TID 74) in 22 ms on 172.19.0.4 (executor 0) (35/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 36.0 in stage 1.0 (TID 76) (172.19.0.4,executor 0, partition 36, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 35.0 in stage 1.0 (TID 75) in 23 ms on 172.19.0.4 (executor 0) (36/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 37.0 in stage 1.0 (TID 77) (172.19.0.4,executor 0, partition 37, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 36.0 in stage 1.0 (TID 76) in 27 ms on 172.19.0.4 (executor 0) (37/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 38.0 in stage 1.0 (TID 78) (172.19.0.4,executor 0, partition 38, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 37.0 in stage 1.0 (TID 77) in 21 ms on 172.19.0.4 (executor 0) (38/40)
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 39.0 in stage 1.0 (TID 79) (172.19.0.4,executor 0, partition 39, PROCESS_LOCAL, 9759 bytes) 
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 38.0 in stage 1.0 (TID 78) in 18 ms on 172.19.0.4 (executor 0) (39/40)
+26/07/20 23:42:32 INFO TaskSetManager: Finished task 39.0 in stage 1.0 (TID 79) in 24 ms on 172.19.0.4 (executor 0) (40/40)
+26/07/20 23:42:32 INFO TaskSchedulerImpl: Removed TaskSet 1.0 whose tasks have all completed, from pool 
+26/07/20 23:42:32 INFO DAGScheduler: ShuffleMapStage 1 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 1928 ms
+26/07/20 23:42:32 INFO DAGScheduler: looking for newly runnable stages
+26/07/20 23:42:32 INFO DAGScheduler: running: HashSet()
+26/07/20 23:42:32 INFO DAGScheduler: waiting: HashSet()
+26/07/20 23:42:32 INFO DAGScheduler: failed: HashSet()
+26/07/20 23:42:32 INFO ShufflePartitionsUtil: For shuffle(0, advisory target size: 67108864, actual target size 1048576, minimum partition size: 1048576
+26/07/20 23:42:32 INFO HashAggregateExec: spark.sql.codegen.aggregate.map.twolevel.enabled is set to true, but current version of codegened fast hashmap does not support this aggregate.
+26/07/20 23:42:32 INFO CodeGenerator: Code generated in 23.167482 ms
+26/07/20 23:42:32 INFO CodeGenerator: Code generated in 21.260534 ms
+26/07/20 23:42:32 INFO SparkContext: Starting job: collect at /opt/spark/src/apps/observer_live_probe.py:126
+26/07/20 23:42:32 INFO DAGScheduler: Got job 2 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 1 output partitions
+26/07/20 23:42:32 INFO DAGScheduler: Final stage: ResultStage 3 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/20 23:42:32 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 2)
+26/07/20 23:42:32 INFO DAGScheduler: Missing parents: List()
+26/07/20 23:42:32 INFO DAGScheduler: Missing parents found for ResultStage 3: List()
+26/07/20 23:42:32 INFO DAGScheduler: Submitting ResultStage 3 (MapPartitionsRDD[10] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/20 23:42:32 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 38.8 KiB, free 434.3 MiB)
+26/07/20 23:42:32 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 16.9 KiB, free 434.3 MiB)
+26/07/20 23:42:32 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1686
+26/07/20 23:42:32 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 3 (MapPartitionsRDD[10] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0))
+26/07/20 23:42:32 INFO TaskSchedulerImpl: Adding task set 3.0 with 1 tasks resource profile 0
+26/07/20 23:42:32 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 80) (172.19.0.4,executor 0, partition 0, NODE_LOCAL, 9635 bytes) 
+26/07/20 23:42:32 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 172.19.0.4:50264
+26/07/20 23:42:33 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 80) in 200 ms on 172.19.0.4 (executor 0) (1/1)
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Removed TaskSet 3.0 whose tasks have all completed, from pool 
+26/07/20 23:42:33 INFO DAGScheduler: ResultStage 3 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 216 ms
+26/07/20 23:42:33 INFO DAGScheduler: Job 2 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Canceling stage 3
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Killing all running tasks in stage 3: Stage finished
+26/07/20 23:42:33 INFO DAGScheduler: Job 2 finished: collect at /opt/spark/src/apps/observer_live_probe.py:126, took 228.051748 ms
+26/07/20 23:42:33 INFO DAGScheduler: Registering RDD 11 (collect at /opt/spark/src/apps/observer_live_probe.py:126) as input to shuffle 1
+26/07/20 23:42:33 INFO DAGScheduler: Got map stage job 3 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 1 output partitions
+26/07/20 23:42:33 INFO DAGScheduler: Final stage: ShuffleMapStage 5 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/20 23:42:33 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 4)
+26/07/20 23:42:33 INFO DAGScheduler: Missing parents: List()
+26/07/20 23:42:33 INFO DAGScheduler: Missing parents found for ShuffleMapStage 5: List()
+26/07/20 23:42:33 INFO DAGScheduler: Submitting ShuffleMapStage 5 (MapPartitionsRDD[11] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/20 23:42:33 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 39.1 KiB, free 434.3 MiB)
+26/07/20 23:42:33 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 17.2 KiB, free 434.2 MiB)
+26/07/20 23:42:33 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1686
+26/07/20 23:42:33 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 5 (MapPartitionsRDD[11] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0))
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Adding task set 5.0 with 1 tasks resource profile 0
+26/07/20 23:42:33 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 81) (172.19.0.4,executor 0, partition 0, NODE_LOCAL, 9624 bytes) 
+26/07/20 23:42:33 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 81) in 93 ms on 172.19.0.4 (executor 0) (1/1)
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Removed TaskSet 5.0 whose tasks have all completed, from pool 
+26/07/20 23:42:33 INFO DAGScheduler: ShuffleMapStage 5 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 108 ms
+26/07/20 23:42:33 INFO DAGScheduler: looking for newly runnable stages
+26/07/20 23:42:33 INFO DAGScheduler: running: HashSet()
+26/07/20 23:42:33 INFO DAGScheduler: waiting: HashSet()
+26/07/20 23:42:33 INFO DAGScheduler: failed: HashSet()
+26/07/20 23:42:33 INFO ShufflePartitionsUtil: For shuffle(1, advisory target size: 67108864, actual target size 1048576, minimum partition size: 1048576
+26/07/20 23:42:33 INFO CodeGenerator: Code generated in 11.014052 ms
+26/07/20 23:42:33 INFO SparkContext: Starting job: collect at /opt/spark/src/apps/observer_live_probe.py:126
+26/07/20 23:42:33 INFO DAGScheduler: Got job 4 (collect at /opt/spark/src/apps/observer_live_probe.py:126) with 1 output partitions
+26/07/20 23:42:33 INFO DAGScheduler: Final stage: ResultStage 8 (collect at /opt/spark/src/apps/observer_live_probe.py:126)
+26/07/20 23:42:33 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 7)
+26/07/20 23:42:33 INFO DAGScheduler: Missing parents: List()
+26/07/20 23:42:33 INFO DAGScheduler: Missing parents found for ResultStage 8: List()
+26/07/20 23:42:33 INFO DAGScheduler: Submitting ResultStage 8 (MapPartitionsRDD[14] at collect at /opt/spark/src/apps/observer_live_probe.py:126), which has no missing parents
+26/07/20 23:42:33 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 36.9 KiB, free 434.2 MiB)
+26/07/20 23:42:33 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 16.1 KiB, free 434.2 MiB)
+26/07/20 23:42:33 INFO SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1686
+26/07/20 23:42:33 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 8 (MapPartitionsRDD[14] at collect at /opt/spark/src/apps/observer_live_probe.py:126) (first 15 tasks are for partitions Vector(0))
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Adding task set 8.0 with 1 tasks resource profile 0
+26/07/20 23:42:33 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 82) (172.19.0.4,executor 0, partition 0, NODE_LOCAL, 9635 bytes) 
+26/07/20 23:42:33 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 172.19.0.4:50264
+26/07/20 23:42:33 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 82) in 96 ms on 172.19.0.4 (executor 0) (1/1)
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Removed TaskSet 8.0 whose tasks have all completed, from pool 
+26/07/20 23:42:33 INFO DAGScheduler: ResultStage 8 (collect at /opt/spark/src/apps/observer_live_probe.py:126) finished in 106 ms
+26/07/20 23:42:33 INFO DAGScheduler: Job 4 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Canceling stage 8
+26/07/20 23:42:33 INFO TaskSchedulerImpl: Killing all running tasks in stage 8: Stage finished
+26/07/20 23:42:33 INFO DAGScheduler: Job 4 finished: collect at /opt/spark/src/apps/observer_live_probe.py:126, took 109.914833 ms
+OBSERVER_LIVE_RESULT {"bucketTotals":[[0,40],[1,42],[2,44],[3,46],[4,48],[5,50],[6,52],[7,54],[8,56],[9,58],[10,60],[11,62],[12,64],[13,66],[14,68],[15,70],[16,72],[17,74],[18,76],[19,78],[20,80],[21,82],[22,84],[23,86],[24,88],[25,90],[26,92],[27,94],[28,96],[29,98],[30,100],[31,102],[32,104],[33,106],[34,108],[35,110],[36,112],[37,114],[38,116],[39,118]],"rowCount":80,"runId":"observer-live-20260721T004155Z-51152-383","valueSum":3160}
+26/07/20 23:42:43 INFO SparkContext: SparkContext is stopping with exitCode 0 from stop at NativeMethodAccessorImpl.java:0.
+26/07/20 23:42:43 INFO Server: Stopped Server@dad96d3{STOPPING}[11.0.26,sto=30000]
+26/07/20 23:42:43 INFO Server: Shutdown Server@dad96d3{STOPPING}[11.0.26,sto=30000]
+26/07/20 23:42:43 INFO AbstractConnector: Stopped Spark@38d7e26b{HTTP/1.1, (http/1.1)}{0.0.0.0:4040}
+26/07/20 23:42:43 INFO SparkUI: Stopped Spark web UI at http://27f1eef43b8b:4040
+26/07/20 23:42:43 INFO StandaloneSchedulerBackend: Shutting down all executors
+26/07/20 23:42:43 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Asking each executor to shut down
+26/07/20 23:42:43 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@47c62410{/dataship/api/v1/debug/counters,null,STOPPED,@Spark}
+26/07/20 23:42:43 INFO ContextHandler: Stopped o.s.j.s.ServletContextHandler@3fa15178{/dataship/api/v1/health,null,STOPPED,@Spark}
+26/07/20 23:42:43 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/20 23:42:43 INFO MemoryStore: MemoryStore cleared
+26/07/20 23:42:43 INFO BlockManager: BlockManager stopped
+26/07/20 23:42:43 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/20 23:42:43 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/20 23:42:43 INFO SparkContext: Successfully stopped SparkContext (Uptime: 44778 ms)
+spark_submit_exit_code=0
+driver_process_absent_after_run=true
+wrapper_process_absent_after_run=true
+driver_ui_unavailable_after_run=true curl_exit=56 status=000
+spark_master_4040_mapping_persists=127.0.0.1:24040
+observer_input_fingerprint_end=2cd213c0d8e422e916dfc54d7b45c504b9ed7d4f7dc14a8f3fa4ba9e35aef9cf
+observer_input_fingerprints_match=true
+observer_live_exit_code=0
+
+Script done on 2026-07-21 00:42:46+01:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,39 @@
+Script started on 2026-07-21 00:23:13+01:00 [COMMAND="uv run pytest tests/test_observer_response_assertions.py tests/test_observer_live_probe.py" <not executed on terminal>]
+.F..................................................                     [100%]
+=================================== FAILURES ===================================
+_ test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity _
+
+    def test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity():
+        harness = HARNESS_PATH.read_text(encoding="utf-8")
+        allowlist_match = re.search(
+            r"OBSERVER_FINGERPRINT_INPUTS=\(\n(?P<inputs>.*?)\n\)",
+            harness,
+            re.DOTALL,
+        )
+    
+        assert allowlist_match is not None
+        fingerprint_inputs = re.findall(r'"([^"]+)"', allowlist_match.group("inputs"))
+>       assert {
+            "build/docker-compose.yml",
+            "build/scripts/assert-observer-response.py",
+            "build/scripts/run-observer-live-probe.sh",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/ObserverRuntime.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersResponse.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala",
+            "spark-observer/src/main/scala/io/dataship/spark/observer/events/ObserverListener.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala",
+            "spark-observer/src/test/scala/io/dataship/spark/observer/api/HealthResponseSpec.scala",
+            "src/apps/observer_live_probe.py",
+            "tests/test_observer_response_assertions.py",
+        }.issubset(fingerprint_inputs)
+E       AssertionError: assert False
+E        +  where False = <built-in method issubset of set object at 0x75def54e2ea0>(['.env.example', 'Makefile', 'build/docker-compose.yml', 'build/images/spark/Dockerfile', 'build/images/spark/requirements.txt', 'build/scripts/assert-observer-response.py', ...])
+E        +    where <built-in method issubset of set object at 0x75def54e2ea0> = {'build/docker-compose.yml', 'build/scripts/assert-observer-response.py', 'build/scripts/run-observer-live-probe.sh', ...api/CountersResponse.scala', 'spark-observer/src/main/scala/io/dataship/spark/observer/api/CountersServlet.scala', ...}.issubset
+
+tests/test_observer_response_assertions.py:111: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_observer_response_assertions.py::test_live_harness_fingerprints_explicit_non_secret_inputs_and_runtime_identity
+1 failed, 51 passed in 1.86s
+
+Script done on 2026-07-21 00:23:15+01:00 [COMMAND_EXIT_CODE="1"]

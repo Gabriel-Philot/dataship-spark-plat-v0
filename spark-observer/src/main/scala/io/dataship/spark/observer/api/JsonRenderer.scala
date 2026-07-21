@@ -7,4 +7,7 @@ object JsonRenderer {
 
   def render(response: HealthResponse): String =
     objectMapper.writeValueAsString(response.allowlistedValues)
+
+  def render(response: CountersResponse): String =
+    objectMapper.writeValueAsString(response.allowlistedValues)
 }

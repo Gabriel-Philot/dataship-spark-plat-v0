@@ -6,6 +6,9 @@ final case class ObserverCounters(
     queued: Long,
     inFlight: Long,
     droppedByPlugin: Long,
+    receivedByCategory: Map[String, Long],
+    internalFailures: Long,
+    lastEventAt: Option[java.time.Instant],
     recentEvents: Vector[ObserverEvent]
 ) {
   val invariantHolds: Boolean =

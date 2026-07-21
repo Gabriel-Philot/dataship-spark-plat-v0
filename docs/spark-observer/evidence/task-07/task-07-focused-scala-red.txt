@@ -1,0 +1,35 @@
+Script started on 2026-07-21 00:20:27+01:00 [COMMAND="docker run --rm --user 1000:1000 --env HOME=/tmp --env COURSIER_CACHE=/cache/coursier --env SBT_OPTS="-Dsbt.global.base=/cache/sbt/global -Dsbt.boot.directory=/cache/sbt/boot -Dsbt.ivy.home=/cache/sbt/ivy -Dsbt.supershell=false" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0:/workspace" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/sbt:/cache/sbt" --volume "/home/philot/compendium/forge/dataship/spark-plat-v0/build/cache/coursier:/cache/coursier" --workdir /workspace/spark-observer "sbtscala/scala-sbt:eclipse-temurin-17.0.15_6_1.10.11_2.13.16" sbt "testOnly io.dataship.spark.observer.events.ObserverListenerSpec io.dataship.spark.observer.api.CountersResponseSpec io.dataship.spark.observer.ObserverConfigSpec"" <not executed on terminal>]
+[info] welcome to sbt 1.10.11 (Eclipse Adoptium Java 17.0.15)
+[info] loading project definition from /workspace/spark-observer/project
+[info] loading settings for project spark-observer from build.sbt...
+[info] set current project to dataship-spark-observer (in build file:/workspace/spark-observer/)
+[info] compiling 3 Scala sources to /workspace/spark-observer/target/scala-2.13/test-classes ...
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:66:23: value testMode is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(configured.testMode)
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/ObserverConfigSpec.scala:67:23: value testProcessingDelayMs is not a member of io.dataship.spark.observer.ObserverConfig
+[error]     assert(configured.testProcessingDelayMs == 1000)
+[error]                       ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala:27:28: value listenerForInstallation is not a member of io.dataship.spark.observer.ObserverRuntime
+[error]     val listener = runtime.listenerForInstallation.getOrElse(
+[error]                            ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala:30:13: value markListenerInstalled is not a member of io.dataship.spark.observer.ObserverRuntime
+[error]     runtime.markListenerInstalled()
+[error]             ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala:35:17: value countersResponse is not a member of io.dataship.spark.observer.ObserverRuntime
+[error]         runtime.countersResponse.processed == 1L
+[error]                 ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/api/CountersResponseSpec.scala:38:46: value countersResponse is not a member of io.dataship.spark.observer.ObserverRuntime
+[error]       val json = JsonRenderer.render(runtime.countersResponse)
+[error]                                              ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala:18:24: not found: type ObserverListener
+[error]     val listener = new ObserverListener(
+[error]                        ^
+[error] /workspace/spark-observer/src/test/scala/io/dataship/spark/observer/events/ObserverListenerSpec.scala:69:24: not found: type ObserverListener
+[error]     val listener = new ObserverListener(queue = queue, clock = fixedClock)
+[error]                        ^
+[error] 8 errors found
+[error] (Test / compileIncremental) Compilation failed
+[error] Total time: 4 s, completed Jul 20, 2026, 11:20:35 PM
+
+Script done on 2026-07-21 00:20:36+01:00 [COMMAND_EXIT_CODE="1"]
