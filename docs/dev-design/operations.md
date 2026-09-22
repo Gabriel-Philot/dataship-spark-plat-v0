@@ -95,6 +95,19 @@ Implemented Spark mitigation: Spark runtime and Spark History now return to the 
 
 Do not rush the same change for MinIO or ClickHouse. Those official images have their own data-dir and entrypoint permission assumptions. Forcing them to run as the host UID may reduce root-owned files but can break startup or persistence behavior. If file ownership keeps hurting local development, evaluate Docker named volumes as an alternative to bind mounts, with the tradeoff that data becomes less convenient to inspect directly from the IDE.
 
+## Local (Non-S3) Job Output
+
+`spark-master` and `spark-worker` are separate containers with independent container filesystems. In client mode the driver runs on the master and commits `FileOutputCommitter` output by renaming files from `_temporary/` into the final directory, but that rename only works if the driver and the executor that wrote the files can see the same filesystem.
+
+Do not point a job's output at an arbitrary local path (for example a bare `/tmp/...` path). The write will report success (`_SUCCESS` is created by the driver) but the actual part-files stay stranded under `_temporary/` on whichever worker container ran the task, and are never visible from the master or from the host.
+
+Two supported options:
+
+- **Preferred:** write to `s3a://${MINIO_LAKEHOUSE_BUCKET:-lakehouse}/...` (or another MinIO-backed bucket). This is already the default for all lakehouse layers in `src/config/lakehouse.yaml` and is the documented path for job output.
+- **Local filesystem output:** if a job must write to local disk (for example ad-hoc debugging), use the shared bind mount `./var/local-output`, mounted at `/opt/spark/local-output` on both `spark-master` and `spark-worker` in `build/docker-compose.yml`. Any other local path is not shared between the two containers and will reproduce this failure.
+
+Reference: `ISSUES.md`/apex-workspace issue #1 documents a reproduction of this failure using an unshared `/tmp/apex_output` path.
+
 ## Python Unit Tests
 
 Run fast Python tests from the project root with:
