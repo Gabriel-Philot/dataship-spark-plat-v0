@@ -103,7 +103,7 @@ Do not point a job's output at an arbitrary local path (for example a bare `/tmp
 
 Two supported options:
 
-- **Preferred:** write to `s3a://${MINIO_LAKEHOUSE_BUCKET:-lakehouse}/...` (or another MinIO-backed bucket). This is already the default for all lakehouse layers in `src/config/lakehouse.yaml` and is the documented path for job output.
+- **Preferred:** use the MinIO-backed lakehouse target from `src/config/lakehouse.yaml`. Its default resolves to `s3a://lakehouse/...`; `s3a://${MINIO_LAKEHOUSE_BUCKET:-lakehouse}/...` is the configuration template and must not be copied literally into job code.
 - **Local filesystem output:** if a job must write to local disk (for example ad-hoc debugging), use the shared bind mount `./var/local-output`, mounted at `/opt/spark/local-output` on both `spark-master` and `spark-worker` in `build/docker-compose.yml`. Any other local path is not shared between the two containers and will reproduce this failure.
 
 Reference: `ISSUES.md`/apex-workspace issue #1 documents a reproduction of this failure using an unshared `/tmp/apex_output` path.
