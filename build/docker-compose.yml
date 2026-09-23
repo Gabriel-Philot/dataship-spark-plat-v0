@@ -83,6 +83,7 @@ services:
     volumes:
       - ../src:/opt/spark/src:ro
       - ./var/metrics:/opt/spark/metrics
+      - ./var/local-output:/opt/spark/local-output
 
   spark-worker:
     image: ${SPARK_RUNTIME_IMAGE:-spark-plat-v0-spark:4.1.2}
@@ -103,6 +104,7 @@ services:
     volumes:
       - ../src:/opt/spark/src:ro
       - ./var/metrics:/opt/spark/metrics
+      - ./var/local-output:/opt/spark/local-output
 
   spark-history:
     image: ${SPARK_HISTORY_IMAGE:-spark-plat-v0-spark-history:4.1.2}
