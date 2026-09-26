@@ -1,8 +1,6 @@
 .env
 build/config/spark/jars/*.jar
 build/config/spark/jars/.bootstrap-manifest
-build/images/eventlog-loader/vendor/
-build/images/eventlog-loader/go.sum
 build/var/
 build/cache/
 __pycache__/
